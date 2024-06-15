@@ -1,0 +1,63 @@
+import React from 'react';
+import { SearchOutlined } from '@ant-design/icons';
+import styled, { css } from 'styled-components';
+
+const Search = () => {
+    // 검색 박스 wrapper
+    const SearchBox = styled.div`
+        height: 55px;
+        width: 245px;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 10px;
+    `;
+    // 검색 글 쓰는 input
+    const SearchInput = styled.input`
+        background-color: #ffffff;
+        border: 1px solid;
+        border-color: #d9d9d9;
+        height: 55px;
+        position: absolute;
+        width: 100%; /* 부모 요소의 너비를 기준으로 설정 */
+        padding-left: 10px;
+        padding-right: 40px; /* 아이콘의 너비만큼 패딩 추가 */
+        box-sizing: border-box; /* 패딩이 전체 너비에 포함되도록 설정 */
+    `;
+    // 검색아이콘 누르는 버튼
+    const SearchIconButton = styled.button`
+        position: absolute;
+        right: 15px; /* 오른쪽으로부터 10px 떨어지도록 설정 */
+        width: 28px;
+        height: 28px;
+        background: none; /* 배경을 투명으로 설정 */
+        border: none; /* 테두리를 제거 */
+        cursor: pointer; /* 커서를 포인터로 변경 */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+    `;
+    // 검색아이콘
+    const SearchIcon = styled(SearchOutlined)`
+        color: grey;
+        font-size: 20px;
+    `;
+
+    const handleSearchClick = () => {
+        // 검색 버튼 클릭 시 실행할 동작을 여기에 작성
+        alert('검색 버튼 클릭됨');
+    };
+
+    return (
+        <SearchBox>
+            <SearchInput type="text" placeholder="검색어를 입력해주세요." />
+            <SearchIconButton onClick={handleSearchClick}>
+                <SearchIcon />
+            </SearchIconButton>
+        </SearchBox>
+    );
+};
+
+export default Search;
