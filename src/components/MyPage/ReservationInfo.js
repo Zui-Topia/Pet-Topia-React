@@ -8,6 +8,8 @@ const ReservationInfoBlock = styled.div`
     border-radius: 20px;
     box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.04);
 
+    padding-bottom: 20px;
+
     margin-top: 20px;
     margin-bottom: 20px;
 `;

@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 const MyPageSectionBlock = styled.div`
-    width: 700px;
+    width: 650px;
 
     background: #ffffff;
     position: relative;
