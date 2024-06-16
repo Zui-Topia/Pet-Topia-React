@@ -3,4 +3,5 @@ export const ROUTES = {
     MAP: '/map',
     // 다른 경로들을 여기에다가 추가하자
     MYPAGE: '/mypage',
+    RESERVATION: '/reservation',
 };
