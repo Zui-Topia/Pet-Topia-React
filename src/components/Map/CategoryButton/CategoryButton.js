@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import categoryCircleGreyImage from '../../../assets/images/category_circle_grey.png';
-import blackbagGreyImage from '../../../assets/images/blackbag_grey.png';
-import categoryCirclePinkImage from '../../../assets/images/category_circle_pink.png';
-import blackbagPinkImage from '../../../assets/images/blackbag_pink.png';
+import categoryCircleGreyImage from '../../../assets/images/categorycircle-grey.png';
+import blackbagGreyImage from '../../../assets/images/blackbag-grey.png';
+import categoryCirclePinkImage from '../../../assets/images/categorycircle-pink.png';
+import blackbagPinkImage from '../../../assets/images/blackbag-pink.png';
 
 // 카테고리 버튼 - wrapper
 const CategoryButtonWrapper = styled.div`
@@ -43,46 +43,22 @@ const CategoryButtonText = styled.div`
     margin-top: 5px;
 `;
 
-const CategoryButton = ({ image, icon, onClick, text }) => (
-    <CategoryButtonWrapper>
-        <CategoryButtonBox onClick={onClick} style={{ backgroundImage: `url(${image})` }}>
-            <CategoryButtonIcon style={{ backgroundImage: `url(${icon})` }} />
-        </CategoryButtonBox>
-        <CategoryButtonText>{text}</CategoryButtonText>
-    </CategoryButtonWrapper>
-);
-
-const CategoryButtonToggle = () => {
-    const [isGreyButton, setIsGreyButton] = useState(true);
-
+const CategoryButton = ({ icon, activeIcon, text, onSelectCategory, isActive }) => {
     const handleButtonClick = () => {
-        if (isGreyButton) {
-            alert('선택되었습니다.');
-        } else {
-            alert('취소되었습니다.');
-        }
-        setIsGreyButton(!isGreyButton);
+        onSelectCategory(text);
     };
 
     return (
-        <>
-            {isGreyButton ? (
-                <CategoryButton
-                    image={categoryCircleGreyImage}
-                    icon={blackbagGreyImage}
-                    onClick={handleButtonClick}
-                    text="배변봉투"
-                />
-            ) : (
-                <CategoryButton
-                    image={categoryCirclePinkImage}
-                    icon={blackbagPinkImage}
-                    onClick={handleButtonClick}
-                    text="배변봉투"
-                />
-            )}
-        </>
+        <CategoryButtonWrapper>
+            <CategoryButtonBox
+                onClick={handleButtonClick}
+                style={{ backgroundImage: `url(${isActive ? categoryCirclePinkImage : categoryCircleGreyImage})` }}
+            >
+                <CategoryButtonIcon style={{ backgroundImage: `url(${isActive ? activeIcon : icon})` }} />
+            </CategoryButtonBox>
+            <CategoryButtonText>{text}</CategoryButtonText>
+        </CategoryButtonWrapper>
     );
 };
 
-export default CategoryButtonToggle;
+export default CategoryButton;
