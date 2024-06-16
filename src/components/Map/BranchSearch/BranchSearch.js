@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import toggleUpImage from '../../../assets/images/toggle_up.png';
-import toggleDownImage from '../../../assets/images/toggle_down.png';
+import toggleUpImage from '../../../assets/images/toggle-up.png';
+import toggleDownImage from '../../../assets/images/toggle-down.png';
 
 // 지점검색 전체창의 컴포넌트
-const Container = styled.div`
+const BranchSearchContainer = styled.div`
     width: 768px;
     height: auto; /* 높이를 자식 요소에 맞게 자동으로 설정할 수도 있음 */
     border: 1px solid #f5f5f5; // 전체 테두리 색상
+    background-color: #ffffff;
 `;
 
 // 지점검색 부분 - wrapper
@@ -110,7 +111,7 @@ const BranchSearchButton = ({ icon, onClick }) => {
 };
 
 // 지점검색을 클릭 - 카테고리/ 아이템 초기화
-const BranchSearchButtonToggle = () => {
+const BranchSearchButtonToggle = ({ onSelectBranch }) => {
     // 버튼 클릭 상태 추적
     const [isClickButton, setIsClickButton] = useState(false);
     // 초기 카테고리 설정
@@ -177,11 +178,13 @@ const BranchSearchButtonToggle = () => {
     // 아이템 클릭 시 선택된 아이템 설정
     const handleItemClick = (item) => {
         setSelectedItem(item);
-        alert(`${item} 버튼이 클릭되었습니다.`);
+        //alert(`${item} 버튼이 클릭되었습니다.`);
+        onSelectBranch(item); // 선택된 지점을 Map 컴포넌트로 전달
+        setIsClickButton(false); // 검색 토글을 닫음
     };
 
     return (
-        <Container>
+        <BranchSearchContainer>
             <BranchSearchButton icon={isClickButton ? toggleUpImage : toggleDownImage} onClick={handleButtonClick} />
             {isClickButton && (
                 <CategoryList>
@@ -201,7 +204,7 @@ const BranchSearchButtonToggle = () => {
                     ))}
                 </ItemList>
             )}
-        </Container>
+        </BranchSearchContainer>
     );
 };
 
