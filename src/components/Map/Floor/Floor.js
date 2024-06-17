@@ -1,37 +1,32 @@
 import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 
-// 층별안내 부분 wrapper
-const FloorTopBox = styled.div`
-    height: 48px;
-    width: 125px;
-    position: relative; /* Absolute positioning in .floortop requires a relative parent */
-`;
-// 층별안내 부분 컴포넌트
-const FloorTop = styled.div`
-    background-color: #ffffff;
-    border: 5px solid #fa8282;
-    height: 48px;
-    width: 125px;
-    position: absolute;
-    text-align: center;
-    line-height: 48px;
-    font-family: 'Kanit-Bold', Helvetica, Arial, sans-serif;
-    font-weight: 700; /* Adjust weight as necessary */
-    font-size: 16px; /* Adjust size as necessary */
-`;
 // 층 wrapper
 const FloorContainer = styled.div`
     background: linear-gradient(180deg, rgb(250, 130, 130) 0%, rgb(255, 255, 255) 100%);
-    height: 100vh;
-    margin-top: 5px;
+    height: 700px;
     position: relative;
-    width: 134px;
+    width: 90px;
 `;
+
+const FloorInfoContainer = styled.div`
+    height: 56px;
+    position: relative;
+    width: 90px;
+    font-weight: 520;
+    font-family: 'Kanit-Regular', Helvetica;
+    font-size: 17px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+`;
+
 // 층 하나의 버튼
 const FloorButtonBox = styled.button`
-    height: 80px;
-    width: 125px;
+    height: 56px;
+    width: 90px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -41,15 +36,15 @@ const FloorButtonBox = styled.button`
     border: none;
     cursor: pointer;
     position: relative;
-    font-family: 'Kanit-Bold', Helvetica, Arial, sans-serif;
-    font-weight: 700; /* Adjust weight as necessary */
-    font-size: 20px; /* Adjust size as necessary */
+    font-weight: 500;
+    font-family: 'Kanit-Regular', Helvetica;
+    font-size: 17px;
 
     // 선택된 층일 때 텍스트 색상을 흰색으로 변경
     ${(props) =>
         props.selected &&
         css`
-            color: #ffffff;
+            background-color: #ffffff;
         `}
 `;
 
@@ -61,11 +56,8 @@ const Floor = ({ onSelectFloor, selectedFloor }) => {
 
     return (
         <div>
-            <FloorTopBox>
-                <FloorTop>층별 안내</FloorTop>
-            </FloorTopBox>
-
             <FloorContainer>
+                <FloorInfoContainer>층별검색</FloorInfoContainer>
                 <FloorButtonBox selected={selectedFloor === '6F'} onClick={() => handleFloorClick('6F')}>
                     6F
                 </FloorButtonBox>
