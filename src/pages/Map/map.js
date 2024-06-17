@@ -20,20 +20,24 @@ import ParkGreyImage from '../../assets/images/park-grey.png';
 import ParkPinkImage from '../../assets/images/park-pink.png';
 
 const MapPageContainer = styled.div`
-    width: 100vw;
-    height: 100vh;
+    width: 80vw;
     display: flex;
     flex-direction: column;
-    position: relative;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: red;
+    align-items: center; /* 수평 중앙 정렬 */
+    justify-content: center; /* 수직 중앙 정렬 */
 `;
 
-const BranchText = styled.h2`
+const BranchText = styled.h1`
     margin-bottom: 0;
-    font-weight: 700;
-    font-family: 'Kanit-Bold', Helvetica;
-    font-size: 24px;
+    font-weight: 400;
+    font-family: 'Kanit-Regular', Helvetica;
+    font-size: 25px;
     margin-left: 60px;
-    //background-color: green;
 `;
 
 const Text = styled.h2`
@@ -78,10 +82,13 @@ const Map = () => {
     };
 
     return (
-        <MapPageContainer>
+        <div style={{ position: 'relative', width: '100vw', height: '100vh' }}>
             <MapReservation />
-            <BranchSearch onSelectBranch={handleBranchChange} />
-        </MapPageContainer>
+            <MapPageContainer>
+                <BranchSearch onSelectBranch={handleBranchChange} />
+                <BranchText>더현대 서울</BranchText>
+            </MapPageContainer>
+        </div>
     );
 };
 
