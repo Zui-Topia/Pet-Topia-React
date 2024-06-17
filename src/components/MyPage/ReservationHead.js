@@ -4,23 +4,23 @@ import styled from 'styled-components';
 const ReservationHeadBlock = styled.div`
     background: #000000;
 
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
 
     padding-top: 20px;
-    padding-right: 20px;
-    padding-left: 20px;
+    padding-right: 40px;
+    padding-left: 40px;
     padding-bottom: 20px;
 
     .reservation-number {
         color: #ffffff;
-        font-size: 14px;
-        margin-bottom: 10px;
+        font-size: 18px;
+        margin-bottom: 18px;
     }
 
     .reservation-day-details {
         color: #ffffff;
-        font-size: 20px;
+        font-size: 25px;
     }
 `;
 
