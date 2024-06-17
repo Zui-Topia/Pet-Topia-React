@@ -8,8 +8,8 @@ const SectionTitleWrapper = styled.div`
     align-items: baseline;
 
     color: #000000;
-    font-family: 'Inter';
-    font-size: 25px;
+    font-family: 'Kanit';
+    font-size: 30px;
     font-weight: 400;
 `;
 

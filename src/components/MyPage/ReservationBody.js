@@ -10,7 +10,7 @@ const ReservationBodyBlock = styled.div`
 
     padding-top: 20px;
     padding-right: 20px;
-    padding-left: 20px;
+    padding-left: 40px;
     padding-bottom: 20px;
 
     .body-payment {
@@ -26,7 +26,7 @@ const ReservationBodyBlock = styled.div`
 
     .reservation-location {
         color: #000000;
-        font-size: 18px;
+        font-size: 25px;
         padding-top: 10px;
         padding-bottom: 10px;
         margin-bottom: 10px;
@@ -48,7 +48,7 @@ const ReservationBodyBlock = styled.div`
     span {
         width: 150px;
         color: #545454;
-        font-size: 18px;
+        font-size: 20px;
         padding-right: 10px;
     }
 `;
