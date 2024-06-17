@@ -7,8 +7,8 @@ import blackbagPinkImage from '../../../assets/images/blackbag-pink.png';
 
 // 카테고리 버튼 - wrapper
 const CategoryButtonWrapper = styled.div`
-    height: 116px;
-    width: 93px;
+    height: 97px;
+    width: 70px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -16,8 +16,8 @@ const CategoryButtonWrapper = styled.div`
 `;
 // 카테고리 버튼 - 버튼
 const CategoryButtonBox = styled.button`
-    width: 78px;
-    height: 78px;
+    width: 50px;
+    height: 50px;
     background: none;
     border: none;
     cursor: pointer;
@@ -29,18 +29,19 @@ const CategoryButtonBox = styled.button`
 `;
 // 카테고리 버튼 - 아이콘
 const CategoryButtonIcon = styled.div`
-    width: 30px;
-    height: 30px;
+    width: 20px;
+    height: 20px;
     background-size: cover;
     background-position: center;
+    background-size: cover; /* 이미지를 컨테이너 크기에 맞게 조절 */
 `;
 // 카테고리 버튼 - 텍스트
 const CategoryButtonText = styled.div`
     color: #555555;
-    font-size: 15px;
+    font-size: 13px;
     font-weight: 400;
     text-align: center;
-    margin-top: 5px;
+    margin-top: 3px;
 `;
 
 const CategoryButton = ({ icon, activeIcon, text, onSelectCategory, isActive }) => {

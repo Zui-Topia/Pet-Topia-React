@@ -7,13 +7,14 @@ import toggleDownImage from '../../../assets/images/toggle-down.png';
 const BranchSearchContainer = styled.div`
     width: 450px;
     height: auto; /* 높이를 자식 요소에 맞게 자동으로 설정할 수도 있음 */
-    border: 1px solid #f5f5f5; // 전체 테두리 색상
+    border: 1px solid #d9d9d9; // 전체 테두리 색상
     background-color: #ffffff;
+    border-radius: 8px; /* 둥근 테두리 반경 설정 */
 `;
 
 // 지점검색 부분 - wrapper
 const BranchButtonWrapper = styled.div`
-    border: 1px solid #f5f5f5;
+    border: 1px solid #d9d9d9;
     max-height: 60px;
     display: flex;
     align-items: center;
@@ -80,7 +81,7 @@ const CategoryItem = styled.li`
 const ItemList = styled.ul`
     border-top: 1px solid #f5f5f5;
     list-style-type: none;
-    padding: 0;
+    padding: 5px;
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr)); /* 각 열의 너비를 동일하게 설정 */
     gap: 20px;
