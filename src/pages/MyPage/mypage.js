@@ -6,6 +6,7 @@ import UserInfo from '../../components/MyPage/UserInfo';
 import ReservationInfo from '../../components/MyPage/ReservationInfo';
 import ReservationHead from '../../components/MyPage/ReservationHead';
 import ReservationBody from '../../components/MyPage/ReservationBody';
+import QRModal from '../../components/MyPage/QRModal';
 
 const MyPage = () => {
     return (
@@ -20,10 +21,12 @@ const MyPage = () => {
             <div>
                 <MyPageSection>
                     <SectionTitle title="나의 예약 내역" />
-                    <ReservationInfo>
-                        <ReservationHead />
-                        <ReservationBody />
-                    </ReservationInfo>
+                    <QRModal>
+                        <ReservationInfo>
+                            <ReservationHead />
+                            <ReservationBody />
+                        </ReservationInfo>
+                    </QRModal>
                 </MyPageSection>
             </div>
         </>
