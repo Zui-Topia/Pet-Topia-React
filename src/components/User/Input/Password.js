@@ -19,8 +19,9 @@ const TextInput = styled.input`
   padding: 20px 30px;
   border: 2px solid #ccc;
   outline: none;
-  border-radius: 3px;
-  width: 100%;
+  border-radius: 5px;
+  width: 550px;
+  height: 60px;
   box-sizing: border-box;
   &:focus {
     border: 1px solid transparent;
