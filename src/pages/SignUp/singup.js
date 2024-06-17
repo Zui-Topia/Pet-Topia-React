@@ -6,8 +6,6 @@ import { Divider } from 'antd';
 import Input from '../../components/User/Input/Input';
 import PasswordInput from '../../components/User/Input/Password';
 
-import Title from '../../components/Main/Title/Title';
-
 const Container = styled.div`
     // 가운데 정렬 위한 컴포넌트
     display: flex;
@@ -41,7 +39,6 @@ const DividerWrapper = styled.div`
 function Signup() {
     return (
         <Container>
-            <Title marginTop=" 50px" />
             <Heading align="left" marginLeft="450px" marginTop="70px">
                 회원가입
             </Heading>
