@@ -9,8 +9,6 @@ import EmailInput from "../../components/User/Input/EmailInput";
 import PetSizeSelectionToggle from "../../components/User/Input/PetSizeSelection";
 import PetWeightSelectionToggle from "../../components/User/Input/PetWeightSelection";
 
-import Title from "../../components/Main/Title/Title";
-
 const Container = styled.div`
   // 가운데 정렬 위한 컴포넌트
   display: flex;
@@ -60,7 +58,6 @@ const Caution = styled.div`
 function Signup() {
   return (
     <Container>
-      <Title marginTop=" 50px" />
       <Heading align="left" marginLeft="450px" marginTop="70px">
         회원가입
       </Heading>

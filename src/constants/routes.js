@@ -2,6 +2,6 @@
 export const ROUTES = {
     MAP: '/map',
     MYPAGE: '/mypage',
-    SIGNUP: "/signup",
+    SIGNUP: '/signup',
     RESERVATION: '/reservation',
 };
