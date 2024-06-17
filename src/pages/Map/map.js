@@ -80,7 +80,7 @@ const Map = () => {
     return (
         <MapPageContainer>
             <MapReservation />
-            <BranchSearch />
+            <BranchSearch onSelectBranch={handleBranchChange} />
         </MapPageContainer>
     );
 };
