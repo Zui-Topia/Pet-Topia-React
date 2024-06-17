@@ -27,23 +27,89 @@ const MapPageContainer = styled.div`
     position: relative;
 `;
 
-const BranchText = styled.h2`
-    margin-bottom: 0;
-    font-weight: 700;
-    font-family: 'Kanit-Bold', Helvetica;
-    font-size: 24px;
-    margin-left: 60px;
-    //background-color: green;
+const MapPageBottomContainer = styled.div`
+    width: 1212px;
+    height: 882px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: auto; /* 가운데 정렬을 위한 마진 설정 */
+`;
+
+const MapPageBottomInContainer = styled.div`
+    width: 1212px;
+    height: 740px;
+    display: flex;
+    flex-direction: row;
+    position: relative;
+`;
+
+const BranchSearchContainer = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+    position: absolute;
+    top: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1; /* 층 선택 버튼 위에 오도록 설정 */
+`;
+const CateSearchContainer = styled.div`
+    padding: 10px;
+    width: 230px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* 세로 방향 시작점에 정렬 */
+    text-align: left; /* 텍스트 왼쪽 정렬 */
+    // background-color: green;
+`;
+
+const SearchContainer = styled.div`
+    height: 70px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center; /* 수평 가운데 정렬 */
+`;
+
+const CateContainer = styled.div`
+    list-style-type: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 5px;
+`;
+const BranchTextContainer = styled.div`
+    margin-top: 50px;
+    width: 100%;
+`;
+
+const BranchText = styled.h1`
+    font-weight: 400;
+    font-family: 'Kanit-Regular', Helvetica;
+    font-size: 25px;
 `;
 
 const Text = styled.h2`
     font-weight: 700;
     font-family: 'Kanit-Bold', Helvetica;
-    font-size: 23px;
-    //background-color: green;
-    margin-left: 5px;
+    font-size: 17px;
 `;
 
+const MapImageContainer = styled.div`
+    width: 887px;
+    height: 740px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff5f5;
+    background-image: url(${MapImageEx}); /* 이미지 파일 경로 설정 */
+    background-size: contain; /* 이미지를 커버할 수 있도록 설정 */
+    background-position: center; /* 이미지를 가운데 정렬 */
+    background-repeat: no-repeat; /* 이미지 반복 없음 */
+`;
 const Map = () => {
     const [selectedBranch, setSelectedBranch] = useState('더현대 서울');
     const [selectedFloor, setSelectedFloor] = useState('1F'); // 선택된 층 정보 상태
@@ -52,9 +118,10 @@ const Map = () => {
     // 지점이 변경되면 정보 초기화
     const handleBranchChange = (branch) => {
         setSelectedBranch(branch);
-        setSelectedFloor('1F'); //층 정보 초기화
+        setSelectedFloor('1F'); // 층 정보 초기화
         setSelectedCategories([]); // 카테고리 정보 초기화
     };
+
     // 층이 선택되면 해당 층 정보 설정
     const handleFloorSelect = (floor) => {
         setSelectedFloor(floor);
@@ -79,8 +146,73 @@ const Map = () => {
 
     return (
         <MapPageContainer>
-            <MapReservation />
-            <BranchSearch onSelectBranch={handleBranchChange} />
+            <MapReservation /> {/* MapReservation 컴포넌트 */}
+            <MapPageBottomContainer>
+                <BranchSearchContainer>
+                    <BranchSearch onSelectBranch={handleBranchChange} />
+                </BranchSearchContainer>
+                <BranchTextContainer>
+                    <BranchText>{selectedBranch}</BranchText>
+                </BranchTextContainer>
+
+                <MapPageBottomInContainer>
+                    <Floor onSelectFloor={handleFloorSelect} selectedFloor={selectedFloor} />
+                    <CateSearchContainer>
+                        <SearchContainer>
+                            <Search />
+                        </SearchContainer>
+                        <Text>편의제공</Text>
+                        <CateContainer>
+                            <CategoryButton
+                                icon={BlackbagGreyImage}
+                                activeIcon={BlackbagPinkImage}
+                                text="배변 봉투"
+                                onSelectCategory={handleCategoriesSelect}
+                                isActive={selectedCategories.includes('배변 봉투')}
+                            />
+                            <CategoryButton
+                                icon={StrollerGreyImage}
+                                activeIcon={StrollerPinkImage}
+                                text={'개모차'}
+                                onSelectCategory={handleCategoriesSelect}
+                                isActive={selectedCategories.includes('개모차')}
+                            />
+                        </CateContainer>
+                        <Text>편의시설</Text>
+                        <CateContainer>
+                            <CategoryButton
+                                icon={ParkGreyImage}
+                                activeIcon={ParkPinkImage}
+                                text={'펫파크'}
+                                onSelectCategory={handleCategoriesSelect}
+                                isActive={selectedCategories.includes('펫파크')}
+                            />
+                            <CategoryButton
+                                icon={PlaygroundGreyImage}
+                                activeIcon={PlaygroundPinkImage}
+                                text={'애견 놀이터'}
+                                onSelectCategory={handleCategoriesSelect}
+                                isActive={selectedCategories.includes('애견 놀이터')}
+                            />
+                            <CategoryButton
+                                icon={RestaurantGreyImage}
+                                activeIcon={RestaurantPinkImage}
+                                text={'동반 식당'}
+                                onSelectCategory={handleCategoriesSelect}
+                                isActive={selectedCategories.includes('동반 식당')}
+                            />
+                            <CategoryButton
+                                icon={CafeGreyImage}
+                                activeIcon={CafePinkImage}
+                                text={'동반 카페'}
+                                onSelectCategory={handleCategoriesSelect}
+                                isActive={selectedCategories.includes('동반 카페')}
+                            />
+                        </CateContainer>
+                    </CateSearchContainer>
+                    <MapImageContainer></MapImageContainer>
+                </MapPageBottomInContainer>
+            </MapPageBottomContainer>
         </MapPageContainer>
     );
 };
