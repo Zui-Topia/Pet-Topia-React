@@ -5,7 +5,7 @@ import toggleDownImage from '../../../assets/images/toggle-down.png';
 
 // 지점검색 전체창의 컴포넌트
 const BranchSearchContainer = styled.div`
-    width: 768px;
+    width: 450px;
     height: auto; /* 높이를 자식 요소에 맞게 자동으로 설정할 수도 있음 */
     border: 1px solid #f5f5f5; // 전체 테두리 색상
     background-color: #ffffff;
@@ -14,16 +14,16 @@ const BranchSearchContainer = styled.div`
 // 지점검색 부분 - wrapper
 const BranchButtonWrapper = styled.div`
     border: 1px solid #f5f5f5;
-    max-height: 79px;
+    max-height: 60px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-top: 4px solid #000000;
+    border-top: 2px solid #000000;
 `;
 
 // 지점검색 부분 - 버튼
 const BranchButtonBox = styled.button`
-    height: 79px; /* 최대 높이 설정 */
+    height: 60px; /* 최대 높이 설정 */
     width: 100%;
     cursor: pointer;
     background: none;
@@ -37,7 +37,7 @@ const BranchButtonBox = styled.button`
 // 지점검색 부분 - 텍스트
 const BranchSearchText = styled.div`
     color: #000000;
-    font-size: 28px;
+    font-size: 20px;
     font-weight: 700;
     font-family: 'Kanit-Bold', Helvetica;
     margin-left: 10px;
@@ -45,17 +45,18 @@ const BranchSearchText = styled.div`
 
 // 지점검색 부분 - 위, 아래 아이콘
 const BranchToggleIcon = styled.div`
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
     background-image: url(${(props) => props.icon});
     margin-left: auto; // 왼쪽 자동 여백 설정 (오른쪽 정렬)
+    background-size: cover; /* 이미지를 컨테이너 크기에 맞게 조절 */
 `;
 
 // 카테고리 리스트 - wrapper
 const CategoryList = styled.ul`
     align-items: center;
     list-style-type: none;
-    height: 60px;
+    height: 40px;
     padding: 0;
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr)); /* 각 열의 너비를 동일하게 설정 */
@@ -69,7 +70,7 @@ const CategoryItem = styled.li`
     height: 100%;
     cursor: pointer;
     color: ${(props) => (props.selected ? '#000000' : '#b9b9b9')}; // 선택 여부에 따른 색상
-    font-size: 20px;
+    font-size: 15px;
     font-weight: 700;
     font-family: 'Kanit-Bold', Helvetica;
     text-align: center;
@@ -88,9 +89,9 @@ const ItemList = styled.ul`
 const Item = styled.li`
     text-align: center; /* 중앙 정렬 */
     cursor: pointer;
-    height: 70px;
+    height: 40px;
     color: ${(props) => (props.selected ? '#000000' : '#b9b9b9')}; /* 클릭 여부에 따른 색상 */
-    font-size: 20px;
+    font-size: 15px;
     font-weight: 700;
     font-family: 'Kanit-Bold', Helvetica;
     display: flex;
