@@ -20,6 +20,7 @@ const Container = styled.div`
 `;
 
 const Heading = styled.h2`
+  font-size: 25px;
   font-family: "Kanit";
   font-weight: 400;
   text-align: ${({ align }) => align || "left"}; /* 기본값은 왼쪽 정렬 */
