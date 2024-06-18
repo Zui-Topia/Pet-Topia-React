@@ -6,6 +6,7 @@ const StyledMenu = styled(Menu)`
   width: 550px;
   height: auto;
   overflow-y: auto;
+  border: 1px solid #d9d9d9; /* 테두리 색상 설정 */
 `;
 
 const MenuItem = styled(Menu.Item)`

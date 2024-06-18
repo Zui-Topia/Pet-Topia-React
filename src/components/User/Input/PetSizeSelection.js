@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { SettingOutlined } from "@ant-design/icons";
+
 import { Menu } from "antd";
 import styled from "styled-components";
 
@@ -7,6 +7,7 @@ const StyledMenu = styled(Menu)`
   width: 550px;
   height: auto;
   overflow-y: auto;
+  border: 1px solid #d9d9d9; /* 테두리 색상 설정 */
 `;
 
 const MenuItem = styled(Menu.Item)`
