@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Layout, Divider } from "antd";
+import { Layout } from "antd";
 import SignUpHeader from "../../components/Main/Common/SignUpHeader";
 import { Input } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons"; // 앤트디자인 아이콘 가져오기
@@ -51,16 +51,6 @@ const FormContainer = styled.form`
   flex-direction: column;
   gap: 16px;
   margin-top: 120px;
-`;
-
-const StyledDivider = styled(Divider)`
-  border-color: black;
-`;
-
-const DividerWrapper = styled.div`
-  width: 100%;
-  margin: 0;
-  margin-top: -70px;
 `;
 
 const EmailInputContainer = styled.div`
