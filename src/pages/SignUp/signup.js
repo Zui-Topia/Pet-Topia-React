@@ -8,6 +8,7 @@ import PetWeightSelectionToggle from "../../components/User/Input/PetWeightSelec
 import PetSizeSelectionToggle from "../../components/User/Input/PetSizeSelection";
 import SubmitButton from "../../components/Main/Submit/Submit";
 import SignUpHeader from "../../components/Main/Common/SignUpHeader";
+import EmailValidationCheckButton from "../../components/Main/Submit/EmailValidCheck";
 
 const SignupSchema = Yup.object().shape({
   email: Yup.string()
@@ -75,15 +76,18 @@ const Signup = () => {
             </DividerWrapper>
             <SectionTitle>가입정보 입력</SectionTitle>
             <Label>이메일</Label>
-            <StyledInput
-              size="large"
-              placeholder="이메일을 입력하세요"
-              type="email"
-              name="email"
-              value={values.email}
-              onChange={handleChange}
-              onBlur={handleBlur}
-            />
+            <EmailInputContainer>
+              <StyledInput
+                size="large"
+                placeholder="이메일을 입력하세요"
+                type="email"
+                name="email"
+                value={values.email}
+                onChange={handleChange}
+                onBlur={handleBlur}
+              />
+              <EmailValidationCheckButton label="중복 확인" />
+            </EmailInputContainer>
             {touched.email && errors.email && (
               <ErrorMessage>{errors.email}</ErrorMessage>
             )}
@@ -218,13 +222,15 @@ const Heading = styled.h2`
   font-weight: 400;
   text-align: left;
   width: 100%;
-  margin-top: 0;
+  margin-top: -30px;
+  margin-bottom: -30px;
 `;
 
 const SectionTitle = styled.div`
   font-size: 25px;
   font-family: "Kanit";
   font-weight: 400;
+  margin-top: -30px;
 `;
 
 const StyledDivider = styled(Divider)`
@@ -240,9 +246,17 @@ const Label = styled.span`
   font-size: 15px;
   font-family: "Kanit";
   font-weight: 400;
+  margin-bottom: -10px;
+`;
+
+const EmailInputContainer = styled.div`
+  display: flex;
+  align-items: center;
+  width: 100%;
 `;
 
 const StyledInput = styled(Input)`
+  flex: 1;
   height: 54px;
   border-radius: 2px;
   border: 1px solid #d9d9d9;
