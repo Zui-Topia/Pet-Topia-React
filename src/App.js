@@ -4,6 +4,7 @@ import Map from "./pages/Map/map";
 import MyPage from "./pages/MyPage/mypage";
 import Signup from "./pages/SignUp/signup";
 import Reservation from "./pages/Reservation/reservation";
+import Login from "./pages/LogIn/login";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Route path={ROUTES.MYPAGE} element={<MyPage />}></Route>
         <Route path={ROUTES.SIGNUP} element={<Signup />}></Route>
         <Route path={ROUTES.RESERVATION} element={<Reservation />}></Route>
+        <Route path={ROUTES.LOGIN} element={<Login />}></Route>
       </Routes>
     </BrowserRouter>
   );
