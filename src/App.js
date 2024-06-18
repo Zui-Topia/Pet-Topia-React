@@ -5,7 +5,7 @@ import MyPage from "./pages/MyPage/mypage";
 import Signup from "./pages/SignUp/signup";
 import Reservation from "./pages/Reservation/reservation";
 import Login from "./pages/LogIn/login";
-
+import Main from "./pages/Main/main";
 function App() {
   return (
     <BrowserRouter>
@@ -15,6 +15,8 @@ function App() {
         <Route path={ROUTES.SIGNUP} element={<Signup />}></Route>
         <Route path={ROUTES.RESERVATION} element={<Reservation />}></Route>
         <Route path={ROUTES.LOGIN} element={<Login />}></Route>
+        <Route path={ROUTES.MAIN} element={<Main />}></Route>
+        <Route path="/*" element={<Main />}></Route>
       </Routes>
     </BrowserRouter>
   );

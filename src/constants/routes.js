@@ -5,4 +5,5 @@ export const ROUTES = {
   SIGNUP: "/signup",
   RESERVATION: "/reservation",
   LOGIN: "/login",
+  MAIN: "/main",
 };
