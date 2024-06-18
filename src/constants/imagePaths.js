@@ -14,10 +14,10 @@ export const IMAGE_PATHS = {
 };
 
 export const MARKER = {
-    0: require('../assets/images/blackbag.png'), //blackbag
-    1: require('../assets/images/stroller.png'), //stroller
-    2: require('../assets/images/playground.png'), //playground
-    3: require('../assets/images/restaurant.png'), //restaurant
-    4: require('../assets/images/cafe.png'), //cafe
-    5: require('../assets/images/park.png'), //park
+    1: require('../assets/images/blackbag.png'), //blackbag
+    2: require('../assets/images/stroller.png'), //stroller
+    3: require('../assets/images/park.png'), //park
+    4: require('../assets/images/playground.png'), //playground
+    5: require('../assets/images/restaurant.png'), //restaurant
+    5: require('../assets/images/cafe.png'), //cafe
 };

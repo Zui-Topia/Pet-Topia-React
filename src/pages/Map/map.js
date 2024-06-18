@@ -114,7 +114,7 @@ const Map = () => {
         // 서버에서 데이터 가져오기(예시 데이터)
         const fetchData = async () => {
             const dataFromServer = [
-                { index: 0, x: 100, y: 300 }, // 마커의 인덱스, 위치 좌표
+                { index: 1, x: 100, y: 300 }, // 마커의 인덱스, 위치 좌표
                 { index: 3, x: 300, y: 400 },
                 { index: 5, x: 300, y: 600 },
             ];
