@@ -7,6 +7,7 @@ const GlobalStyle = createGlobalStyle`
     @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@400;700&display=swap');
 
     * {
+        font-size: 17px;
         font-family: 'Kanit' !important; // 모든 요소에 Kanit 폰트 적용
         --ant-primary-color: pink !important;
         --ant-primary-color-hover: pink !important;
