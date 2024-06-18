@@ -13,14 +13,15 @@ const InputWrapper = styled.div`
 
 const TextInput = styled.input`
   color: black;
-  font-size: 18px;
-  font-family: "Kanit", Helvetica;
+  font-size: 20px;
+  font-family: "Kanit";
   background-color: #f9f8f8;
   padding: 20px 30px; /* 패딩을 더 크게 설정 */
   border: 2px solid #ccc;
   outline: none;
-  border-radius: 3px;
-  width: 100%;
+  border-radius: 5px;
+  width: 400px;
+  height: 60px;
 
   box-sizing: border-box;
   &:focus {
