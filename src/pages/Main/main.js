@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
+import { Spin } from "antd";
 import SignUpHeader from "../../components/Main/Common/SignUpHeader";
 import BranchSearch from "../../components/Map/BranchSearch/BranchSearch";
 import Footer from "../../components/Main/Common/Footer";
@@ -62,10 +64,45 @@ const ImageContainer = styled.button`
     transform: scale(1.05); /* 마우스를 올렸을 때 약간 확대됨 */
   }
 `;
+const SpinContainer = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.7);
+  z-index: 9999;
+`;
 
 const Main = () => {
+  const [spinning, setSpinning] = useState(false);
+  const navigate = useNavigate();
+
+  const handleMapClick = () => {
+    setSpinning(true);
+    setTimeout(() => {
+      setSpinning(false);
+      navigate("/map");
+    }, 500);
+  };
+
+  const handleReservationClick = () => {
+    setSpinning(true);
+    setTimeout(() => {
+      setSpinning(false);
+      navigate("/reservation");
+    }, 500);
+  };
   return (
     <div>
+      {spinning && (
+        <SpinContainer>
+          <Spin size="large" />
+        </SpinContainer>
+      )}
       <SignUpHeader />
       <MainPageBodyContainer>
         <BranchSearchContainer>
@@ -74,8 +111,14 @@ const Main = () => {
       </MainPageBodyContainer>
 
       <BodyWrapper>
-        <ImageContainer image={MAIN_IMAGES_PATHS.MAIN_MAP} />
-        <ImageContainer image={MAIN_IMAGES_PATHS.MAIN_RES} />
+        <ImageContainer
+          image={MAIN_IMAGES_PATHS.MAIN_MAP}
+          onClick={handleMapClick}
+        />
+        <ImageContainer
+          image={MAIN_IMAGES_PATHS.MAIN_RES}
+          onClick={handleReservationClick}
+        />
       </BodyWrapper>
 
       <FooterWrapper>

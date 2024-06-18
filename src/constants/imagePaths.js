@@ -23,7 +23,7 @@ export const MARKER = {
 };
 
 export const MAIN_IMAGES_PATHS = {
-  MAIN_MAP: require("../assets/images/main/maindog.png"),
-  MAIN_RES: require("../assets/images/main/mainres.png"),
+  MAIN_MAP: require("../assets/images/main/MainMap.png"),
+  MAIN_RES: require("../assets/images/main/MainReservation.png"),
   MAIN_FOOT: require("../assets/images/main/footer.png"),
 };
