@@ -1,36 +1,101 @@
-import React from "react";
-import { DownOutlined } from "@ant-design/icons";
-import { Dropdown, Space } from "antd";
+import React, { useState } from "react";
+import { Menu } from "antd";
+import styled from "styled-components";
+
+const StyledMenu = styled(Menu)`
+  width: 550px;
+  height: auto;
+  overflow-y: auto;
+`;
+
+const MenuItem = styled(Menu.Item)`
+  && {
+    font-family: "Kanit", sans-serif;
+    font-size: 20px;
+    color: #9b9b9b;
+  }
+`;
+
+const StyledSubMenu = styled(Menu.SubMenu)`
+  && {
+    .ant-menu-submenu-title {
+      height: 40px;
+      line-height: 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .ant-menu {
+      max-height: 280px;
+      overflow-y: auto;
+    }
+  }
+`;
+
 const items = [
   {
-    label: <a href="https://www.antgroup.com">1st menu item</a>,
-    key: "0",
-  },
-  {
-    label: <a href="https://www.aliyun.com">2nd menu item</a>,
-    key: "1",
-  },
-  {
-    type: "divider",
-  },
-  {
-    label: "3rd menu item",
-    key: "3",
+    key: "sub4",
+    label: "몸무게",
+    children: Array.from({ length: 20 }, (_, index) => {
+      const kg = index + 1;
+      return {
+        key: `option-${kg}`,
+        label: `${kg} kg`,
+      };
+    }),
   },
 ];
-const PetWeightSelectionToggle = () => (
-  <Dropdown
-    menu={{
-      items,
-    }}
-    trigger={["click"]}
-  >
-    <a onClick={(e) => e.preventDefault()}>
-      <Space>
-        Click me
-        <DownOutlined />
-      </Space>
-    </a>
-  </Dropdown>
-);
+
+const PetWeightSelectionToggle = () => {
+  const [selectedOption, setSelectedOption] = useState(null); // No default selection
+  const [openKeys, setOpenKeys] = useState([]);
+
+  const handleMenuClick = (e) => {
+    setSelectedOption(e.key);
+    setOpenKeys([]); // Close the menu when an item is clicked
+  };
+
+  const handleOpenChange = (keys) => {
+    setOpenKeys(keys);
+  };
+
+  return (
+    <StyledMenu
+      onClick={handleMenuClick}
+      selectedKeys={selectedOption ? [selectedOption] : []} // Only set selectedKeys if selectedOption is not null
+      openKeys={openKeys}
+      onOpenChange={handleOpenChange}
+      mode="inline"
+    >
+      <StyledSubMenu
+        key={items[0].key}
+        title={
+          <React.Fragment>
+            {items[0].label}
+            {selectedOption && (
+              <span
+                style={{
+                  marginLeft: "10px",
+                  fontSize: "16px",
+                  color: "#555555",
+                }}
+              >
+                {
+                  items[0].children.find((item) => item.key === selectedOption)
+                    ?.label
+                }
+              </span>
+            )}
+          </React.Fragment>
+        }
+      >
+        {items[0].children.map((child) => (
+          <MenuItem key={child.key}>{child.label}</MenuItem>
+        ))}
+      </StyledSubMenu>
+    </StyledMenu>
+  );
+};
+
 export default PetWeightSelectionToggle;
