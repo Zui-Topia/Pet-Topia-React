@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import categoryCircleGreyImage from '../../../assets/images/categorycircle-grey.png';
-import blackbagGreyImage from '../../../assets/images/blackbag-grey.png';
 import categoryCirclePinkImage from '../../../assets/images/categorycircle-pink.png';
-import blackbagPinkImage from '../../../assets/images/blackbag-pink.png';
 
 // 카테고리 버튼 - wrapper
 const CategoryButtonWrapper = styled.div`

@@ -7,6 +7,9 @@ const HeaderWrapper = styled.div`
     display: flex;
     justify-content: center;
     width: 100%;
+    padding: 0 20px; // 좌우 여백을 추가하여 헤더 전체 여백을 조정
+    box-sizing: border-box; // 패딩을 너비에 포함
+    max-width: 1512px; // 최대 너비를 1512px로 설정
 `;
 
 // 내부 div로, 높이를 설정하고 내부 아이템을 가운데 정렬
@@ -16,8 +19,7 @@ const InnerDiv = styled.div`
     align-items: center; // 아이템들을 수직으로 가운데 정렬
     justify-content: space-between; // 아이템들을 좌우로 나누어 배치
     height: 100px;
-    width: 1512px;
-    padding: 0 20px; // 좌우에 20px 여백 추가
+    width: 100%;
 `;
 
 // 타이틀을 감싸는 div로, 텍스트를 flex 컨테이너로 설정하여 수직 가운데 정렬
@@ -26,7 +28,6 @@ const Title = styled.div`
     align-items: flex-end; // 아이템들을 아래쪽 끝으로 정렬
     margin-top: -10px; // 타이틀을 더 위로 이동하여 위치 조정
     cursor: pointer; // 커서를 포인터로 변경하여 클릭 가능함을 나타냄
-
     // The 텍스트 스타일
     .text-wrapper {
         color: #000000;
