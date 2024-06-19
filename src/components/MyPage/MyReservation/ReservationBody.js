@@ -12,6 +12,7 @@ const ReservationBodyBlock = styled.div`
     padding-right: 20px;
     padding-left: 40px;
     padding-bottom: 20px;
+    margin: 0 auto;
 
     .body-payment {
         display: flex;

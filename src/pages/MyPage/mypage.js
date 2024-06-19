@@ -1,20 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import Header from '../../components/Main/Common/Header';
 import SectionTitle from '../../components/MyPage/SectionTitle';
 import MyPageSection from '../../components/MyPage/MyPageSection';
 import UserInfo from '../../components/MyPage/UserInfo';
-import ReservationInfo from '../../components/MyPage/ReservationInfo';
-import ReservationHead from '../../components/MyPage/ReservationHead';
-import ReservationBody from '../../components/MyPage/ReservationBody';
+import ReservationInfo from '../../components/MyPage/MyReservation/ReservationInfo';
+import ReservationHead from '../../components/MyPage/MyReservation/ReservationHead';
+import ReservationBody from '../../components/MyPage/MyReservation/ReservationBody';
 import QRModal from '../../components/MyPage/QRModal';
 import MyReservationAPI from '../../api/MyPage/MyPageAPI';
 
 const MyPage = () => {
-    const [reservationInfo, setReservationInfo] = useState({
-        reservationVO: null,
-        placeDTO: null,
+    const [myPageInfo, setMyPageInfo] = useState({
+        myPageUserDTO: null,
+        myPagePetDTO: null,
+        myReservationDTO: null,
     });
     const [error, setError] = useState(null);
+
+    const [reservationInfo, setReservationInfo] = useState({
+        placeDTO: null,
+        reservationVO: null,
+    });
 
     useEffect(() => {
         const fetchReservations = async () => {
@@ -22,12 +29,19 @@ const MyPage = () => {
                 const response = await MyReservationAPI(2);
                 console.log(response.data.data);
                 if (response.data.success) {
-                    const { reservationVO, placeDTO } = response.data.data;
-                    setReservationInfo({
-                        reservationVO,
-                        placeDTO,
+                    const { myPageUserDTO, myPagePetDTO, myReservationDTO } = response.data.data;
+                    setMyPageInfo({
+                        myPageUserDTO,
+                        myPagePetDTO,
+                        myReservationDTO,
                     });
-                    console.log(reservationVO, placeDTO); // 데이터 확인용 로그
+                    console.log(myPageUserDTO, myPagePetDTO, myReservationDTO); // 데이터 확인용 로그
+
+                    const { placeDTO, reservationVO } = myReservationDTO;
+                    setReservationInfo({
+                        placeDTO,
+                        reservationVO,
+                    });
                 }
             } catch (error) {
                 setError(error);
@@ -40,6 +54,7 @@ const MyPage = () => {
 
     return (
         <>
+            <Header />
             <div></div>
             <div>
                 <MyPageSection>
