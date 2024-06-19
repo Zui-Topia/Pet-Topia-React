@@ -10,15 +10,25 @@ import QRModal from '../../components/MyPage/QRModal';
 import MyReservationAPI from '../../api/MyPage/MyPageAPI';
 
 const MyPage = () => {
-    const [reservations, setReservations] = useState([]);
+    const [reservationInfo, setReservationInfo] = useState({
+        reservationVO: null,
+        placeDTO: null,
+    });
     const [error, setError] = useState(null);
 
     useEffect(() => {
         const fetchReservations = async () => {
             try {
                 const response = await MyReservationAPI(2);
-                setReservations(response.data);
-                console.log(response.data);
+                console.log(response.data.data);
+                if (response.data.success) {
+                    const { reservationVO, placeDTO } = response.data.data;
+                    setReservationInfo({
+                        reservationVO,
+                        placeDTO,
+                    });
+                    console.log(reservationVO, placeDTO); // 데이터 확인용 로그
+                }
             } catch (error) {
                 setError(error);
                 console.error(error);
@@ -40,10 +50,14 @@ const MyPage = () => {
             <div>
                 <MyPageSection>
                     <SectionTitle title="나의 예약 내역" />
-                    <QRModal>
+                    <QRModal
+                        isActive={
+                            reservationInfo.reservationVO && reservationInfo.reservationVO.reservationDelete === 0
+                        }
+                    >
                         <ReservationInfo>
-                            <ReservationHead />
-                            <ReservationBody />
+                            {reservationInfo.reservationVO && <ReservationHead value={reservationInfo.reservationVO} />}
+                            {reservationInfo.placeDTO && <ReservationBody value={reservationInfo} />}
                         </ReservationInfo>
                     </QRModal>
                 </MyPageSection>

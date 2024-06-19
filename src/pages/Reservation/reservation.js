@@ -1,11 +1,338 @@
-import React from 'react';
-import BranchSearch from './../../components/Map/BranchSearch/BranchSearch';
+import React, { useState } from 'react';
+import { Modal } from 'antd';
+import styled from 'styled-components';
+import { Header } from '../../components/Main/Common/Header';
+import BranchSearch from '../../components/Map/BranchSearch/BranchSearch';
+import MapReservation from '../../components/Main/Common/MapReservation';
+import ReservationCalendar from '../../components/Reservation/ReservationCalendar/ReservationCalendar';
+import TimeSelection from '../../components/Reservation/TimeSelection/TimeSelection';
+
+const ElementContainer = styled.div`
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+`;
+
+const MainDiv = styled.div`
+    background-color: #ffffff;
+    height: 982px;
+    overflow: hidden;
+    position: relative;
+    width: 1512px;
+`;
+
+const LocationText = styled.div`
+    color: #000000;
+    font-family: 'Kanit-Regular', Helvetica;
+    font-size: 25px;
+    font-weight: 400;
+    left: 151px;
+    position: absolute;
+    top: 216px;
+`;
+
+const ViewDiv = styled.div`
+    height: 60px;
+    left: 531px;
+    position: absolute;
+    top: 157px;
+    width: 450px;
+    z-index: 10;
+`;
+
+const ServiceText = styled.div`
+    color: #000000;
+    font-family: 'Kanit-Regular', Helvetica;
+    font-size: 30px;
+    font-weight: 400;
+    left: 151px;
+    position: absolute;
+    top: 307px;
+`;
+
+const ReservationLink = styled.div`
+    color: #000000;
+    font-family: 'Kanit-Regular', Helvetica;
+    font-size: 20px;
+    font-weight: 400;
+    height: 30px;
+    left: 961px;
+    position: absolute;
+    text-align: center;
+    top: 1135px;
+    cursor: pointer;
+`;
+
+const OverlapGroup = styled.div`
+    width: 1235px;
+    height: 550px;
+    border: 1px solid #000000;
+    border-radius: 10px;
+    left: 147px;
+    position: absolute;
+    top: 366px;
+`;
+
+const Step1 = styled.div`
+    color: transparent;
+    font-family: 'Kanit-Regular', Helvetica;
+    font-size: 25px;
+    font-weight: 400;
+    left: 42px;
+    position: absolute;
+    top: 31px;
+`;
+
+const StepText1 = styled.span`
+    color: #fa8282;
+    font-size: 25px;
+`;
+
+const Step2 = styled.div`
+    color: transparent;
+    font-family: 'Kanit-Regular', Helvetica;
+    font-size: 25px;
+    font-weight: 400;
+    left: 662px;
+    position: absolute;
+    top: 31px;
+`;
+
+const StepText2 = styled.span`
+    color: #ff6c6c;
+    font-size: 25px;
+`;
+
+const StepRectangle = styled.div`
+    height: 285px;
+    width: 450px;
+    border: 1px solid #000000;
+    border-radius: 20px;
+    left: 704px;
+    position: absolute;
+    top: 99px;
+`;
+
+const PickupTimeText = styled.div`
+    color: #000000;
+    font-family: 'Kanit-Regular', Helvetica;
+    font-size: 25px;
+    font-weight: 400;
+    left: 728px;
+    position: absolute;
+    top: 237px;
+`;
+
+const PickupRectangle = styled.div`
+    height: 60px;
+    width: 402px;
+    background-color: #ffffff;
+    border: 1px solid #000000;
+    border-radius: 10px;
+    left: 728px;
+    position: absolute;
+    top: 135px;
+`;
+
+const RemainingText = styled.div`
+    color: #000000;
+    font-family: 'Kanit-Regular', Helvetica;
+    font-size: 20px;
+    font-weight: 400;
+    left: 860px;
+    position: absolute;
+    top: 149px;
+    width: 402px;
+`;
+
+const StepLine = styled.div`
+    height: 500px;
+    width: 1px;
+    border-left: 1px solid #000000;
+    left: 622px;
+    position: absolute;
+    top: 32px;
+`;
+
+const StepButton = styled.div`
+    background-color: #000000;
+    border-radius: 10px;
+    border: 1px solid #000000;
+    cursor: pointer;
+    height: 70px;
+    width: 450px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    left: 704px;
+    position: absolute;
+    top: 420px;
+`;
+
+const StepButtonText = styled.div`
+    color: #ffffff;
+    font-family: 'Kanit-Regular', Helvetica;
+    font-size: 20px;
+    font-weight: 400;
+`;
+
+const StepButtonWrapper = styled.div`
+    background-color: #ffffff;
+    border-radius: 35px;
+    border: 1px solid #000000;
+    height: 70px;
+    width: 450px;
+    position: relative;
+`;
+
+const StepButtonInner = styled.div`
+    color: #ffffff;
+    font-family: 'Kanit-Regular', Helvetica;
+    font-size: 20px;
+    font-weight: 400;
+    left: 184px;
+    position: absolute;
+    top: 20px;
+    width: 81px;
+`;
+
+const TimeSelectorContainer = styled.div`
+    input[type='text'] {
+        height: 66px;
+        width: 402px;
+        font-size: 30px;
+        text-align: center;
+        z-index: 20;
+    }
+    .react-datepicker-ignore-onclickoutside {
+        height: 66px;
+        width: 402px;
+        border: 1px;
+    }
+
+    .react-datepicker__input-container {
+        height: 66px;
+        width: 402px;
+    }
+`;
+
+const PickupImage = styled.div`
+    height: 66px;
+    width: 402px;
+    border-radius: 10px;
+    left: 728px;
+    position: absolute;
+    top: 282px;
+    z-index: 30;
+`;
+
+const StepContent = styled.span`
+    color: black;
+    font-size: 25px;
+`;
+
+const ReservationCalendarContainer = styled.div`
+    width: 450px;
+    height: 360px;
+    position: absolute;
+    top: 70px;
+    left: 35px;
+`;
 
 const Reservation = () => {
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const formattedDate = `${year}-${month}-${day}`;
+    const [selectedBranch, setSelectedBranch] = useState('더현대 서울'); // 선택된 지점 이름 상태
+    const [selectedDate, setSelectedDate] = useState(formattedDate); // 선택된 날짜 상태
+    const [selectedTime, setSelectedTime] = useState(null); // 선택된 시간 상태
+    const [modalVisible, setModalVisible] = useState(false); // 모달 가시성 상태
+
+    // 지점 선택 시 처리 함수
+    const handleBranchChange = (branch) => {
+        setSelectedBranch(branch); // 선택된 지점 업데이트
+    };
+
+    // 예약하기 버튼 클릭 시 처리 함수
+    const handleReservation = () => {
+        if (!selectedDate) {
+            setSelectedDate(formattedDate); // 날짜 선택하지 않았을 때, 오늘 날짜로 설정
+        }
+        if (!selectedTime) {
+            Modal.error({
+                title: '예약 실패', // 모달 제목
+                content: '예약 시간을 선택해주세요.', // 예약 시간 선택 안했을 때 안내 메시지
+            });
+            return; // 함수 종료
+        }
+
+        // 모달에 예약 정보 표시
+        Modal.info({
+            title: '예약 정보', // 모달 제목
+            content: (
+                <div>
+                    <p>선택한 날짜: {selectedDate}</p>
+                    <p>선택한 시간: {selectedTime}</p>
+                </div>
+            ),
+            onOk() {
+                setModalVisible(false); // 확인 버튼 클릭 시 모달 닫기
+            },
+        });
+    };
+
+    // 시간 선택 시 처리 함수
+    const handleTimeSelection = (time) => {
+        setSelectedTime(time); // 선택된 시간 업데이트
+    };
+
     return (
-        <div>
-            <BranchSearch />
-        </div>
+        <ElementContainer>
+            <MainDiv>
+                <Header /> {/* 헤더 컴포넌트 */}
+                <MapReservation /> {/* 지도 예약 컴포넌트 */}
+                <LocationText>{selectedBranch}</LocationText> {/* 선택된 지점 표시 */}
+                <ViewDiv>
+                    <BranchSearch onSelectBranch={handleBranchChange} /> {/* 지점 검색 컴포넌트 */}
+                </ViewDiv>
+                <ReservationLink onClick={handleReservation}>예약하러 가기</ReservationLink> {/* 예약 링크 */}
+                <ServiceText>개모차 대여서비스</ServiceText>
+                <OverlapGroup>
+                    <Step1>
+                        <StepText1>
+                            STEP 1. <span>&nbsp;</span>
+                            <StepContent>날짜&nbsp;선택</StepContent>
+                        </StepText1>
+                        <ReservationCalendarContainer>
+                            <ReservationCalendar onSelectDate={(date) => setSelectedDate(date)} />
+                        </ReservationCalendarContainer>
+                    </Step1>
+                    <Step2>
+                        <StepText2>
+                            STEP 2. <span>&nbsp;</span>
+                            <StepContent>픽업시간&nbsp;선택</StepContent>
+                        </StepText2>
+                    </Step2>
+                    <StepRectangle />
+                    <PickupTimeText>픽업 시간</PickupTimeText>
+                    <PickupImage>
+                        <TimeSelectorContainer>
+                            <TimeSelection onSelectTime={handleTimeSelection} />
+                        </TimeSelectorContainer>
+                    </PickupImage>
+                    <PickupRectangle />
+                    <RemainingText>잔여 개수 : 1 개</RemainingText>
+                    <StepLine />
+                    <StepButton onClick={handleReservation}>
+                        <StepButtonText>예약하기</StepButtonText>
+                    </StepButton>
+                </OverlapGroup>
+            </MainDiv>
+        </ElementContainer>
     );
 };
 

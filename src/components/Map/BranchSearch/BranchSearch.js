@@ -136,6 +136,19 @@ const BranchSearchButtonToggle = ({ onSelectBranch }) => {
         '울산점',
         '울산동구점',
         '충청점',
+        '신촌점',
+        '중동점',
+        '충청점',
+        '디큐브시티',
+        '판교점',
+        '김포점',
+        '송도점',
+        '가산점',
+        '동대문점',
+        '가든파이브점',
+        '대구점',
+        '대전점',
+        'SPACE1',
     ]);
 
     // 현재 선택된 개별 아이템을 추적
@@ -168,9 +181,18 @@ const BranchSearchButtonToggle = ({ onSelectBranch }) => {
             '울산동구점',
             '충청점',
         ],
-        'U-PLEX': ['U-PLEX아이템1', 'U-PLEX아이템2', 'U-PLEX아이템3', 'U-PLEX아이템4', 'U-PLEX아이템5'],
-        아울렛: ['아울렛아이템1', '아울렛아이템2', '아울렛아이템3', '아울렛아이템4', '아울렛아이템5'],
+        'U-PLEX': ['신촌점', '중동점', '충청점', '디큐브시티', '판교점'],
+        아울렛: ['김포점', '송도점', '가산점', '동대문점', '가든파이브점', '대구점', '대전점', 'SPACE1'],
     };
+
+    // 인덱스 번호를 미리 선언
+    const itemIndices = {};
+    Object.keys(items).forEach((category) => {
+        items[category].forEach((item, index) => {
+            itemIndices[item] = index + 1;
+        });
+    });
+
     // 카테고리 클릭 시 해당 카테고리의 아이템 목록 업데이트 및 선택된 아이템 초기화
     const handleCategoryClick = (cate) => {
         setCategory(cate);
@@ -181,7 +203,8 @@ const BranchSearchButtonToggle = ({ onSelectBranch }) => {
     const handleItemClick = (item) => {
         setSelectedItem(item);
         //alert(`${item} 버튼이 클릭되었습니다.`);
-        onSelectBranch(item); // 선택된 지점을 Map 컴포넌트로 전달
+        const key = itemIndices[item]; // 아이템의 인덱스 번호를 key로 설정
+        onSelectBranch(item, key); // 선택된 지점과 key을 Map 컴포넌트로 전달
         setIsClickButton(false); // 검색 토글을 닫음
     };
 
@@ -200,7 +223,7 @@ const BranchSearchButtonToggle = ({ onSelectBranch }) => {
             {isClickButton && category && (
                 <ItemList>
                     {selectedCategoryItems.map((item, index) => (
-                        <Item key={index} selected={selectedItem === item} onClick={() => handleItemClick(item)}>
+                        <Item key={index + 1} selected={selectedItem === item} onClick={() => handleItemClick(item)}>
                             {item}
                         </Item>
                     ))}

@@ -31,7 +31,6 @@ const CategoryButtonIcon = styled.div`
     height: 20px;
     background-size: cover;
     background-position: center;
-    background-size: cover; /* 이미지를 컨테이너 크기에 맞게 조절 */
 `;
 // 카테고리 버튼 - 텍스트
 const CategoryButtonText = styled.div`
