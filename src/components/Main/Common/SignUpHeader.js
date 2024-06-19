@@ -7,6 +7,10 @@ const HeaderWrapper = styled.div`
   display: flex;
   justify-content: center;
   width: 100%;
+  // border-radius: 2px;
+  // border: none; /* 모든 테두리를 없앱니다 */
+  // border-bottom: 1px solid #d9d9d9; /* 아래쪽 테두리만 추가합니다 */
+  // width: 100vw;
 `;
 
 // 내부 div로, 높이를 설정하고 내부 아이템을 가운데 정렬
