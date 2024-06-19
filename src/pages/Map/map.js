@@ -9,7 +9,7 @@ import styled from 'styled-components';
 import { IMAGE_PATHS } from '../../constants/imagePaths';
 import Header from '../../components/Main/Common/Header';
 import MarkerRenderer from '../../components/Map/CategoryButton/MarkerRenderer';
-import axios from 'axios';
+import MapAPI from '../../api/MapPage/MapPageAPI';
 
 const MapPageContainer = styled.div`
     width: 100vw;
@@ -107,24 +107,13 @@ const MapImageContainer = styled.div`
 const Map = () => {
     // 서버 통신해서 마커 표시하기
     const [markerData, setMarkerData] = useState([]);
+    const [filteredMarkerData, setFilteredMarkerData] = useState(markerData); // 필터링된 마커 데이터 상태 추가
     const [selectedBranch, setSelectedBranch] = useState('더현대 서울');
     const [selectedFloor, setSelectedFloor] = useState('1F'); // 선택된 층 정보 상태
     const [selectedBranchKey, setSelectedBranchKey] = useState(1); // 선택된 지점의 key 상태 추가
     const [selectedCategories, setSelectedCategories] = useState([]); // 선택된 카테고리 정보 배열 상태
     const [floorImagePath, setFloorImagePath] = useState('');
-    useEffect(() => {
-        // 서버에서 데이터 가져오기(예시 데이터)
-        const fetchData = async () => {
-            const dataFromServer = [
-                // 서버에 mapId, categoryId 보내면 받는 데이터
-                { index: 1, x: 100, y: 300 }, // 마커의 인덱스, 위치 좌표
-                { index: 3, x: 300, y: 400 },
-                { index: 5, x: 300, y: 500 },
-            ];
-            setMarkerData(dataFromServer);
-        };
-        fetchData();
-    }, [selectedBranch, selectedFloor, selectedCategories]);
+    const [mapId, setMapId] = useState(7);
 
     // 선택된 지점의 층 정보 상태 추가
     const [floors, setFloors] = useState([]);
@@ -135,10 +124,10 @@ const Map = () => {
                 if (selectedBranchKey !== null) {
                     // selectedBranchKey가 null이 아닐 때만 요청
                     // 서버에서 층 정보 가져오기: map
-                    const response = await axios.get(`http://localhost:8081/map/branch/${selectedBranchKey}/floors`);
+                    const response = await MapAPI.getListFloorMapId(selectedBranchKey);
                     const data = response.data.data;
-                    console.log(response);
-                    console.log(data);
+                    //console.log(response);
+                    //console.log(data);
 
                     // // 층 id 변환
                     const convertedFloorsData = data.map((item) => {
@@ -155,6 +144,7 @@ const Map = () => {
                             ...item,
                             floor: floorLabel,
                             mapImg: `branch_${selectedBranchKey}_floor_${item.floor}.png`,
+                            mapId: item.mapId,
                         };
                     });
 
@@ -176,6 +166,25 @@ const Map = () => {
         fetchData();
     }, [selectedBranch]); // 선택된 지점이 변경될 때마다 층 정보 다시 가져오기
 
+    useEffect(() => {
+        console.log('useEffect triggered with mapId:', mapId);
+
+        const fetchMarkerData = async () => {
+            if (mapId) {
+                try {
+                    const response = await MapAPI.getMapInfo(mapId);
+                    const data = response.data.data;
+                    console.log('Fetched marker data:', data);
+                    setMarkerData(data);
+                } catch (error) {
+                    console.error('마커 데이터를 가져오는 중 오류가 발생했습니다:', error);
+                }
+            }
+        };
+
+        fetchMarkerData();
+    }, [mapId]);
+
     // 지점이 변경되면 정보 초기화
     const handleBranchChange = (branch, key) => {
         setSelectedBranch(branch);
@@ -190,8 +199,28 @@ const Map = () => {
         const selectedFloorData = floors.find((item) => item.floor === floor);
         if (selectedFloorData) {
             setFloorImagePath(require(`../../assets/images/map/${selectedFloorData.mapImg}`));
+            if (selectedFloorData.mapId) {
+                setMapId(selectedFloorData.mapId);
+            } else {
+                console.error('Selected floor data does not have mapId:', selectedFloorData);
+            }
+        } else {
+            console.error('Selected floor data not found for floor:', floor);
         }
+
+        // 마커 데이터 초기화
+        setMarkerData([]);
+        // 카테고리 초기화
+        setSelectedCategories([]);
     };
+
+    // useEffect를 사용하여 필터링된 데이터 설정
+    useEffect(() => {
+        // 필터링된 마커 데이터 생성
+        const filteredData = markerData.filter((marker) => selectedCategories.includes(marker.categoryId));
+        // 필터링된 마커 데이터를 MarkerRenderer에 전달
+        setFilteredMarkerData(filteredData);
+    }, [markerData, selectedCategories]);
 
     // 카테고리가 선택되면 해당 카테고리 정보 설정
     const handleCategoriesSelect = (category) => {
@@ -205,10 +234,15 @@ const Map = () => {
         }
 
         setSelectedCategories(updatedCategories);
+        console.log('updatedCategories data:', updatedCategories);
+        // 필터링된 마커 데이터 생성
+        const filteredMarkerData = markerData.filter((marker) => updatedCategories.includes(marker.categoryId));
 
-        // 즉시 alert로 선택된 정보 보여주기
-        // 이 값을 서버에 보내줘야함!
-        alert(`${selectedBranch}, ${selectedFloor}, ${updatedCategories} 버튼 클릭됨`);
+        // 콘솔에 필터링된 데이터 출력 (테스트용)
+        console.log('Filtered marker data:', filteredMarkerData);
+
+        // 필터링된 마커 데이터를 MarkerRenderer에 전달
+        setFilteredMarkerData(filteredMarkerData);
     };
 
     return (
@@ -239,15 +273,15 @@ const Map = () => {
                                 icon={IMAGE_PATHS.BLACKBAG_GREY}
                                 activeIcon={IMAGE_PATHS.BLACKBAG_PINK}
                                 text="배변 봉투"
-                                onSelectCategory={handleCategoriesSelect}
-                                isActive={selectedCategories.includes('배변 봉투')}
+                                onSelectCategory={() => handleCategoriesSelect(1)} // 숫자 1을 전달
+                                isActive={selectedCategories.includes(1)}
                             />
                             <CategoryButton
                                 icon={IMAGE_PATHS.STROLLER_GREY}
                                 activeIcon={IMAGE_PATHS.STROLLER_PINK}
                                 text={'개모차'}
-                                onSelectCategory={handleCategoriesSelect}
-                                isActive={selectedCategories.includes('개모차')}
+                                onSelectCategory={() => handleCategoriesSelect(2)}
+                                isActive={selectedCategories.includes(2)}
                             />
                         </CateContainer>
                         <Text>편의시설</Text>
@@ -256,34 +290,34 @@ const Map = () => {
                                 icon={IMAGE_PATHS.PARK_GREY}
                                 activeIcon={IMAGE_PATHS.PARK_PINK}
                                 text={'펫파크'}
-                                onSelectCategory={handleCategoriesSelect}
-                                isActive={selectedCategories.includes('펫파크')}
+                                onSelectCategory={() => handleCategoriesSelect(3)}
+                                isActive={selectedCategories.includes(3)}
                             />
                             <CategoryButton
                                 icon={IMAGE_PATHS.PLAYGROUND_GREY}
                                 activeIcon={IMAGE_PATHS.PLAYGROUND_PINK}
                                 text={'애견 놀이터'}
-                                onSelectCategory={handleCategoriesSelect}
-                                isActive={selectedCategories.includes('애견 놀이터')}
+                                onSelectCategory={() => handleCategoriesSelect(4)}
+                                isActive={selectedCategories.includes(4)}
                             />
                             <CategoryButton
                                 icon={IMAGE_PATHS.RESTAURANT_GREY}
                                 activeIcon={IMAGE_PATHS.RESTAURANT_PINK}
                                 text={'동반 식당'}
-                                onSelectCategory={handleCategoriesSelect}
-                                isActive={selectedCategories.includes('동반 식당')}
+                                onSelectCategory={() => handleCategoriesSelect(5)}
+                                isActive={selectedCategories.includes(5)}
                             />
                             <CategoryButton
                                 icon={IMAGE_PATHS.CAFE_GREY}
                                 activeIcon={IMAGE_PATHS.CAFE_PINK}
                                 text={'동반 카페'}
-                                onSelectCategory={handleCategoriesSelect}
-                                isActive={selectedCategories.includes('동반 카페')}
+                                onSelectCategory={() => handleCategoriesSelect(6)}
+                                isActive={selectedCategories.includes(6)}
                             />
                         </CateContainer>
                     </CateSearchContainer>
                     <MapImageContainer floorImagePath={floorImagePath}>
-                        <MarkerRenderer markerData={markerData} />
+                        <MarkerRenderer markerData={filteredMarkerData} />
                     </MapImageContainer>
                 </MapPageBottomInContainer>
             </MapPageBottomContainer>

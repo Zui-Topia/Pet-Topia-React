@@ -9,9 +9,9 @@ const MarkerRenderer = ({ markerData }) => {
             {markerData.map((data, idx) => (
                 <CategoryMarker
                     key={idx}
-                    src={MARKER[data.index]}
-                    style={{ left: `${data.x}px`, top: `${data.y}px` }}
-                    alt={`Image ${data.index}`}
+                    src={MARKER[data.categoryId]}
+                    style={{ left: `${data.placePositionX}px`, top: `${data.placePositionY}px` }}
+                    alt={`Image ${data.categoryId}`}
                 />
             ))}
         </div>
