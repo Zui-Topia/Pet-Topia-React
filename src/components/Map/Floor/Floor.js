@@ -48,7 +48,7 @@ const FloorButtonBox = styled.button`
         `}
 `;
 
-const Floor = ({ onSelectFloor, selectedFloor }) => {
+const Floor = ({ floors, onSelectFloor, selectedFloor }) => {
     // 층 클릭 시 실행할 동작을 여기에 작성
     const handleFloorClick = (floor) => {
         onSelectFloor(floor); // 선택된 층을 Map 컴포넌트로 전달
@@ -58,30 +58,15 @@ const Floor = ({ onSelectFloor, selectedFloor }) => {
         <div>
             <FloorContainer>
                 <FloorInfoContainer>층별검색</FloorInfoContainer>
-                <FloorButtonBox selected={selectedFloor === '6F'} onClick={() => handleFloorClick('6F')}>
-                    6F
-                </FloorButtonBox>
-                <FloorButtonBox selected={selectedFloor === '5F'} onClick={() => handleFloorClick('5F')}>
-                    5F
-                </FloorButtonBox>
-                <FloorButtonBox selected={selectedFloor === '4F'} onClick={() => handleFloorClick('4F')}>
-                    4F
-                </FloorButtonBox>
-                <FloorButtonBox selected={selectedFloor === '3F'} onClick={() => handleFloorClick('3F')}>
-                    3F
-                </FloorButtonBox>
-                <FloorButtonBox selected={selectedFloor === '2F'} onClick={() => handleFloorClick('2F')}>
-                    2F
-                </FloorButtonBox>
-                <FloorButtonBox selected={selectedFloor === '1F'} onClick={() => handleFloorClick('1F')}>
-                    1F
-                </FloorButtonBox>
-                <FloorButtonBox selected={selectedFloor === 'B1'} onClick={() => handleFloorClick('B1')}>
-                    B1
-                </FloorButtonBox>
-                <FloorButtonBox selected={selectedFloor === 'B2'} onClick={() => handleFloorClick('B2')}>
-                    B2
-                </FloorButtonBox>
+                {floors.map((floor) => (
+                    <FloorButtonBox
+                        key={floor.mapId} // mapId를 key로 사용
+                        selected={selectedFloor === floor.floor} // floor 값을 비교
+                        onClick={() => handleFloorClick(floor.floor)} // floor 값을 전달
+                    >
+                        {floor.floor}
+                    </FloorButtonBox>
+                ))}
             </FloorContainer>
         </div>
     );
