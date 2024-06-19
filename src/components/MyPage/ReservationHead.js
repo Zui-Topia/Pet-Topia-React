@@ -24,11 +24,13 @@ const ReservationHeadBlock = styled.div`
     }
 `;
 
-const ReservationHead = () => {
+const ReservationHead = ({ value }) => {
     return (
         <ReservationHeadBlock>
-            <div className="reservation-number">예약번호 | 1234567</div>
-            <div className="reservation-day-details">2024.06.24 월요일 오후 1:30</div>
+            <div className="reservation-number">예약번호 | {value.reservationToken}</div>
+            <div className="reservation-day-details">
+                {value.reservationDate} {value.reservationVisitTime}
+            </div>
         </ReservationHeadBlock>
     );
 };
