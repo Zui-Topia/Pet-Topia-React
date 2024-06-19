@@ -49,50 +49,50 @@ const items = [
 
         children: [
             {
-                key: 'option-1',
+                key: '10 : 30 AM',
                 label: '10 : 30 AM',
             },
             {
-                key: 'option-2',
+                key: '11 : 30 AM',
                 label: '11 : 30 AM',
             },
             {
-                key: 'option-3',
+                key: '12 : 30 PM',
                 label: '12 : 30 PM',
             },
             {
-                key: 'option-4',
+                key: '01 : 30 PM',
                 label: '01 : 30 PM',
             },
             {
-                key: 'option-5',
+                key: '02 : 30 PM',
                 label: '02 : 30 PM',
             },
             {
-                key: 'option-6',
+                key: '03 : 30 PM',
                 label: '03 : 30 PM',
             },
             {
-                key: 'option-7',
+                key: '04 : 30 PM',
                 label: '04 : 30 PM',
             },
             {
-                key: 'option-8',
+                key: '05 : 30 PM',
                 label: '05 : 30 PM',
             },
             {
-                key: 'option-9',
+                key: '06 : 30 PM',
                 label: '06 : 30 PM',
             },
             {
-                key: 'option-10',
+                key: '06 : 30 PM',
                 label: '07 : 30 PM',
             },
         ],
     },
 ];
 
-const TimeSelection = () => {
+const TimeSelection = ({ onSelectTime }) => {
     const [selectedOption, setSelectedOption] = useState('option-1'); // Initial selected option
 
     const [openKeys, setOpenKeys] = useState([]);
@@ -100,6 +100,7 @@ const TimeSelection = () => {
     const handleMenuClick = (e) => {
         setSelectedOption(e.key);
         setOpenKeys([]);
+        onSelectTime(e.key); // 선택된 시간을 부모 컴포넌트로 전달
     };
 
     const handleOpenChange = (keys) => {
