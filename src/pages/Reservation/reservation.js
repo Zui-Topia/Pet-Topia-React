@@ -300,6 +300,19 @@ const Reservation = () => {
             // 백엔드 서버 URL을 사용하여 예약 생성 요청
             const response = await ReservationAPI(reservationInfo);
             alert(response.data);
+            // // 예약 성공 모달 표시
+            // Modal.info({
+            //     title: '예약 정보',
+            //     content: (
+            //         <div>
+            //             <p>선택한 날짜: {selectedDate}</p>
+            //             <p>선택한 시간: {selectedTime}</p>
+            //         </div>
+            //     ),
+            //     onOk() {
+            //         setModalVisible(false);
+            //     },
+            // });
         } catch (error) {
             // 예약 실패 시 경고 표시
             alert('Failed to make reservation. Please try again later.');
