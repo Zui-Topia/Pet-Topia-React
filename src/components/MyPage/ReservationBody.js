@@ -53,18 +53,24 @@ const ReservationBodyBlock = styled.div`
     }
 `;
 
-const ReservationBody = () => {
+const ReservationBody = ({ value }) => {
     return (
         <ReservationBodyBlock>
             <div className="body-location">
                 <span>위치</span>
-                <div className="reservation-location">더현대 서울 / 1층 개모자 위탁소</div>
+                <div className="reservation-location">
+                    {value.placeDTO.branchName} / {value.placeDTO.placeInfo}
+                </div>
             </div>
 
             <div className="body-payment">
                 <span>총 결제 금액</span>
-                <div className="reservation-payment">현장 결제</div>
-                <div className="reservation-pay-amount">0</div>
+                <div className="reservation-payment">
+                    {value.reservationVO.reservationPayment === 0 ? '현장 결제' : '카카오페이'}
+                </div>
+                <div className="reservation-pay-amount">
+                    {value.reservationVO.reservationPayment === 0 ? '0' : '5,000'}
+                </div>
             </div>
         </ReservationBodyBlock>
     );
