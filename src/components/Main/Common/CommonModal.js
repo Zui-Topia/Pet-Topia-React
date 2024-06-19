@@ -13,10 +13,10 @@ const ModalButton = styled.button`
 // {children} : 모달 내부 내용 (modal body)
 // {title} : 모달 창 제목 (modal title)
 // {height} : 모달 창 height (modal style)
-const CommonModal = ({ modalTrigger, modalTriggerStyle, children, title, style }) => {
+const CommonModal = ({ modalTrigger, modalTriggerStyle, children, title, style, isActive = false }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const showModal = () => {
-        setIsModalOpen(true);
+        setIsModalOpen(isActive);
     };
     const handleOk = () => {
         setIsModalOpen(false);
