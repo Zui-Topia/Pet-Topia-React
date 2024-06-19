@@ -69,6 +69,7 @@ const MyPage = () => {
                         isActive={
                             reservationInfo.reservationVO && reservationInfo.reservationVO.reservationDelete === 0
                         }
+                        value={reservationInfo}
                     >
                         <ReservationInfo>
                             {reservationInfo.reservationVO && <ReservationHead value={reservationInfo.reservationVO} />}

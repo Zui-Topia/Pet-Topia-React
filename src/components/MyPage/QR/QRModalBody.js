@@ -38,12 +38,14 @@ const QRModalBodyBlock = styled.div`
     }
 `;
 
-const QRModalBody = () => {
+const QRModalBody = ({ value }) => {
     return (
         <QRModalBodyBlock>
             <div className="body-location">
                 <span>위치</span>
-                <div className="reservation-location">더현대 서울 / 1층</div>
+                <div className="reservation-location">
+                    {value.branchName} / {value.placeInfo}
+                </div>
             </div>
             <div className="qr-location">
                 <QRCodeElement />
@@ -51,18 +53,5 @@ const QRModalBody = () => {
         </QRModalBodyBlock>
     );
 };
-
-// const QRModalBody = ({ value }) => {
-//     return (
-//         <QRModalBodyBlock>
-//             <div className="body-location">
-//                 <span>위치</span>
-//                 <div className="reservation-location">
-//                     {value.placeDTO.branchName} / {value.placeDTO.placeInfo}
-//                 </div>
-//             </div>
-//         </QRModalBodyBlock>
-//     );
-// };
 
 export default QRModalBody;

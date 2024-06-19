@@ -21,7 +21,7 @@ const QRBlock = styled.div`
     }
 `;
 
-const QRModal = ({ children, isActive = false }) => {
+const QRModal = ({ children, isActive = false, value }) => {
     return (
         <CommonModal
             modalTrigger={children}
@@ -34,8 +34,8 @@ const QRModal = ({ children, isActive = false }) => {
                 <span class="title">QR코드</span>
                 <p class="description">아래 QR코드는 매장 컨시어시 방문 시 사용 가능합니다.</p>
                 <br />
-                <QRModalHead />
-                <QRModalBody />
+                <QRModalHead value={value.reservationVO} />
+                <QRModalBody value={value.placeDTO} />
             </QRBlock>
         </CommonModal>
     );

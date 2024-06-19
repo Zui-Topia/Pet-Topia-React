@@ -24,24 +24,15 @@ const ORModalHeadBlock = styled.div`
     }
 `;
 
-const QRModalHead = () => {
+const QRModalHead = ({ value }) => {
     return (
         <ORModalHeadBlock>
-            <div className="reservation-number">예약번호 | 111111 </div>
-            <div className="reservation-day-details">2024.01.01 10:00</div>
+            <div className="reservation-number">예약번호 | {value.reservationToken} </div>
+            <div className="reservation-day-details">
+                {value.reservationDate} {value.reservationVisitTime}
+            </div>
         </ORModalHeadBlock>
     );
 };
-
-// const ORModalHead = ({ value }) => {
-//     return (
-//         <ORModalHeadBlock>
-//             <div className="reservation-number">예약번호 | {value.reservationToken}</div>
-//             <div className="reservation-day-details">
-//                 {value.reservationDate} {value.reservationVisitTime}
-//             </div>
-//         </ORModalHeadBlock>
-//     );
-// };
 
 export default QRModalHead;
