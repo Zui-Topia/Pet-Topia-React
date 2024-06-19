@@ -5,10 +5,11 @@ import MapReservation from '../../components/Main/Common/MapReservation';
 import CategoryButton from '../../components/Map/CategoryButton/CategoryButton';
 import BranchSearch from '../../components/Map/BranchSearch/BranchSearch';
 import styled from 'styled-components';
-import MapImageEx from '../../assets/images/mapex.png';
+
 import { IMAGE_PATHS } from '../../constants/imagePaths';
 import Header from '../../components/Main/Common/Header';
 import MarkerRenderer from '../../components/Map/CategoryButton/MarkerRenderer';
+import axios from 'axios';
 
 const MapPageContainer = styled.div`
     width: 100vw;
@@ -96,7 +97,7 @@ const MapImageContainer = styled.div`
     justify-content: center;
     align-items: center;
     background-color: #fff5f5;
-    background-image: url(${MapImageEx});
+    background-image: ${(props) => `url(${props.floorImagePath})`};
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
@@ -108,24 +109,77 @@ const Map = () => {
     const [markerData, setMarkerData] = useState([]);
     const [selectedBranch, setSelectedBranch] = useState('더현대 서울');
     const [selectedFloor, setSelectedFloor] = useState('1F'); // 선택된 층 정보 상태
+    const [selectedBranchKey, setSelectedBranchKey] = useState(1); // 선택된 지점의 key 상태 추가
     const [selectedCategories, setSelectedCategories] = useState([]); // 선택된 카테고리 정보 배열 상태
-
+    const [floorImagePath, setFloorImagePath] = useState('');
     useEffect(() => {
         // 서버에서 데이터 가져오기(예시 데이터)
         const fetchData = async () => {
             const dataFromServer = [
+                // 서버에 mapId, categoryId 보내면 받는 데이터
                 { index: 1, x: 100, y: 300 }, // 마커의 인덱스, 위치 좌표
                 { index: 3, x: 300, y: 400 },
-                { index: 5, x: 300, y: 600 },
+                { index: 5, x: 300, y: 500 },
             ];
             setMarkerData(dataFromServer);
         };
         fetchData();
     }, [selectedBranch, selectedFloor, selectedCategories]);
 
+    // 선택된 지점의 층 정보 상태 추가
+    const [floors, setFloors] = useState([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                if (selectedBranchKey !== null) {
+                    // selectedBranchKey가 null이 아닐 때만 요청
+                    // 서버에서 층 정보 가져오기: map
+                    const response = await axios.get(`http://localhost:8081/map/branch/${selectedBranchKey}/floors`);
+                    const data = response.data.data;
+                    console.log(response);
+                    console.log(data);
+
+                    // // 층 id 변환
+                    const convertedFloorsData = data.map((item) => {
+                        let floorLabel;
+                        if (item.floor < 0) {
+                            floorLabel = `B${Math.abs(item.floor)}`;
+                        } else if (item.floor > 0) {
+                            floorLabel = `${item.floor}F`;
+                        } else {
+                            floorLabel = item.floor;
+                        }
+                        console.log(floorLabel); // 여기서 변환된 층 정보 확인
+                        return {
+                            ...item,
+                            floor: floorLabel,
+                            mapImg: `branch_${selectedBranchKey}_floor_${item.floor}.png`,
+                        };
+                    });
+
+                    setFloors(convertedFloorsData); // 층 정보 설정
+
+                    // 초기 층 정보 설정: 첫 번째 층('1F')으로 자동 설정
+                    const initialFloor = convertedFloorsData.find((item) => item.floor === '1F');
+                    if (initialFloor) {
+                        setSelectedFloor('1F');
+                        setFloorImagePath(require(`../../assets/images/map/${initialFloor.mapImg}`));
+                    }
+                }
+            } catch (error) {
+                console.error('층 정보를 가져오는 중 오류가 발생했습니다:', error);
+                // 에러 처리 로직 추가
+            }
+        };
+
+        fetchData();
+    }, [selectedBranch]); // 선택된 지점이 변경될 때마다 층 정보 다시 가져오기
+
     // 지점이 변경되면 정보 초기화
-    const handleBranchChange = (branch) => {
+    const handleBranchChange = (branch, key) => {
         setSelectedBranch(branch);
+        setSelectedBranchKey(key); // key 상태 설정
         setSelectedFloor('1F'); // 층 정보 초기화
         setSelectedCategories([]); // 카테고리 정보 초기화
     };
@@ -133,6 +187,10 @@ const Map = () => {
     // 층이 선택되면 해당 층 정보 설정
     const handleFloorSelect = (floor) => {
         setSelectedFloor(floor);
+        const selectedFloorData = floors.find((item) => item.floor === floor);
+        if (selectedFloorData) {
+            setFloorImagePath(require(`../../assets/images/map/${selectedFloorData.mapImg}`));
+        }
     };
 
     // 카테고리가 선택되면 해당 카테고리 정보 설정
@@ -166,7 +224,11 @@ const Map = () => {
                 </BranchTextContainer>
 
                 <MapPageBottomInContainer>
-                    <Floor onSelectFloor={handleFloorSelect} selectedFloor={selectedFloor} />
+                    <Floor
+                        floors={floors} // 동적으로 생성할 층 정보 전달
+                        onSelectFloor={handleFloorSelect}
+                        selectedFloor={selectedFloor}
+                    />
                     <CateSearchContainer>
                         <SearchContainer>
                             <Search />
@@ -220,7 +282,7 @@ const Map = () => {
                             />
                         </CateContainer>
                     </CateSearchContainer>
-                    <MapImageContainer>
+                    <MapImageContainer floorImagePath={floorImagePath}>
                         <MarkerRenderer markerData={markerData} />
                     </MapImageContainer>
                 </MapPageBottomInContainer>
