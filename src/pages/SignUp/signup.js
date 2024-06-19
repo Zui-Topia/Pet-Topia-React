@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -28,6 +28,7 @@ const SignupSchema = Yup.object().shape({
 });
 
 const Signup = () => {
+  const [isEmailAvailable, setIsEmailAvailable] = useState(null);
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -86,7 +87,11 @@ const Signup = () => {
                 onChange={handleChange}
                 onBlur={handleBlur}
               />
-              <EmailValidationCheckButton label="중복 확인" />
+              <EmailValidationCheckButton
+                label="중복 확인"
+                email={values.email}
+                setIsEmailAvailable={setIsEmailAvailable}
+              />
             </EmailInputContainer>
             {touched.email && errors.email && (
               <ErrorMessage>{errors.email}</ErrorMessage>
