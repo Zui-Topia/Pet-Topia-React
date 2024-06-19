@@ -9,6 +9,8 @@ import PetSizeSelectionToggle from "../../components/User/Input/PetSizeSelection
 import SubmitButton from "../../components/Main/Submit/Submit";
 import SignUpHeader from "../../components/Main/Common/SignUpHeader";
 import EmailValidationCheckButton from "../../components/Main/Submit/EmailValidCheck";
+import PostSignUpAPI from "../../api/User/PostSignUpAPI";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const SignupSchema = Yup.object().shape({
   email: Yup.string()
@@ -29,6 +31,8 @@ const SignupSchema = Yup.object().shape({
 
 const Signup = () => {
   const [isEmailAvailable, setIsEmailAvailable] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false); // 회원가입 요청 중 여부 상태
+  const navigate = useNavigate(); // useNavigate 훅을 사용하여 페이지 이동 기능 활성화
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -39,10 +43,45 @@ const Signup = () => {
       petSize: "",
     },
     validationSchema: SignupSchema,
-    onSubmit: (values) => {
-      Modal.success({
-        content: "회원가입되었습니다.",
-      });
+    onSubmit: async (values) => {
+      console.log("values", values);
+      if (!isSubmitting) {
+        setIsSubmitting(true); // 회원가입 요청 시작 시 상태 변경
+        try {
+          const UserInfo = {
+            userEmail: values.email,
+            password: values.password,
+            petName: values.petName,
+            petWeight: values.petWeight,
+            petSize: values.petSize,
+          };
+
+          console.log("UserInfo to be sent:", UserInfo); // 서버로 전송할 데이터 출력
+
+          const response = await PostSignUpAPI(UserInfo);
+          console.log("Signup response:", response); // 회원가입 API 응답 콘솔 출력
+
+          setIsSubmitting(false); // 제출 상태를 false로 설정
+          Modal.success({
+            content: response.data.data.message,
+            onOk: () => {
+              setIsSubmitting(false); // 회원가입 성공 후 상태 변경
+              navigate("/login"); // 회원가입 성공 시 /login 페이지로 이동
+            },
+          });
+        } catch (error) {
+          console.error("Signup error:", error); // 오류 콘솔 출력
+          setIsSubmitting(false); // 제출 상태를 false로 설정
+          Modal.error({
+            content:
+              error.response?.data?.message ||
+              "회원가입 중 오류가 발생했습니다.",
+            onOk: () => {
+              setIsSubmitting(false); // 회원가입 실패 후 상태 변경
+            },
+          });
+        }
+      }
     },
   });
 
@@ -57,12 +96,12 @@ const Signup = () => {
     dirty,
   } = formik;
 
-  const handleOnClick = () => {
-    if (!dirty || !isValid) {
-      message.error("필수항목이 입력되지 않았습니다.", 2);
-    } else {
-      handleSubmit();
-    }
+  const handlePetWeightChange = (weight) => {
+    formik.setFieldValue("petWeight", weight); // 반려견 몸무게 formik 값 설정
+  };
+
+  const handlePetSizeChange = (size) => {
+    formik.setFieldValue("petSize", size); // 반려견 체고 formik 값 설정
   };
 
   return (
@@ -70,7 +109,7 @@ const Signup = () => {
       <SignUpHeader />
       <StyledContent>
         <Inner>
-          <FormContainer>
+          <FormContainer onSubmit={handleSubmit}>
             <Heading>회원가입</Heading>
             <DividerWrapper>
               <StyledDivider />
@@ -86,11 +125,13 @@ const Signup = () => {
                 value={values.email}
                 onChange={handleChange}
                 onBlur={handleBlur}
+                disabled={isSubmitting} // 회원가입 요청 중일 때 입력 비활성화
               />
               <EmailValidationCheckButton
                 label="중복 확인"
                 email={values.email}
                 setIsEmailAvailable={setIsEmailAvailable}
+                disabled={isSubmitting} // 회원가입 요청 중일 때 버튼 비활성화
               />
             </EmailInputContainer>
             {touched.email && errors.email && (
@@ -108,6 +149,7 @@ const Signup = () => {
               onChange={handleChange}
               onBlur={handleBlur}
               autoComplete="off"
+              disabled={isSubmitting} // 회원가입 요청 중일 때 입력 비활성화
             />
             {touched.password && errors.password && (
               <ErrorMessage>{errors.password}</ErrorMessage>
@@ -125,6 +167,7 @@ const Signup = () => {
               onChange={handleChange}
               onBlur={handleBlur}
               autoComplete="off"
+              disabled={isSubmitting} // 회원가입 요청 중일 때 입력 비활성화
             />
             {touched.confirmPassword && errors.confirmPassword && (
               <ErrorMessage>{errors.confirmPassword}</ErrorMessage>
@@ -142,36 +185,26 @@ const Signup = () => {
               value={values.petName}
               onChange={handleChange}
               onBlur={handleBlur}
+              disabled={isSubmitting} // 회원가입 요청 중일 때 입력 비활성화
             />
             {touched.petName && errors.petName && (
               <ErrorMessage>{errors.petName}</ErrorMessage>
             )}
-            <Caution>(*특수문자, 숫자 불가)</Caution>
             <Label>반려견 몸무게</Label>
-            <PetWeightSelectionToggle
-              name="petWeight"
-              value={values.petWeight}
-              onChange={handleChange}
-              onBlur={handleBlur}
-            />
+            <PetWeightSelectionToggle onChange={handlePetWeightChange} />
             {touched.petWeight && errors.petWeight && (
               <ErrorMessage>{errors.petWeight}</ErrorMessage>
             )}
             <Label>반려견 체고</Label>
-            <PetSizeSelectionToggle
-              name="petSize"
-              value={values.petSize}
-              onChange={handleChange}
-              onBlur={handleBlur}
-            />
+            <PetSizeSelectionToggle onChange={handlePetSizeChange} />
             {touched.petSize && errors.petSize && (
               <ErrorMessage>{errors.petSize}</ErrorMessage>
             )}
             <ButtonContainer>
               <SubmitButton
-                label="회원 가입 하기"
-                type="primary"
-                onClick={handleOnClick}
+                label="회원가입하기"
+                onClick={formik.handleSubmit}
+                disabled={isSubmitting}
               />
             </ButtonContainer>
           </FormContainer>
@@ -215,7 +248,6 @@ const FormContainer = styled.form`
   background-color: white; /* 폼 배경색을 흰색으로 설정 */
   padding: 20px; /* 폼 패딩 추가 */
   border-radius: 8px; /* 폼 모서리 둥글게 */
-  //   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* 폼 그림자 추가 */
   display: flex;
   flex-direction: column;
   gap: 16px;
