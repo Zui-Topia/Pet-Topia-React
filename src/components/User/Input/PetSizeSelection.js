@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-
 import { Menu } from "antd";
 import styled from "styled-components";
 
@@ -64,13 +63,14 @@ const items = [
   },
 ];
 
-const PetSizeSelectionToggle = () => {
+const PetSizeSelectionToggle = ({ onChange }) => {
   const [selectedOption, setSelectedOption] = useState(null); // Start with null for no default selection
   const [openKeys, setOpenKeys] = useState([]);
 
   const handleMenuClick = (e) => {
     setSelectedOption(e.key);
     setOpenKeys([]); // Close the menu when an item is clicked
+    onChange(e.key); // Call the onChange function provided by parent
   };
 
   const handleOpenChange = (keys) => {
