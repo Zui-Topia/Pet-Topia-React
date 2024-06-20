@@ -25,7 +25,7 @@ const MarkerRenderer = ({ markerData }) => {
                         content={popoverContent}
                         visible={visible[idx] || false}
                         placement="top"
-                        trigger={isCategory2 ? 'click' : 'hover'} // isCategory2가 true일 때는 click으로, 아니면 hover로 설정
+                        trigger={isCategory2 ? 'contextMenu' : 'hover'} // isCategory2가 true일 때는 click으로, 아니면 hover로 설정
                         onVisibleChange={(newVisible) => handleVisibleChange(idx, newVisible)}
                         overlayStyle={isCategory2 ? {} : { zIndex: 1000 }} // 크기 지정
                     >
