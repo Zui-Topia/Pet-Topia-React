@@ -17,6 +17,7 @@ const ReservationPageContainer = styled.div`
     display: flex;
     flex-direction: column;
     position: relative;
+    overflow-x: hidden;
 `;
 
 const ReservationPageBottomContainer = styled.div`
@@ -140,7 +141,7 @@ const StepLine = styled.div`
     top: 32px;
 `;
 
-const StepButton = styled.div`
+const StepButton = styled.button`
     background-color: #000000;
     border-radius: 10px;
     border: 1px solid #000000;
@@ -234,7 +235,7 @@ const BranchSearchContainer = styled.div`
     top: 140px;
     left: 50%;
     transform: translateX(-50%);
-    z-index: 1; /* 층 선택 버튼 위에 오도록 설정 */
+    z-index: 999; /* 층 선택 버튼 위에 오도록 설정 */
 `;
 
 const BranchText = styled.h1`
@@ -265,6 +266,7 @@ const Reservation = () => {
     const [selectedDate, setSelectedDate] = useState(formattedDate); // 선택된 날짜 상태
     const [selectedTime, setSelectedTime] = useState(null); // 선택된 시간 상태
     const [modalVisible, setModalVisible] = useState(false); // 모달 가시성 상태
+    const [isClicked, setIsClicked] = useState(false);
 
     // 지점 선택 시 처리 함수
     const handleBranchChange = (branch, key) => {
@@ -296,23 +298,11 @@ const Reservation = () => {
                 reservationDate: selectedDate, // 예약 날짜
                 reservationVisitTime: selectedTime, // 픽업 시간
             };
+            setIsClicked(true);
 
             // 백엔드 서버 URL을 사용하여 예약 생성 요청
             const response = await ReservationAPI(reservationInfo);
             alert(response.data);
-            // // 예약 성공 모달 표시
-            // Modal.info({
-            //     title: '예약 정보',
-            //     content: (
-            //         <div>
-            //             <p>선택한 날짜: {selectedDate}</p>
-            //             <p>선택한 시간: {selectedTime}</p>
-            //         </div>
-            //     ),
-            //     onOk() {
-            //         setModalVisible(false);
-            //     },
-            // });
         } catch (error) {
             // 예약 실패 시 경고 표시
             alert('Failed to make reservation. Please try again later.');
@@ -364,7 +354,7 @@ const Reservation = () => {
                         <PickupRectangle />
                         <RemainingText>잔여 개수 : 1 개</RemainingText>
                         <StepLine />
-                        <StepButton onClick={handleReservation}>
+                        <StepButton onClick={handleReservation} disabled={isClicked}>
                             <StepButtonText>예약하기</StepButtonText>
                         </StepButton>
                     </OverlapGroup>
