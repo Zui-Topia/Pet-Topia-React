@@ -48,13 +48,14 @@ const items = [
   },
 ];
 
-const PetWeightSelectionToggle = () => {
+const PetWeightSelectionToggle = ({ onChange }) => {
   const [selectedOption, setSelectedOption] = useState(null); // No default selection
   const [openKeys, setOpenKeys] = useState([]);
 
   const handleMenuClick = (e) => {
     setSelectedOption(e.key);
     setOpenKeys([]); // Close the menu when an item is clicked
+    onChange(e.key); // Call the onChange function provided by parent
   };
 
   const handleOpenChange = (keys) => {
