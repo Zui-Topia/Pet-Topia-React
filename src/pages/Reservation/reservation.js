@@ -328,6 +328,7 @@ const Reservation = () => {
                     <BranchSearch onSelectBranch={handleBranchChange} />
                 </BranchSearchContainer>
                 <BranchTextContainer>
+                    <BranchIIcon />
                     <BranchText>{selectedBranch}</BranchText>
                 </BranchTextContainer>
 
@@ -359,7 +360,7 @@ const Reservation = () => {
                         <PickupRectangle />
                         <RemainingText>잔여 개수 : 1 개</RemainingText>
                         <StepLine />
-                        <StepButton onClick={handleReservation} disabled={isClicked}>
+                        <StepButton onClick={handleReservation}>
                             <StepButtonText>예약하기</StepButtonText>
                         </StepButton>
                     </OverlapGroup>
