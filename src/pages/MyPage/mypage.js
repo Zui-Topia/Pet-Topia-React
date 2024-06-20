@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
+import { Divider } from 'antd';
 import Header from '../../components/Main/Common/Header';
 import SectionTitle from '../../components/MyPage/SectionTitle';
 import MyPageSection from '../../components/MyPage/MyPageSection';
-import UserInfo from '../../components/MyPage/UserInfo';
+import UserInfo from '../../components/MyPage/MyUser/UserInfo';
 import ReservationInfo from '../../components/MyPage/MyReservation/ReservationInfo';
 import ReservationHead from '../../components/MyPage/MyReservation/ReservationHead';
 import ReservationBody from '../../components/MyPage/MyReservation/ReservationBody';
@@ -15,6 +16,15 @@ const NoReservation = styled.div`
     position: relative;
 
     margin: 50px auto; /*페이지 중앙에 나타나토록 설정*/
+`;
+
+const StyledDivider = styled(Divider)`
+    border-color: black;
+`;
+
+const DividerWrapper = styled.div`
+    width: 100%;
+    margin: 0;
 `;
 
 const MyPage = () => {
@@ -66,12 +76,15 @@ const MyPage = () => {
             <div>
                 <MyPageSection>
                     <SectionTitle title="마이 페토리아" />
-                    <UserInfo />
+                    {myPageInfo.myPageUserDTO ? <UserInfo>{myPageInfo}</UserInfo> : <div></div>}
                 </MyPageSection>
             </div>
             <div>
                 <MyPageSection>
                     <SectionTitle title="나의 예약 내역" />
+                    <DividerWrapper>
+                        <StyledDivider />
+                    </DividerWrapper>
                     {myPageInfo.myPageUserDTO ? (
                         myPageInfo.myReservationDTO ? (
                             <QRModal
