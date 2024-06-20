@@ -28,7 +28,7 @@ const QRModal = ({ children, isActive = false, value }) => {
             modalTriggerStyle={{ textAlign: 'left' }}
             title=""
             isActive={isActive}
-            style={{ width: '500px', height: '550px' }}
+            style={{ width: '500px', height: '600px' }}
         >
             <QRBlock>
                 <span class="title">QR코드</span>
