@@ -17,7 +17,6 @@ const ReservationPageContainer = styled.div`
     display: flex;
     flex-direction: column;
     position: relative;
-    overflow-x: hidden;
 `;
 
 const ReservationPageBottomContainer = styled.div`
