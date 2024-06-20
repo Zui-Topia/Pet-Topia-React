@@ -5,10 +5,6 @@ import styled, { createGlobalStyle } from 'styled-components';
 const GlobalStyle = createGlobalStyle`
     @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@400;700&display=swap');
 
-    // * {
-    //     font-size: 17px;
-    //     font-family: 'Kanit' !important;
-    // }
     .ant-picker-calendar {
         font-family: 'Kanit' !important;
     }
