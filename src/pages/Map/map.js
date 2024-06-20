@@ -8,6 +8,7 @@ import Header from '../../components/Main/Common/Header';
 import MarkerRenderer from '../../components/Map/CategoryButton/MarkerRenderer';
 import MapAPI from '../../api/MapPage/MapPageAPI';
 import SearchActiveContainer from '../../components/Map/Search/SearchActiveContainer';
+import locationImg from '../../assets/images/location.png';
 const MapPageContainer = styled.div`
     width: 100vw;
     height: 100vh;
@@ -23,7 +24,7 @@ const MapPageBottomContainer = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin-top: 50px;
+    margin-top: 100px;
 `;
 
 const MapPageBottomInContainer = styled.div`
@@ -33,7 +34,7 @@ const MapPageBottomInContainer = styled.div`
     flex-direction: row;
     position: relative;
     justify-content: center; /* 수평 중앙 정렬 추가 */
-    align-items: center; /* 수직 중앙 정렬 추가 */
+    //align-items: center; /* 수직 중앙 정렬 추가 */
 `;
 
 const BranchSearchContainer = styled.div`
@@ -57,9 +58,17 @@ const BranchTextContainer = styled.div`
     margin-top: 20px; /* 적절한 값으로 수정 */
     width: 100%;
     display: flex;
+    flex-direction: row;
     justify-content: center; /* 수평 중앙 정렬 추가 */
 `;
-
+const BranchIIcon = styled.div`
+    margin-top: 13px;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    justify-content: center; /* 수평 중앙 정렬 추가 */
+    background-image: url(${locationImg});
+`;
 const BranchText = styled.h1`
     font-weight: 400;
     font-family: 'Kanit-Regular', Helvetica;
@@ -232,6 +241,7 @@ const Map = () => {
                     <BranchSearch onSelectBranch={handleBranchChange} />
                 </BranchSearchContainer>
                 <BranchTextContainer>
+                    <BranchIIcon />
                     <BranchText>{selectedBranch}</BranchText>
                 </BranchTextContainer>
 

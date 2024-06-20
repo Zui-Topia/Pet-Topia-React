@@ -26,7 +26,7 @@ const ReservationPageBottomContainer = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin-top: 50px;
+    margin-top: 100px;
 `;
 
 const ServiceText = styled.div`
@@ -230,7 +230,7 @@ const BranchSearchContainer = styled.div`
     align-items: center;
     justify-content: center;
     flex-grow: 1;
-    z-index: 1; /* 층 선택 버튼 위에 오도록 설정 */
+    z-index: 2000; /* 층 선택 버튼 위에 오도록 설정 */
 `;
 const BranchIIcon = styled.div`
     margin-top: 13px;
@@ -333,7 +333,7 @@ const Reservation = () => {
                 </BranchTextContainer>
 
                 <ReservationPageBottomInContainer>
-                    <ServiceText>개모차 대여서비스</ServiceText>
+                    <ServiceText>반려견 유모차 대여 예약</ServiceText>
                     <OverlapGroup>
                         <Step1>
                             <StepText1>
