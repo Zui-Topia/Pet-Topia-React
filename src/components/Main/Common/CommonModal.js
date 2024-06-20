@@ -12,8 +12,10 @@ const ModalButton = styled.button`
 // {modalTriggerStyle} : 모달 띄우기 위한 trigger style (css)
 // {children} : 모달 내부 내용 (modal body)
 // {title} : 모달 창 제목 (modal title)
-// {height} : 모달 창 height (modal style)
-const CommonModal = ({ modalTrigger, modalTriggerStyle, children, title, style, isActive = false }) => {
+// {style} : 모달 창 width, height (modal 크기)
+// {isActive} : modalTrigger 클릭 활성화/비활성화
+// {footer} : modal 버튼 커스텀할 수 있음.
+const CommonModal = ({ modalTrigger, modalTriggerStyle, children, title, style, isActive = false, footer = null }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const showModal = () => {
         setIsModalOpen(isActive);
@@ -36,7 +38,9 @@ const CommonModal = ({ modalTrigger, modalTriggerStyle, children, title, style, 
                 onOk={handleOk}
                 onCancel={handleCancel}
                 width={style.width}
+                isActive={isActive}
                 bodyStyle={{ height: style.height }}
+                footer={footer}
             >
                 {children}
             </Modal>

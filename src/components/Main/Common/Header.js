@@ -5,11 +5,13 @@ import { useNavigate } from 'react-router-dom'; // useNavigate 훅을 가져옵�
 const HeaderWrapper = styled.div`
     background-color: #ffffff;
     display: flex;
+    align-items: center; // 아이템들을 수직으로 가운데 정렬
     justify-content: center;
-    width: 100%;
-    padding: 0 20px; // 좌우 여백을 추가하여 헤더 전체 여백을 조정
+    width: 100vw;
+    padding: 10px; // 좌우 여백을 추가하여 헤더 전체 여백을 조정
     box-sizing: border-box; // 패딩을 너비에 포함
     max-width: 1512px; // 최대 너비를 1512px로 설정
+    position: relative; // 절대 위치 지정 요소를 위한 상대 위치 지정
 `;
 
 // 내부 div로, 높이를 설정하고 내부 아이템을 가운데 정렬
@@ -17,31 +19,33 @@ const InnerDiv = styled.div`
     background-color: #ffffff;
     display: flex;
     align-items: center; // 아이템들을 수직으로 가운데 정렬
-    justify-content: space-between; // 아이템들을 좌우로 나누어 배치
     height: 100px;
     width: 100%;
+    max-width: 1512px; // 최대 너비를 1512px로 설정
+    position: relative;
 `;
 
 // 타이틀을 감싸는 div로, 텍스트를 flex 컨테이너로 설정하여 수직 가운데 정렬
 const Title = styled.div`
     display: flex;
     align-items: flex-end; // 아이템들을 아래쪽 끝으로 정렬
-    margin-top: -10px; // 타이틀을 더 위로 이동하여 위치 조정
     cursor: pointer; // 커서를 포인터로 변경하여 클릭 가능함을 나타냄
-    // The 텍스트 스타일
+    position: absolute; // 절대 위치 지정
+    left: 50%; // 수평 중앙으로 이동
+    transform: translateX(-50%); // 수평 중앙으로 이동
+
     .text-wrapper {
         color: #000000;
         font-family: 'Kanit-Regular', Helvetica;
-        font-size: 20px;
+        font-size: 40px;
         font-weight: 400;
         letter-spacing: 0;
         line-height: 1; // 줄 높이를 설정하여 기준선 맞추기
         margin-right: 5px; // 텍스트 간 간격 조정
     }
 
-    // PETOPIA 텍스트 스타일
     .text-wrapper-2 {
-        font-size: 30px;
+        font-size: 50px;
         line-height: 1; // 줄 높이를 설정하여 기준선 맞추기
     }
 `;
@@ -53,10 +57,13 @@ const TextWrapper3 = styled.div`
     font-size: 15px;
     font-weight: 400;
     letter-spacing: 0;
-
-    // 개별 텍스트를 클릭할 수 있도록 포인터 커서를 추가
+    margin-left: auto; // 오른쪽 끝으로 이동
+    display: flex; // 아이템들을 flex 컨테이너로 설정
+    align-items: center; // 아이템들을 수직으로 가운데 정렬
+    align-self: flex-start;
     span {
         cursor: pointer;
+        margin-left: 20px; // 아이템 간 간격 조정
     }
 `;
 
@@ -89,7 +96,6 @@ export const Header = () => {
                 <TextWrapper3>
                     {/* 로그아웃 클릭 이벤트 핸들러 추가 */}
                     <span onClick={handleLogoutClick}>로그아웃</span>
-                    &nbsp;&nbsp;
                     {/* 마이페이지 클릭 이벤트 핸들러 추가 */}
                     <span onClick={handleMyPageClick}>마이페이지</span>
                 </TextWrapper3>

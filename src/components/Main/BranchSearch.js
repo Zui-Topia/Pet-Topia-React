@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import toggleUpImage from '../../../assets/images/toggle-up.png';
-import toggleDownImage from '../../../assets/images/toggle-down.png';
+import toggleUpImage from '../../assets/images/toggle-up.png';
+import toggleDownImage from '../../assets/images/toggle-down.png';
 
 // 지점검색 전체창의 컴포넌트
 const BranchSearchContainer = styled.div`
@@ -11,7 +11,7 @@ const BranchSearchContainer = styled.div`
     background-color: #ffffff;
     border-radius: 8px; /* 둥근 테두리 반경 설정 */
     position: absolute; /* 화면에 고정 */
-    top: 180px; /* 원하는 위치 */
+    top: 130px; /* 원하는 위치 */
 `;
 
 // 지점검색 부분 - wrapper

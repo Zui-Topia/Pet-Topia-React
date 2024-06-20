@@ -17,7 +17,15 @@ const MapTitleButton = styled.button`
     font-weight: 400;
     background: none;
     border: none;
+    color: #b9b9b9;
+`;
 
+const ReservationTitleButton = styled.button`
+    margin-left: 45px;
+    font-size: 30px;
+    font-weight: 400;
+    background: none;
+    border: none;
     cursor: pointer;
     /* 아래쪽 테두리 추가 */
     border-bottom: 3px solid #000; /* 색상과 두께를 원하는 값으로 변경 가능 */
@@ -26,18 +34,7 @@ const MapTitleButton = styled.button`
     padding-bottom: 5px; /* 버튼과 테두리 간의 간격 조절 */
 `;
 
-const ReservationTitleButton = styled.button`
-    margin-left: 45px;
-
-    font-size: 30px;
-    font-weight: 400;
-    color: #b9b9b9;
-    background: none;
-    border: none;
-    cursor: pointer;
-`;
-
-const MapReservation = () => {
+const ReservationMap = () => {
     const navigate = useNavigate(); // useNavigate 훅을 사용하여 navigate 함수를 가져옵니다.
 
     const handleMapClick = () => {
@@ -55,4 +52,4 @@ const MapReservation = () => {
     );
 };
 
-export default MapReservation;
+export default ReservationMap;
