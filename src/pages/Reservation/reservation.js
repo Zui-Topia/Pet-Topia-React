@@ -2,10 +2,14 @@ import React, { useState } from 'react';
 import { Modal } from 'antd';
 import styled from 'styled-components';
 import { Header } from '../../components/Main/Common/Header';
+
 import BranchSearch from '../../components/Map/BranchSearch/BranchSearch';
 import ReservationMap from '../../components/Main/Common/ReservationMap';
 import ReservationCalendar from '../../components/Reservation/ReservationCalendar/ReservationCalendar';
 import TimeSelection from '../../components/Reservation/TimeSelection/TimeSelection';
+import CommonModal from '../../components/Main/Common/CommonModal';
+import ReservationAPI from '../../api/Reservation/ReservationAPI';
+import locationImg from '../../assets/images/location.png';
 
 const ReservationPageContainer = styled.div`
     width: 100vw;
@@ -16,13 +20,13 @@ const ReservationPageContainer = styled.div`
 `;
 
 const ReservationPageBottomContainer = styled.div`
-    width: 1212px;
+    width: 100vw;
     height: 882px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin: auto; /* 가운데 정렬을 위한 마진 설정 */
+    margin-top: 50px;
 `;
 
 const ServiceText = styled.div`
@@ -136,7 +140,7 @@ const StepLine = styled.div`
     top: 32px;
 `;
 
-const StepButton = styled.div`
+const StepButton = styled.button`
     background-color: #000000;
     border-radius: 10px;
     border: 1px solid #000000;
@@ -226,21 +230,27 @@ const BranchSearchContainer = styled.div`
     align-items: center;
     justify-content: center;
     flex-grow: 1;
-    position: absolute;
-    top: 140px;
-    left: 50%;
-    transform: translateX(-50%);
     z-index: 1; /* 층 선택 버튼 위에 오도록 설정 */
 `;
-
+const BranchIIcon = styled.div`
+    margin-top: 13px;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    justify-content: center; /* 수평 중앙 정렬 추가 */
+    background-image: url(${locationImg});
+`;
 const BranchText = styled.h1`
     font-weight: 400;
     font-family: 'Kanit-Regular', Helvetica;
     font-size: 25px;
 `;
 const BranchTextContainer = styled.div`
-    margin-top: 50px;
+    margin-top: 20px; /* 적절한 값으로 수정 */
     width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center; /* 수평 중앙 정렬 추가 */
 `;
 
 const ReservationPageBottomInContainer = styled.div`
@@ -257,41 +267,51 @@ const Reservation = () => {
     const day = String(date.getDate()).padStart(2, '0');
     const formattedDate = `${year}-${month}-${day}`;
     const [selectedBranch, setSelectedBranch] = useState('더현대 서울'); // 선택된 지점 이름 상태
+    const [selectedBranchId, setSelectedBranchId] = useState(1); // 선택된 지점 ID 상태
     const [selectedDate, setSelectedDate] = useState(formattedDate); // 선택된 날짜 상태
     const [selectedTime, setSelectedTime] = useState(null); // 선택된 시간 상태
     const [modalVisible, setModalVisible] = useState(false); // 모달 가시성 상태
+    const [isClicked, setIsClicked] = useState(false);
 
     // 지점 선택 시 처리 함수
-    const handleBranchChange = (branch) => {
+    const handleBranchChange = (branch, key) => {
         setSelectedBranch(branch); // 선택된 지점 업데이트
+        setSelectedBranchId(key); // 선택된 지점 ID 업데이트
     };
 
     // 예약하기 버튼 클릭 시 처리 함수
-    const handleReservation = () => {
-        if (!selectedDate) {
-            setSelectedDate(formattedDate); // 날짜 선택하지 않았을 때, 오늘 날짜로 설정
-        }
-        if (!selectedTime) {
-            Modal.error({
-                title: '예약 실패', // 모달 제목
-                content: '예약 시간을 선택해주세요.', // 예약 시간 선택 안했을 때 안내 메시지
-            });
-            return; // 함수 종료
-        }
+    const handleReservation = async () => {
+        try {
+            // 날짜 선택하지 않았을 때, 오늘 날짜로 설정
+            if (!selectedDate) {
+                setSelectedDate(formattedDate);
+            }
 
-        // 모달에 예약 정보 표시
-        Modal.info({
-            title: '예약 정보', // 모달 제목
-            content: (
-                <div>
-                    <p>선택한 날짜: {selectedDate}</p>
-                    <p>선택한 시간: {selectedTime}</p>
-                </div>
-            ),
-            onOk() {
-                setModalVisible(false); // 확인 버튼 클릭 시 모달 닫기
-            },
-        });
+            // 예약 시간을 선택하지 않았을 때 에러 모달 표시
+            if (!selectedTime) {
+                Modal.error({
+                    title: '예약 실패',
+                    content: '예약 시간을 선택해주세요.',
+                });
+                return;
+            }
+
+            // 예약 데이터 객체 생성
+            const reservationInfo = {
+                userId: 3,
+                branchId: selectedBranchId, // 지점 아아디
+                reservationDate: selectedDate, // 예약 날짜
+                reservationVisitTime: selectedTime, // 픽업 시간
+            };
+            setIsClicked(true);
+
+            // 백엔드 서버 URL을 사용하여 예약 생성 요청
+            const response = await ReservationAPI(reservationInfo);
+            alert(response.data);
+        } catch (error) {
+            // 예약 실패 시 경고 표시
+            alert('Failed to make reservation. Please try again later.');
+        }
     };
 
     // 시간 선택 시 처리 함수
@@ -308,6 +328,7 @@ const Reservation = () => {
                     <BranchSearch onSelectBranch={handleBranchChange} />
                 </BranchSearchContainer>
                 <BranchTextContainer>
+                    <BranchIIcon />
                     <BranchText>{selectedBranch}</BranchText>
                 </BranchTextContainer>
 

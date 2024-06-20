@@ -5,11 +5,13 @@ import styled, { createGlobalStyle } from 'styled-components';
 const GlobalStyle = createGlobalStyle`
     @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@400;700&display=swap');
 
-    * {
-        font-size: 17px;
+    // * {
+    //     font-size: 17px;
+    //     font-family: 'Kanit' !important;
+    // }
+    .ant-picker-calendar {
         font-family: 'Kanit' !important;
     }
-
     /* Customize ant-design components */
     .ant-picker-calendar .ant-picker-cell-in-view.ant-picker-cell-today .ant-picker-cell-inner::before {
         border-color: pink !important;

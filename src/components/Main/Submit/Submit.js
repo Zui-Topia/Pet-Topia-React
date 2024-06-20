@@ -19,8 +19,10 @@ const StyledButton = styled(Button)`
   }
 `;
 
-const SubmitButton = ({ label }) => (
-  <StyledButton type="primary">{label}</StyledButton>
+const SubmitButton = ({ label, onClick, ...props }) => (
+  <StyledButton type="primary" onClick={onClick} {...props}>
+    {label}
+  </StyledButton>
 );
 
 export default SubmitButton;
