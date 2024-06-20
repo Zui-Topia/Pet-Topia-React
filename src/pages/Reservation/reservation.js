@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Modal } from 'antd';
 import styled from 'styled-components';
 import { Header } from '../../components/Main/Common/Header';
@@ -7,9 +7,9 @@ import BranchSearch from '../../components/Map/BranchSearch/BranchSearch';
 import MapReservation from '../../components/Main/Common/MapReservation';
 import ReservationCalendar from '../../components/Reservation/ReservationCalendar/ReservationCalendar';
 import TimeSelection from '../../components/Reservation/TimeSelection/TimeSelection';
-import CommonModal from '../../components/Main/Common/CommonModal';
-
+import ReservationCompleteModal from '../../components/Reservation/ReservationCompleteModal/ReservationCompleteModal';
 import ReservationAPI from '../../api/Reservation/ReservationAPI';
+import { ReservationCompleteContent } from '../../components/Reservation/ReservationCompleteModal/ReservationCompleteContent';
 
 const ReservationPageContainer = styled.div`
     width: 100vw;
@@ -261,13 +261,14 @@ const Reservation = () => {
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const day = String(date.getDate()).padStart(2, '0');
     const formattedDate = `${year}-${month}-${day}`;
+    const [selectedUserId, setUserId] = useState(5); // 유저 아이디 상태
     const [selectedBranch, setSelectedBranch] = useState('더현대 서울'); // 선택된 지점 이름 상태
     const [selectedBranchId, setSelectedBranchId] = useState(1); // 선택된 지점 ID 상태
     const [selectedDate, setSelectedDate] = useState(formattedDate); // 선택된 날짜 상태
     const [selectedTime, setSelectedTime] = useState(null); // 선택된 시간 상태
-    const [modalVisible, setModalVisible] = useState(false); // 모달 가시성 상태
+    const [isModalOpen, setIsModalOpen] = useState(false); // 예약 완료 모달 열림 여부 상태
     const [isClicked, setIsClicked] = useState(false);
-
+    const [reservationToken, setReservationToken] = useState(null); // 예약 토큰
     // 지점 선택 시 처리 함수
     const handleBranchChange = (branch, key) => {
         setSelectedBranch(branch); // 선택된 지점 업데이트
@@ -276,6 +277,8 @@ const Reservation = () => {
 
     // 예약하기 버튼 클릭 시 처리 함수
     const handleReservation = async () => {
+        if (isClicked) return; // 이미 클릭된 상태라면 함수 종료
+        setIsClicked(true); // 클릭 상태로 설정
         try {
             // 날짜 선택하지 않았을 때, 오늘 날짜로 설정
             if (!selectedDate) {
@@ -293,7 +296,7 @@ const Reservation = () => {
 
             // 예약 데이터 객체 생성
             const reservationInfo = {
-                userId: 3,
+                userId: selectedUserId, // 유저 아이디
                 branchId: selectedBranchId, // 지점 아아디
                 reservationDate: selectedDate, // 예약 날짜
                 reservationVisitTime: selectedTime, // 픽업 시간
@@ -302,10 +305,18 @@ const Reservation = () => {
 
             // 백엔드 서버 URL을 사용하여 예약 생성 요청
             const response = await ReservationAPI(reservationInfo);
-            alert(response.data);
+            console.log(response.data.data);
+
+            setReservationToken(response.data.data.reservationToken);
+            document.getElementById('modalTriggerButton').click();
         } catch (error) {
-            // 예약 실패 시 경고 표시
-            alert('Failed to make reservation. Please try again later.');
+            // 예약 실패 시 에러 처리
+            Modal.error({
+                title: '예약 실패',
+                content: '예약 중 오류가 발생했습니다.',
+            });
+        } finally {
+            setIsClicked(false); // 클릭 상태 해제
         }
     };
 
@@ -316,28 +327,32 @@ const Reservation = () => {
 
     return (
         <ReservationPageContainer>
-            <Header /> {/* 헤더 컴포넌트 */}
+            <Header /> {/* 예약 페이지의 헤더 */}
             <MapReservation /> {/* 지도 예약 컴포넌트 */}
             <ReservationPageBottomContainer>
                 <BranchSearchContainer>
-                    <BranchSearch onSelectBranch={handleBranchChange} />
+                    <BranchSearch onSelectBranch={handleBranchChange} /> {/* 지점 검색 컴포넌트 */}
                 </BranchSearchContainer>
                 <BranchTextContainer>
-                    <BranchText>{selectedBranch}</BranchText>
+                    <BranchText>{selectedBranch}</BranchText> {/* 선택된 지점 텍스트 */}
                 </BranchTextContainer>
 
+                {/* 예약 페이지 하단 컨테이너 */}
                 <ReservationPageBottomInContainer>
-                    <ServiceText>개모차 대여서비스</ServiceText>
+                    <ServiceText>개모차 예약</ServiceText> {/* 서비스 제목 */}
                     <OverlapGroup>
+                        {/* 예약 단계 1: 날짜 선택 */}
                         <Step1>
                             <StepText1>
                                 STEP 1. <span>&nbsp;</span>
                                 <StepContent>날짜&nbsp;선택</StepContent>
                             </StepText1>
                             <ReservationCalendarContainer>
-                                <ReservationCalendar onSelectDate={(date) => setSelectedDate(date)} />
+                                <ReservationCalendar onSelectDate={(date) => setSelectedDate(date)} />{' '}
+                                {/* 날짜 선택 컴포넌트 */}
                             </ReservationCalendarContainer>
                         </Step1>
+                        {/* 예약 단계 2: 픽업 시간 선택 */}
                         <Step2>
                             <StepText2>
                                 STEP 2. <span>&nbsp;</span>
@@ -345,18 +360,25 @@ const Reservation = () => {
                             </StepText2>
                         </Step2>
                         <StepRectangle />
-                        <PickupTimeText>픽업 시간</PickupTimeText>
+                        <PickupTimeText>픽업 시간</PickupTimeText> {/* 픽업 시간 제목 */}
                         <PickupImage>
                             <TimeSelectorContainer>
-                                <TimeSelection onSelectTime={handleTimeSelection} />
+                                <TimeSelection onSelectTime={handleTimeSelection} /> {/* 시간 선택 컴포넌트 */}
                             </TimeSelectorContainer>
                         </PickupImage>
                         <PickupRectangle />
-                        <RemainingText>잔여 개수 : 1 개</RemainingText>
+                        <RemainingText>잔여 개수 : 1 개</RemainingText> {/* 잔여 개수 텍스트 */}
                         <StepLine />
                         <StepButton onClick={handleReservation} disabled={isClicked}>
-                            <StepButtonText>예약하기</StepButtonText>
+                            <StepButtonText>예약하기</StepButtonText> {/* 예약 버튼 */}
                         </StepButton>
+                        <ReservationCompleteModal isActive={true}>
+                            <ReservationCompleteContent
+                                reservationToken={reservationToken}
+                                reservationDate={selectedDate}
+                                reservationVisitTime={selectedTime}
+                            />
+                        </ReservationCompleteModal>
                     </OverlapGroup>
                 </ReservationPageBottomInContainer>
             </ReservationPageBottomContainer>
