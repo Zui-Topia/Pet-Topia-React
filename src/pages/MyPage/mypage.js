@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import styled from 'styled-components';
 import Header from '../../components/Main/Common/Header';
 import SectionTitle from '../../components/MyPage/SectionTitle';
 import MyPageSection from '../../components/MyPage/MyPageSection';
@@ -9,6 +10,12 @@ import ReservationHead from '../../components/MyPage/MyReservation/ReservationHe
 import ReservationBody from '../../components/MyPage/MyReservation/ReservationBody';
 import QRModal from '../../components/MyPage/QRModal';
 import MyReservationAPI from '../../api/MyPage/MyPageAPI';
+
+const NoReservation = styled.div`
+    position: relative;
+
+    margin: 50px auto; /*페이지 중앙에 나타나토록 설정*/
+`;
 
 const MyPage = () => {
     const [myPageInfo, setMyPageInfo] = useState({
@@ -26,7 +33,7 @@ const MyPage = () => {
     useEffect(() => {
         const fetchReservations = async () => {
             try {
-                const response = await MyReservationAPI(2);
+                const response = await MyReservationAPI(1);
                 console.log(response.data.data);
                 if (response.data.success) {
                     const { myPageUserDTO, myPagePetDTO, myReservationDTO } = response.data.data;
@@ -65,17 +72,28 @@ const MyPage = () => {
             <div>
                 <MyPageSection>
                     <SectionTitle title="나의 예약 내역" />
-                    <QRModal
-                        isActive={
-                            reservationInfo.reservationVO && reservationInfo.reservationVO.reservationDelete === 0
-                        }
-                        value={reservationInfo}
-                    >
-                        <ReservationInfo>
-                            {reservationInfo.reservationVO && <ReservationHead value={reservationInfo.reservationVO} />}
-                            {reservationInfo.placeDTO && <ReservationBody value={reservationInfo} />}
-                        </ReservationInfo>
-                    </QRModal>
+                    {myPageInfo.myPageUserDTO ? (
+                        myPageInfo.myReservationDTO ? (
+                            <QRModal
+                                isActive={
+                                    reservationInfo.reservationVO &&
+                                    reservationInfo.reservationVO.reservationDelete === 0
+                                }
+                                value={reservationInfo}
+                            >
+                                <ReservationInfo>
+                                    {reservationInfo.reservationVO && (
+                                        <ReservationHead value={reservationInfo.reservationVO} />
+                                    )}
+                                    {reservationInfo.placeDTO && <ReservationBody value={reservationInfo} />}
+                                </ReservationInfo>
+                            </QRModal>
+                        ) : (
+                            <NoReservation>예약 내역이 없습니다.</NoReservation>
+                        )
+                    ) : (
+                        <div></div>
+                    )}
                 </MyPageSection>
             </div>
         </>
