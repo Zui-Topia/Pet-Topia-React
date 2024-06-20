@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Floor from '../../components/Map/Floor/Floor';
 import Search from '../../components/Map/Search/Search';
 import MapReservation from '../../components/Main/Common/MapReservation';
-import BranchSearch from '../../components/Map/BranchSearch/BranchSearch';
+import BranchSearch from '../../components/Main/BranchSearch';
 import styled from 'styled-components';
 import Header from '../../components/Main/Common/Header';
 import MarkerRenderer from '../../components/Map/CategoryButton/MarkerRenderer';
@@ -24,19 +24,22 @@ const MapPageBottomContainer = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin-top: 100px;
+    margin-top: 50px;
 `;
 
 const MapPageBottomInContainer = styled.div`
     width: 1212px;
     height: 740px;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     position: relative;
     justify-content: center; /* 수평 중앙 정렬 추가 */
     //align-items: center; /* 수직 중앙 정렬 추가 */
 `;
-
+const FloorInfo = styled.div`
+    display: flex;
+    flex-direction: row;
+`;
 const BranchSearchContainer = styled.div`
     display: flex;
     align-items: center;
@@ -59,7 +62,7 @@ const BranchTextContainer = styled.div`
     width: 100%;
     display: flex;
     flex-direction: row;
-    justify-content: center; /* 수평 중앙 정렬 추가 */
+    justify-content: left; /* 수평 중앙 정렬 추가 */
 `;
 const BranchIIcon = styled.div`
     margin-top: 13px;
@@ -99,7 +102,7 @@ const Map = () => {
     const [selectedCategories, setSelectedCategories] = useState([]); // 선택된 카테고리 정보 배열 상태
     const [floorImagePath, setFloorImagePath] = useState('');
     const [mapId, setMapId] = useState(7);
-
+    const [strollerCnt, setStrollerCnt] = useState(0);
     // 선택된 지점의 층 정보 상태 추가
     const [floors, setFloors] = useState([]);
 
@@ -232,6 +235,32 @@ const Map = () => {
         setFilteredMarkerData(filteredMarkerData);
     };
 
+    const getTodayDate = () => {
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 +1을 해줌
+        const day = String(today.getDate()).padStart(2, '0');
+
+        return `${year}-${month}-${day}`;
+    };
+
+    useEffect(() => {
+        const fetchStrollerData = async () => {
+            if (selectedBranchKey && getTodayDate()) {
+                try {
+                    const response = await MapAPI.petStrollerCnt(selectedBranchKey, getTodayDate());
+                    const data = response.data.data;
+                    console.log('fetchStrollerData:', data);
+                    setStrollerCnt(data);
+                } catch (error) {
+                    console.error('StrollerData를 가져오는 중 오류가 발생했습니다:', error);
+                }
+            }
+        };
+
+        fetchStrollerData();
+    }, [selectedBranchKey, getTodayDate]);
+
     return (
         <MapPageContainer>
             <Header />
@@ -240,28 +269,30 @@ const Map = () => {
                 <BranchSearchContainer>
                     <BranchSearch onSelectBranch={handleBranchChange} />
                 </BranchSearchContainer>
-                <BranchTextContainer>
-                    <BranchIIcon />
-                    <BranchText>{selectedBranch}</BranchText>
-                </BranchTextContainer>
 
                 <MapPageBottomInContainer>
-                    <Floor
-                        floors={floors} // 동적으로 생성할 층 정보 전달
-                        onSelectFloor={handleFloorSelect}
-                        selectedFloor={selectedFloor}
-                    />
-                    <CateSearchContainer>
-                        <Search />
-                        <SearchActiveContainer
-                            handleCategoriesSelect={handleCategoriesSelect}
-                            selectedCategories={selectedCategories}
+                    <BranchTextContainer>
+                        <BranchIIcon />
+                        <BranchText>{selectedBranch}</BranchText>
+                    </BranchTextContainer>
+                    <FloorInfo>
+                        <Floor
+                            floors={floors} // 동적으로 생성할 층 정보 전달
+                            onSelectFloor={handleFloorSelect}
+                            selectedFloor={selectedFloor}
                         />
-                    </CateSearchContainer>
+                        <CateSearchContainer>
+                            <Search />
+                            <SearchActiveContainer
+                                handleCategoriesSelect={handleCategoriesSelect}
+                                selectedCategories={selectedCategories}
+                            />
+                        </CateSearchContainer>
 
-                    <MapImageContainer floorImagePath={floorImagePath}>
-                        <MarkerRenderer markerData={filteredMarkerData} />
-                    </MapImageContainer>
+                        <MapImageContainer floorImagePath={floorImagePath}>
+                            <MarkerRenderer markerData={filteredMarkerData} strollerCnt={strollerCnt} />
+                        </MapImageContainer>
+                    </FloorInfo>
                 </MapPageBottomInContainer>
             </MapPageBottomContainer>
         </MapPageContainer>
