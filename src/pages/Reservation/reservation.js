@@ -8,8 +8,8 @@ import ReservationMap from '../../components/Main/Common/ReservationMap';
 import ReservationCalendar from '../../components/Reservation/ReservationCalendar/ReservationCalendar';
 import TimeSelection from '../../components/Reservation/TimeSelection/TimeSelection';
 import CommonModal from '../../components/Main/Common/CommonModal';
-
 import ReservationAPI from '../../api/Reservation/ReservationAPI';
+import locationImg from '../../assets/images/location.png';
 
 const ReservationPageContainer = styled.div`
     width: 100vw;
@@ -21,13 +21,13 @@ const ReservationPageContainer = styled.div`
 `;
 
 const ReservationPageBottomContainer = styled.div`
-    width: 1212px;
+    width: 100vw;
     height: 882px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin: auto; /* 가운데 정렬을 위한 마진 설정 */
+    margin-top: 100px;
 `;
 
 const ServiceText = styled.div`
@@ -231,21 +231,27 @@ const BranchSearchContainer = styled.div`
     align-items: center;
     justify-content: center;
     flex-grow: 1;
-    position: absolute;
-    top: 140px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 999; /* 층 선택 버튼 위에 오도록 설정 */
+    z-index: 2000; /* 층 선택 버튼 위에 오도록 설정 */
 `;
-
+const BranchIIcon = styled.div`
+    margin-top: 13px;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    justify-content: center; /* 수평 중앙 정렬 추가 */
+    background-image: url(${locationImg});
+`;
 const BranchText = styled.h1`
     font-weight: 400;
     font-family: 'Kanit-Regular', Helvetica;
     font-size: 25px;
 `;
 const BranchTextContainer = styled.div`
-    margin-top: 50px;
+    margin-top: 20px; /* 적절한 값으로 수정 */
     width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center; /* 수평 중앙 정렬 추가 */
 `;
 
 const ReservationPageBottomInContainer = styled.div`
@@ -327,7 +333,7 @@ const Reservation = () => {
                 </BranchTextContainer>
 
                 <ReservationPageBottomInContainer>
-                    <ServiceText>개모차 대여서비스</ServiceText>
+                    <ServiceText>반려견 유모차 대여 예약</ServiceText>
                     <OverlapGroup>
                         <Step1>
                             <StepText1>
