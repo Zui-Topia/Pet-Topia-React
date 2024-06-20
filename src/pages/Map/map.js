@@ -191,6 +191,8 @@ const Map = () => {
         setSelectedBranchKey(key); // key 상태 설정
         setSelectedFloor('1F'); // 층 정보 초기화
         setSelectedCategories([]); // 카테고리 정보 초기화
+        // 마커 데이터 초기화
+        setMarkerData([]);
     };
 
     // 층이 선택되면 해당 층 정보 설정
