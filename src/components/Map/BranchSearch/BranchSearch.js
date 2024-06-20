@@ -10,6 +10,8 @@ const BranchSearchContainer = styled.div`
     border: 1px solid #d9d9d9; // 전체 테두리 색상
     background-color: #ffffff;
     border-radius: 8px; /* 둥근 테두리 반경 설정 */
+    position: absolute; /* 화면에 고정 */
+    top: 180px; /* 원하는 위치 */
 `;
 
 // 지점검색 부분 - wrapper
