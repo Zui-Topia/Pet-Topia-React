@@ -277,6 +277,8 @@ const Reservation = () => {
     const [isModalOpen, setIsModalOpen] = useState(false); // 예약 완료 모달 열림 여부 상태
     const [isClicked, setIsClicked] = useState(false);
     const [reservationToken, setReservationToken] = useState(null); // 예약 토큰
+
+    const [strollerCnt, setStrollerCnt] = useState(0); // 반려견 유모차 잔여수
     // 지점 선택 시 처리 함수
     const handleBranchChange = (branch, key) => {
         setSelectedBranch(branch); // 선택된 지점 업데이트
@@ -312,7 +314,7 @@ const Reservation = () => {
             setIsClicked(true);
 
             // 백엔드 서버 URL을 사용하여 예약 생성 요청
-            const response = await ReservationAPI(reservationInfo);
+            const response = await ReservationAPI.createReservation(reservationInfo);
             console.log(response.data.data);
 
             setReservationToken(response.data.data.reservationToken);
@@ -332,6 +334,20 @@ const Reservation = () => {
     const handleTimeSelection = (time) => {
         setSelectedTime(time); // 선택된 시간 업데이트
     };
+
+    // 반려견 유모차 잔여수 받아오는 함수
+    useEffect(() => {
+        const fetchStrollerData = async () => {
+            try {
+                const response = await ReservationAPI.petStrollerCnt(selectedBranchId, selectedDate);
+                setStrollerCnt(response.data.data);
+            } catch (error) {
+                console.error('StrollerData를 가져오는 중 오류가 발생했습니다:', error);
+            }
+        };
+
+        fetchStrollerData();
+    }, [selectedBranchId, selectedDate, reservationToken]);
 
     return (
         <ReservationPageContainer>
@@ -377,7 +393,7 @@ const Reservation = () => {
                             </TimeSelectorContainer>
                         </PickupImage>
                         <PickupRectangle />
-                        <RemainingText>잔여 개수 : 1 개</RemainingText> {/* 잔여 개수 텍스트 */}
+                        <RemainingText>잔여 개수 : {strollerCnt} 개</RemainingText> {/* 잔여 개수 텍스트 */}
                         <StepLine />
                         <StepButton onClick={handleReservation} disabled={isClicked}>
                             <StepButtonText>예약하기</StepButtonText>
