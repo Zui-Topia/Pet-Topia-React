@@ -152,7 +152,11 @@ const Login = () => {
     try {
       const response = await loginAPI(email, password);
       console.log("서버 응답: ", response.headers); // 로그 추가
-      const accessToken = response.headers.get("Authorization");
+      const authorizationHeader = response.headers.get("Authorization");
+      const accessToken = authorizationHeader
+        ? authorizationHeader.split(" ")[1]
+        : null; // Bearer 토큰 추출
+      // const accessToken = response.headers.get("Authorization");
       console.log("headers:", response);
       console.log(accessToken);
       if (accessToken) {
