@@ -7,5 +7,8 @@ const MapAPI = {
     getMapInfo: (mapId) => {
         return instance.get(`/map/${mapId}/places`);
     },
+    petStrollerCnt: (branchId, reservationDate) => {
+        return instance.get(`/reservation/${branchId}?reservationDate=${reservationDate}`);
+    },
 };
 export default MapAPI;
