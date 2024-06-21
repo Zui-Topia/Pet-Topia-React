@@ -9,6 +9,8 @@ import MarkerRenderer from '../../components/Map/CategoryButton/MarkerRenderer';
 import MapAPI from '../../api/MapPage/MapPageAPI';
 import SearchActiveContainer from '../../components/Map/Search/SearchActiveContainer';
 import locationImg from '../../assets/images/location.png';
+import SearchInfo from '../../components/Map/Search/SearchInfo';
+
 const MapPageContainer = styled.div`
     width: 100vw;
     height: 100vh;
@@ -105,6 +107,28 @@ const Map = () => {
     const [strollerCnt, setStrollerCnt] = useState(0);
     // 선택된 지점의 층 정보 상태 추가
     const [floors, setFloors] = useState([]);
+    //검색 아이콘 클릭
+    const [searchClicked, setSearchClicked] = useState(false);
+    const [searchText, setSearchText] = useState('');
+    const [places, setPlaces] = useState([]);
+
+    useEffect(() => {
+        const fetchBranchData = async () => {
+            try {
+                if (selectedBranchKey !== null) {
+                    const response = await MapAPI.getSearchInfo(selectedBranchKey);
+                    const data = response.data.data;
+                    console.log('지점의 장소데이터: ', data);
+                    setPlaces(data);
+                }
+            } catch (error) {
+                console.error('지점 장소 정보를 가져오는 중 오류가 발생했습니다:', error);
+                // 에러 처리 로직 추가
+            }
+        };
+
+        fetchBranchData(); // 함수 호출
+    }, [selectedBranchKey]); // 종속성 배열 추가
 
     useEffect(() => {
         const fetchData = async () => {
@@ -261,6 +285,11 @@ const Map = () => {
         fetchStrollerData();
     }, [selectedBranchKey, getTodayDate]);
 
+    const handleSearchClick = (text) => {
+        setSearchText(text);
+        setSearchClicked(true);
+        console.log('djsjfkljkjdsf:', text);
+    };
     return (
         <MapPageContainer>
             <Header />
@@ -282,11 +311,17 @@ const Map = () => {
                             selectedFloor={selectedFloor}
                         />
                         <CateSearchContainer>
-                            <Search />
-                            <SearchActiveContainer
-                                handleCategoriesSelect={handleCategoriesSelect}
-                                selectedCategories={selectedCategories}
-                            />
+                            <Search onSearchClick={handleSearchClick} />
+                            {searchClicked && searchText !== '' ? (
+                                <SearchInfo
+                                    searchInfo={places.filter((place) => place.placeName.includes(searchText))}
+                                />
+                            ) : (
+                                <SearchActiveContainer
+                                    handleCategoriesSelect={handleCategoriesSelect}
+                                    selectedCategories={selectedCategories}
+                                />
+                            )}
                         </CateSearchContainer>
 
                         <MapImageContainer floorImagePath={floorImagePath}>

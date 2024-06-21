@@ -40,8 +40,7 @@ const BranchButtonBox = styled.button`
 // 지점검색 부분 - 텍스트
 const BranchSearchText = styled.div`
     color: #000000;
-    font-size: 20px;
-    font-weight: 700;
+    font-size: 17px;
     font-family: 'Kanit-Bold', Helvetica;
     margin-left: 10px;
 `;
