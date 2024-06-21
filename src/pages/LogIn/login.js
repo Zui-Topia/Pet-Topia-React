@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { Layout, Modal } from "antd";
 import SignUpHeader from "../../components/Main/Common/SignUpHeader";
+import Header from "../../components/Main/Common/Header";
 import { Input } from "antd";
 import { Spin } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
@@ -204,7 +205,7 @@ const Login = () => {
           <Spin size="large" />
         </SpinContainer>
       )}
-      <SignUpHeader />
+      <Header />
       <StyledContent>
         <Inner>
           <FormContainer onSubmit={handleSubmit}>

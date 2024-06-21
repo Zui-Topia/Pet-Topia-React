@@ -1,5 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+import { navigate } from "react-router-dom"; // Import navigate from react-router-dom
+import { Link, useNavigate } from "react-router-dom";
+import { getCookie } from "../../../utils/cookie";
+import { deleteAllCookies } from "../../../utils/cookie";
 
 // 헤더 전체를 감싸는 래퍼로, 중앙에 배치하기 위해 flex 컨테이너 사용
 const HeaderWrapper = styled.div`
@@ -69,18 +73,34 @@ const TextWrapper3 = styled.div`
 
 export const Header = () => {
   // 타이틀을 클릭했을 때 안내창을 표시하는 함수
+  const navigate = useNavigate();
+  const accessToken = getCookie("accessToken");
+  console.log("accesstoken:", accessToken);
   const handleTitleClick = () => {
     alert("메인 페이지로 이동합니다.");
+    navigate("/main");
   };
 
   // 로그아웃을 클릭했을 때 안내창을 표시하는 함수
   const handleLogoutClick = () => {
     alert("로그아웃합니다.");
+    deleteAllCookies(); // 쿠키 삭제 함수 호출
+    navigate("/login");
   };
 
   // 마이페이지를 클릭했을 때 안내창을 표시하는 함수
   const handleMyPageClick = () => {
     alert("마이페이지로 이동합니다.");
+    navigate("/mypage");
+  };
+  const handleLoginClick = () => {
+    alert("로그인페이지로 이동합니다.");
+    navigate("/login");
+  };
+
+  const handleSignUpClick = () => {
+    alert("회원가입페이지로 이동합니다.");
+    navigate("/signup");
   };
 
   return (
@@ -92,10 +112,23 @@ export const Header = () => {
           <span className="text-wrapper-2">PETOPIA</span>
         </Title>
         <TextWrapper3>
-          {/* 로그아웃 클릭 이벤트 핸들러 추가 */}
-          <span onClick={handleLogoutClick}>로그아웃</span>
-          {/* 마이페이지 클릭 이벤트 핸들러 추가 */}
-          <span onClick={handleMyPageClick}>마이페이지</span>
+          {/* 로그인 상태일 때 */}
+          {accessToken ? (
+            <>
+              {/* 로그아웃 클릭 이벤트 핸들러 추가 */}
+              <span onClick={handleLogoutClick}>로그아웃</span>
+              {/* 마이페이지 클릭 이벤트 핸들러 추가 */}
+              <span onClick={handleMyPageClick}>마이페이지</span>
+            </>
+          ) : (
+            // 로그인 되어있지 않은 상태에서 로그인, 회원가입 메뉴를 표시
+            <>
+              {/* 로그인 메뉴 */}
+              <span onClick={handleLoginClick}>로그인</span>
+              {/* 회원가입 메뉴 */}
+              <span onClick={handleSignUpClick}>회원가입</span>
+            </>
+          )}
         </TextWrapper3>
       </InnerDiv>
     </HeaderWrapper>
