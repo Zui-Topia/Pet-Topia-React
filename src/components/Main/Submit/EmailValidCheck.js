@@ -22,7 +22,12 @@ const StyledButton = styled(Button)`
   }
 `;
 
-const EmailValidationCheckButton = ({ label, email, setIsEmailAvailable }) => {
+const EmailValidationCheckButton = ({
+  label,
+  email,
+  setIsEmailAvailable,
+  resetEmail,
+}) => {
   const isValidEmail = (email) => {
     // 간단한 이메일 유효성 검사 정규식
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -35,11 +40,13 @@ const EmailValidationCheckButton = ({ label, email, setIsEmailAvailable }) => {
     }
     try {
       const response = await SignUpAPI(email);
+      console.log("유효성트라이들어옴");
       if (response.data.success) {
         setIsEmailAvailable(true);
         showModal("사용가능한 이메일입니다");
       } else {
         setIsEmailAvailable(false);
+        resetEmail(); // 이메일 초기화
         showModal("이미 사용 중인 이메일입니다");
       }
     } catch (error) {
