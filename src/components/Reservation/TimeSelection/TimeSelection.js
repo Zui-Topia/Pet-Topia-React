@@ -85,7 +85,7 @@ const items = [
                 label: '06 : 30 PM',
             },
             {
-                key: '06 : 30 PM',
+                key: '07 : 30 PM',
                 label: '07 : 30 PM',
             },
         ],

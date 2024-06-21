@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Modal } from 'antd';
 import styled from 'styled-components';
 import { Header } from '../../components/Main/Common/Header';
@@ -7,7 +7,10 @@ import BranchSearch from '../../components/Map/BranchSearch/BranchSearch';
 import ReservationMap from '../../components/Main/Common/ReservationMap';
 import ReservationCalendar from '../../components/Reservation/ReservationCalendar/ReservationCalendar';
 import TimeSelection from '../../components/Reservation/TimeSelection/TimeSelection';
-import CommonModal from '../../components/Main/Common/CommonModal';
+
+import ReservationCompleteModal from '../../components/Reservation/ReservationCompleteModal/ReservationCompleteModal';
+import { ReservationCompleteContent } from '../../components/Reservation/ReservationCompleteModal/ReservationCompleteContent';
+
 import ReservationAPI from '../../api/Reservation/ReservationAPI';
 import locationImg from '../../assets/images/location.png';
 
@@ -266,13 +269,18 @@ const Reservation = () => {
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const day = String(date.getDate()).padStart(2, '0');
     const formattedDate = `${year}-${month}-${day}`;
+    const [selectedUserId, setUserId] = useState(5); // 유저 아이디 상태
     const [selectedBranch, setSelectedBranch] = useState('더현대 서울'); // 선택된 지점 이름 상태
     const [selectedBranchId, setSelectedBranchId] = useState(1); // 선택된 지점 ID 상태
     const [selectedDate, setSelectedDate] = useState(formattedDate); // 선택된 날짜 상태
     const [selectedTime, setSelectedTime] = useState(null); // 선택된 시간 상태
-    const [modalVisible, setModalVisible] = useState(false); // 모달 가시성 상태
+    const [isModalOpen, setIsModalOpen] = useState(false); // 예약 완료 모달 열림 여부 상태
     const [isClicked, setIsClicked] = useState(false);
+    const [reservationToken, setReservationToken] = useState(null); // 예약 토큰
 
+    const [strollerCnt, setStrollerCnt] = useState(0); // 반려견 유모차 잔여수
+    const [isTimeSelected, setIsTimeSelected] = useState(false);
+    const [useModal, setUseModal] = useState(true);
     // 지점 선택 시 처리 함수
     const handleBranchChange = (branch, key) => {
         setSelectedBranch(branch); // 선택된 지점 업데이트
@@ -281,43 +289,66 @@ const Reservation = () => {
 
     // 예약하기 버튼 클릭 시 처리 함수
     const handleReservation = async () => {
+        if (isClicked || !isTimeSelected) return; // 이미 클릭된 상태거나 시간이 선택되지 않았으면 함수 종료
+
+        setIsClicked(true); // 클릭 상태로 설정
         try {
             // 날짜 선택하지 않았을 때, 오늘 날짜로 설정
             if (!selectedDate) {
                 setSelectedDate(formattedDate);
             }
 
-            // 예약 시간을 선택하지 않았을 때 에러 모달 표시
-            if (!selectedTime) {
-                Modal.error({
-                    title: '예약 실패',
-                    content: '예약 시간을 선택해주세요.',
-                });
-                return;
-            }
-
             // 예약 데이터 객체 생성
             const reservationInfo = {
-                userId: 3,
-                branchId: selectedBranchId, // 지점 아아디
+                userId: selectedUserId, // 유저 아이디
+                branchId: selectedBranchId, // 지점 아이디
                 reservationDate: selectedDate, // 예약 날짜
                 reservationVisitTime: selectedTime, // 픽업 시간
             };
-            setIsClicked(true);
 
             // 백엔드 서버 URL을 사용하여 예약 생성 요청
-            const response = await ReservationAPI(reservationInfo);
-            alert(response.data);
+            const response = await ReservationAPI.createReservation(reservationInfo);
+            console.log(response.data.data);
+
+            setReservationToken(response.data.data.reservationToken);
+            document.getElementById('modalTriggerButton').click();
         } catch (error) {
-            // 예약 실패 시 경고 표시
-            alert('Failed to make reservation. Please try again later.');
+            // 예약 실패 시 에러 처리
+            Modal.error({
+                title: '예약 실패',
+                content: '예약 중 오류가 발생했습니다.',
+            });
+        } finally {
+            setIsClicked(false); // 클릭 상태 해제
         }
     };
 
     // 시간 선택 시 처리 함수
     const handleTimeSelection = (time) => {
         setSelectedTime(time); // 선택된 시간 업데이트
+        setIsTimeSelected(true); // 시간 선택 상태 업데이트
     };
+
+    // 반려견 유모차 잔여수 받아오는 함수
+    useEffect(() => {
+        const fetchStrollerData = async () => {
+            try {
+                const response = await ReservationAPI.petStrollerCnt(selectedBranchId, selectedDate);
+                setStrollerCnt(response.data.data);
+            } catch (error) {
+                console.error('StrollerData를 가져오는 중 오류가 발생했습니다:', error);
+            }
+        };
+
+        const disabledButton = () => {
+            if (strollerCnt === 0) {
+                setIsClicked(false);
+            }
+        };
+
+        fetchStrollerData();
+        disabledButton();
+    }, [selectedBranchId, selectedDate, reservationToken]);
 
     return (
         <ReservationPageContainer>
@@ -325,25 +356,30 @@ const Reservation = () => {
             <ReservationMap /> {/* 지도 예약 컴포넌트 */}
             <ReservationPageBottomContainer>
                 <BranchSearchContainer>
-                    <BranchSearch onSelectBranch={handleBranchChange} />
+                    <BranchSearch onSelectBranch={handleBranchChange} /> {/* 지점 검색 컴포넌트 */}
                 </BranchSearchContainer>
                 <BranchTextContainer>
                     <BranchIIcon />
                     <BranchText>{selectedBranch}</BranchText>
                 </BranchTextContainer>
 
+                {/* 예약 페이지 하단 컨테이너 */}
                 <ReservationPageBottomInContainer>
                     <ServiceText>반려견 유모차 대여 예약</ServiceText>
+
                     <OverlapGroup>
+                        {/* 예약 단계 1: 날짜 선택 */}
                         <Step1>
                             <StepText1>
                                 STEP 1. <span>&nbsp;</span>
                                 <StepContent>날짜&nbsp;선택</StepContent>
                             </StepText1>
                             <ReservationCalendarContainer>
-                                <ReservationCalendar onSelectDate={(date) => setSelectedDate(date)} />
+                                <ReservationCalendar onSelectDate={(date) => setSelectedDate(date)} />{' '}
+                                {/* 날짜 선택 컴포넌트 */}
                             </ReservationCalendarContainer>
                         </Step1>
+                        {/* 예약 단계 2: 픽업 시간 선택 */}
                         <Step2>
                             <StepText2>
                                 STEP 2. <span>&nbsp;</span>
@@ -351,18 +387,25 @@ const Reservation = () => {
                             </StepText2>
                         </Step2>
                         <StepRectangle />
-                        <PickupTimeText>픽업 시간</PickupTimeText>
+                        <PickupTimeText>픽업 시간</PickupTimeText> {/* 픽업 시간 제목 */}
                         <PickupImage>
                             <TimeSelectorContainer>
-                                <TimeSelection onSelectTime={handleTimeSelection} />
+                                <TimeSelection onSelectTime={handleTimeSelection} /> {/* 시간 선택 컴포넌트 */}
                             </TimeSelectorContainer>
                         </PickupImage>
                         <PickupRectangle />
-                        <RemainingText>잔여 개수 : 1 개</RemainingText>
+                        <RemainingText>잔여 개수 : {strollerCnt} 개</RemainingText> {/* 잔여 개수 텍스트 */}
                         <StepLine />
-                        <StepButton onClick={handleReservation}>
+                        <StepButton onClick={handleReservation} disabled={isClicked || !isTimeSelected}>
                             <StepButtonText>예약하기</StepButtonText>
                         </StepButton>
+                        <ReservationCompleteModal isActive={useModal}>
+                            <ReservationCompleteContent
+                                reservationToken={reservationToken}
+                                reservationDate={selectedDate}
+                                reservationVisitTime={selectedTime}
+                            />
+                        </ReservationCompleteModal>
                     </OverlapGroup>
                 </ReservationPageBottomInContainer>
             </ReservationPageBottomContainer>

@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-
+import { useNavigate } from 'react-router-dom'; // useNavigate 훅을 가져옵니다.
 // 헤더 전체를 감싸는 래퍼로, 중앙에 배치하기 위해 flex 컨테이너 사용
 const HeaderWrapper = styled.div`
     background-color: #ffffff;
@@ -68,9 +68,11 @@ const TextWrapper3 = styled.div`
 `;
 
 export const Header = () => {
-    // 타이틀을 클릭했을 때 안내창을 표시하는 함수
+    const navigate = useNavigate(); // useNavigate 훅을 사용하여 navigate 함수를 가져옵니다.
+
+    // 타이틀을 클릭했을 때 메인페이지로 이동하는 함수
     const handleTitleClick = () => {
-        alert('메인 페이지로 이동합니다.');
+        navigate('/main');
     };
 
     // 로그아웃을 클릭했을 때 안내창을 표시하는 함수
@@ -78,9 +80,9 @@ export const Header = () => {
         alert('로그아웃합니다.');
     };
 
-    // 마이페이지를 클릭했을 때 안내창을 표시하는 함수
+    // 마이페이지를 클릭했을 때 마이페이지로 이동하는 함수
     const handleMyPageClick = () => {
-        alert('마이페이지로 이동합니다.');
+        navigate('/mypage');
     };
 
     return (
