@@ -279,6 +279,8 @@ const Reservation = () => {
     const [reservationToken, setReservationToken] = useState(null); // 예약 토큰
 
     const [strollerCnt, setStrollerCnt] = useState(0); // 반려견 유모차 잔여수
+    const [isTimeSelected, setIsTimeSelected] = useState(false);
+    const [useModal, setUseModal] = useState(true);
     // 지점 선택 시 처리 함수
     const handleBranchChange = (branch, key) => {
         setSelectedBranch(branch); // 선택된 지점 업데이트
@@ -287,7 +289,8 @@ const Reservation = () => {
 
     // 예약하기 버튼 클릭 시 처리 함수
     const handleReservation = async () => {
-        if (isClicked) return; // 이미 클릭된 상태라면 함수 종료
+        if (isClicked || !isTimeSelected) return; // 이미 클릭된 상태거나 시간이 선택되지 않았으면 함수 종료
+
         setIsClicked(true); // 클릭 상태로 설정
         try {
             // 날짜 선택하지 않았을 때, 오늘 날짜로 설정
@@ -295,23 +298,13 @@ const Reservation = () => {
                 setSelectedDate(formattedDate);
             }
 
-            // 예약 시간을 선택하지 않았을 때 에러 모달 표시
-            if (!selectedTime) {
-                Modal.error({
-                    title: '예약 실패',
-                    content: '예약 시간을 선택해주세요.',
-                });
-                return;
-            }
-
             // 예약 데이터 객체 생성
             const reservationInfo = {
                 userId: selectedUserId, // 유저 아이디
-                branchId: selectedBranchId, // 지점 아아디
+                branchId: selectedBranchId, // 지점 아이디
                 reservationDate: selectedDate, // 예약 날짜
                 reservationVisitTime: selectedTime, // 픽업 시간
             };
-            setIsClicked(true);
 
             // 백엔드 서버 URL을 사용하여 예약 생성 요청
             const response = await ReservationAPI.createReservation(reservationInfo);
@@ -333,6 +326,7 @@ const Reservation = () => {
     // 시간 선택 시 처리 함수
     const handleTimeSelection = (time) => {
         setSelectedTime(time); // 선택된 시간 업데이트
+        setIsTimeSelected(true); // 시간 선택 상태 업데이트
     };
 
     // 반려견 유모차 잔여수 받아오는 함수
@@ -346,7 +340,14 @@ const Reservation = () => {
             }
         };
 
+        const disabledButton = () => {
+            if (strollerCnt === 0) {
+                setIsClicked(false);
+            }
+        };
+
         fetchStrollerData();
+        disabledButton();
     }, [selectedBranchId, selectedDate, reservationToken]);
 
     return (
@@ -395,10 +396,10 @@ const Reservation = () => {
                         <PickupRectangle />
                         <RemainingText>잔여 개수 : {strollerCnt} 개</RemainingText> {/* 잔여 개수 텍스트 */}
                         <StepLine />
-                        <StepButton onClick={handleReservation} disabled={isClicked}>
+                        <StepButton onClick={handleReservation} disabled={isClicked || !isTimeSelected}>
                             <StepButtonText>예약하기</StepButtonText>
                         </StepButton>
-                        <ReservationCompleteModal isActive={true}>
+                        <ReservationCompleteModal isActive={useModal}>
                             <ReservationCompleteContent
                                 reservationToken={reservationToken}
                                 reservationDate={selectedDate}
