@@ -1,22 +1,22 @@
 import React from 'react';
 import { Calendar, Select, Col, Row } from 'antd';
 import styled, { createGlobalStyle } from 'styled-components';
+import moment from 'moment';
 
+// 글로벌 스타일 정의
 const GlobalStyle = createGlobalStyle`
     @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@400;700&display=swap');
 
-    // * {
-    //     font-size: 17px;
-    //     font-family: 'Kanit' !important;
-    // }
     .ant-picker-calendar {
         font-family: 'Kanit' !important;
     }
-    /* Customize ant-design components */
+
+    /* 오늘 날짜 테두리 색상 커스터마이징 */
     .ant-picker-calendar .ant-picker-cell-in-view.ant-picker-cell-today .ant-picker-cell-inner::before {
         border-color: pink !important;
     }
 
+    /* 선택된 라디오 버튼 색상 커스터마이징 */
     .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
         border-color: pink !important;
         color: pink !important;
@@ -28,6 +28,7 @@ const GlobalStyle = createGlobalStyle`
     }
 `;
 
+// 캘린더 스타일 정의
 const StyledCalendar = styled(Calendar)`
     width: 450px;
     height: 360px;
@@ -55,8 +56,14 @@ const StyledCalendar = styled(Calendar)`
     .ant-picker-cell:hover .ant-picker-cell-inner {
         background-color: pink !important;
     }
+
+    /* 비활성화된 날짜의 글자색을 회색으로 설정하고 클릭 비활성화 */
+    .ant-picker-cell-disabled .ant-picker-cell-inner {
+        color: #d9d9d9 !important; /* 글자색을 회색으로 변경 */
+    }
 `;
 
+// 셀렉트 스타일 정의
 const StyledSelect = styled(Select)`
     .ant-select-selector {
         border-color: #d9d9d9 !important;
@@ -73,12 +80,19 @@ const StyledSelect = styled(Select)`
 `;
 
 const ReservationCalendar = ({ onSelectDate }) => {
+    // 패널 변경 시 호출되는 함수
     const onPanelChange = (value, mode) => {
         console.log(value.format('YYYY-MM-DD'), mode);
     };
 
+    // 날짜 선택 시 호출되는 함수
     const onSelect = (value) => {
         onSelectDate(value.format('YYYY-MM-DD')); // 선택된 날짜를 부모 컴포넌트로 전달
+    };
+
+    // 오늘 이전의 날짜를 비활성화하는 함수
+    const disabledDate = (current) => {
+        return current && current < moment().startOf('day');
     };
 
     return (
@@ -125,7 +139,7 @@ const ReservationCalendar = ({ onSelectDate }) => {
                                         value={year}
                                         onChange={(newYear) => {
                                             const now = value.clone().year(newYear);
-                                            onChange(now);
+                                            onChange(now); // 연도 변경 시 호출
                                         }}
                                     >
                                         {options}
@@ -138,7 +152,7 @@ const ReservationCalendar = ({ onSelectDate }) => {
                                         value={month}
                                         onChange={(newMonth) => {
                                             const now = value.clone().month(newMonth);
-                                            onChange(now);
+                                            onChange(now); // 월 변경 시 호출
                                         }}
                                     >
                                         {monthOptions}
@@ -149,7 +163,8 @@ const ReservationCalendar = ({ onSelectDate }) => {
                     );
                 }}
                 onSelect={onSelect} // 날짜 선택 시 호출되는 함수
-                onPanelChange={onPanelChange}
+                onPanelChange={onPanelChange} // 패널 변경 시 호출되는 함수
+                disabledDate={disabledDate} // 오늘 이전 날짜를 비활성화
             />
         </div>
     );

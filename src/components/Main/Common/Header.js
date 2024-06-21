@@ -12,9 +12,8 @@ const HeaderWrapper = styled.div`
   align-items: center; // 아이템들을 수직으로 가운데 정렬
   justify-content: center;
   width: 100vw;
-  padding: 10px; // 좌우 여백을 추가하여 헤더 전체 여백을 조정
+  padding: 15px; // 좌우 여백을 추가하여 헤더 전체 여백을 조정
   box-sizing: border-box; // 패딩을 너비에 포함
-  max-width: 1512px; // 최대 너비를 1512px로 설정
   position: relative; // 절대 위치 지정 요소를 위한 상대 위치 지정
 `;
 
@@ -25,7 +24,6 @@ const InnerDiv = styled.div`
   align-items: center; // 아이템들을 수직으로 가운데 정렬
   height: 100px;
   width: 100%;
-  max-width: 1512px; // 최대 너비를 1512px로 설정
   position: relative;
 `;
 
@@ -42,7 +40,7 @@ const Title = styled.div`
     color: #000000;
     font-family: "Kanit-Regular", Helvetica;
     font-size: 40px;
-    font-weight: 400;
+    font-weight: 500;
     letter-spacing: 0;
     line-height: 1; // 줄 높이를 설정하여 기준선 맞추기
     margin-right: 5px; // 텍스트 간 간격 조정
@@ -51,6 +49,7 @@ const Title = styled.div`
   .text-wrapper-2 {
     font-size: 50px;
     line-height: 1; // 줄 높이를 설정하여 기준선 맞추기
+    font-weight: 600;
   }
 `;
 

@@ -17,7 +17,7 @@ const BranchSearchContainer = styled.div`
 // 지점검색 부분 - wrapper
 const BranchButtonWrapper = styled.div`
     border: 1px solid #d9d9d9;
-    max-height: 60px;
+    max-height: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -26,7 +26,7 @@ const BranchButtonWrapper = styled.div`
 
 // 지점검색 부분 - 버튼
 const BranchButtonBox = styled.button`
-    height: 60px; /* 최대 높이 설정 */
+    height: 50px; /* 최대 높이 설정 */
     width: 100%;
     cursor: pointer;
     background: none;
@@ -40,10 +40,10 @@ const BranchButtonBox = styled.button`
 // 지점검색 부분 - 텍스트
 const BranchSearchText = styled.div`
     color: #000000;
-    font-size: 20px;
+    font-size: 17px;
     font-weight: 700;
     font-family: 'Kanit-Bold', Helvetica;
-    margin-left: 10px;
+    margin-left: 15px;
 `;
 
 // 지점검색 부분 - 위, 아래 아이콘

@@ -27,3 +27,8 @@ export const MAIN_IMAGES_PATHS = {
     MAIN_RES: require('../assets/images/main/MainReservation.png'),
     MAIN_FOOT: require('../assets/images/main/footer.png'),
 };
+
+export const MYPAGE_ICON_PATHS = {
+    USER_ICON: require('../assets/images/mypage/profile-user.png'),
+    PET_ICON: require('../assets/images/mypage/profile-pet.png'),
+};
