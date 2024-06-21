@@ -1,6 +1,6 @@
 export const setCookie = (accessToken) => {
   try {
-    document.cookie = `accessToken=${accessToken};path=/;max-age=300000`;
+    document.cookie = `accessToken=${accessToken};path=/`;
   } catch (e) {
     console.error(e);
   }

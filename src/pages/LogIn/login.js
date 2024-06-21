@@ -7,6 +7,7 @@ import { Spin } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import loginAPI from "../../api/User/LogInAPI"; // loginAPI import
+import { setCookie } from "../../utils/cookie";
 // import { Spin } from "antd";
 
 const { Content } = Layout;
@@ -150,10 +151,20 @@ const Login = () => {
 
     try {
       const response = await loginAPI(email, password);
-      console.log("서버 응답: ", response.data); // 로그 추가
+      console.log("서버 응답: ", response.headers); // 로그 추가
+      const accessToken = response.headers.get("Authorization");
+      console.log("headers:", response);
+      console.log(accessToken);
+      if (accessToken) {
+        setCookie(accessToken);
+      } else {
+        console.error("No accessToken in response");
+        return;
+      }
 
       if (response.data.success) {
         setLoginSuccess(true);
+        setModalVisible(true);
         setModalText("로그인 성공");
       } else {
         setLoginSuccess(false);
