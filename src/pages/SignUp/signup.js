@@ -30,8 +30,13 @@ const SignupSchema = Yup.object().shape({
 });
 
 const Signup = () => {
+  const [email, setEmail] = useState("");
   const [isEmailAvailable, setIsEmailAvailable] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false); // 회원가입 요청 중 여부 상태
+
+  const resetEmail = (formik) => {
+    formik.setFieldValue("email", "");
+  };
   const navigate = useNavigate(); // useNavigate 훅을 사용하여 페이지 이동 기능 활성화
   const formik = useFormik({
     initialValues: {
@@ -132,6 +137,8 @@ const Signup = () => {
                 email={values.email}
                 setIsEmailAvailable={setIsEmailAvailable}
                 disabled={isSubmitting} // 회원가입 요청 중일 때 버튼 비활성화
+                // resetEmail={resetEmail}
+                resetEmail={() => resetEmail(formik)}
               />
             </EmailInputContainer>
             {touched.email && errors.email && (
