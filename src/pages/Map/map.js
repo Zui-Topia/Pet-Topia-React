@@ -10,7 +10,6 @@ import MapAPI from '../../api/MapPage/MapPageAPI';
 import SearchActiveContainer from '../../components/Map/Search/SearchActiveContainer';
 import locationImg from '../../assets/images/location.png';
 import SearchInfo from '../../components/Map/Search/SearchInfo';
-import MarkerTest from '../../components/Map/CategoryButton/MarkerTest';
 
 const MapPageContainer = styled.div`
     width: 100vw;
