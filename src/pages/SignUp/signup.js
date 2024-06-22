@@ -7,7 +7,7 @@ import { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
 import PetWeightSelectionToggle from "../../components/User/Input/PetWeightSelection";
 import PetSizeSelectionToggle from "../../components/User/Input/PetSizeSelection";
 import SubmitButton from "../../components/Main/Submit/Submit";
-import SignUpHeader from "../../components/Main/Common/SignUpHeader";
+import Header from "../../components/Main/Common/Header";
 import EmailValidationCheckButton from "../../components/Main/Submit/EmailValidCheck";
 import PostSignUpAPI from "../../api/User/PostSignUpAPI";
 import { Navigate, useNavigate } from "react-router-dom";
@@ -111,7 +111,7 @@ const Signup = () => {
 
   return (
     <FullHeightLayout>
-      <SignUpHeader />
+      <Header />
       <StyledContent>
         <Inner>
           <FormContainer onSubmit={handleSubmit}>
