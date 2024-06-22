@@ -11,6 +11,7 @@ const SearchBottomContainer = styled.div`
     text-align: left; /* 텍스트 왼쪽 정렬 */
     //background-color: red;
 `;
+
 const CateContainer = styled.div`
     list-style-type: none;
     padding: 0;
@@ -26,6 +27,15 @@ const Text = styled.h2`
 const SearchActiveContainer = ({ handleCategoriesSelect, selectedCategories }) => {
     return (
         <SearchBottomContainer>
+            <CateContainer>
+                <CategoryButton
+                    icon={selectedCategories.includes(0) ? IMAGE_PATHS.ALL_PINK : IMAGE_PATHS.ALL_GREY}
+                    activeIcon={IMAGE_PATHS.ALL_PINK}
+                    text="ALL"
+                    onSelectCategory={() => handleCategoriesSelect(0)} // 숫자 1을 전달
+                    isActive={selectedCategories.includes(0)}
+                />
+            </CateContainer>
             <Text>편의제공</Text>
             <CateContainer>
                 <CategoryButton
