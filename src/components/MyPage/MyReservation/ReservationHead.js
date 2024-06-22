@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 const ReservationHeadBlock = styled.div`
-    background: #000000;
+    background: ${(props) => (props.reservationDelete === 1 ? '#D9D9D9' : '#000000')};
 
     border-top-left-radius: 30px;
     border-top-right-radius: 30px;
@@ -26,7 +26,7 @@ const ReservationHeadBlock = styled.div`
 
 const ReservationHead = ({ value }) => {
     return (
-        <ReservationHeadBlock>
+        <ReservationHeadBlock reservationDelete={value.reservationDelete}>
             <div className="reservation-number">예약번호 | {value.reservationToken}</div>
             <div className="reservation-day-details">
                 {value.reservationDate} {value.reservationVisitTime}

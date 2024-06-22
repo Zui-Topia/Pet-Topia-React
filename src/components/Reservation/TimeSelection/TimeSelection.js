@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Menu } from 'antd';
+import React, { useState, useEffect } from 'react';
+import { Menu, Modal } from 'antd';
 import styled from 'styled-components';
 
 const StyledMenu = styled(Menu)`
@@ -46,6 +46,7 @@ const StyledSubMenu = styled(Menu.SubMenu)`
 const items = [
     {
         key: 'sub4',
+        label: '시간을 선택해주세요',
 
         children: [
             {
@@ -92,10 +93,14 @@ const items = [
     },
 ];
 
-const TimeSelection = ({ onSelectTime }) => {
-    const [selectedOption, setSelectedOption] = useState('option-1'); // Initial selected option
-
+const TimeSelection = ({ onSelectTime, selectedDate }) => {
+    const [selectedOption, setSelectedOption] = useState(null); // Initial selected option
     const [openKeys, setOpenKeys] = useState([]);
+
+    // 날짜가 변경될 때 선택된 시간 초기화
+    useEffect(() => {
+        setSelectedOption(null); // 선택된 시간 초기화
+    }, [selectedDate]);
 
     const handleMenuClick = (e) => {
         setSelectedOption(e.key);
@@ -119,8 +124,7 @@ const TimeSelection = ({ onSelectTime }) => {
                 key={items[0].key}
                 title={
                     <React.Fragment>
-                        {items[0].label}
-                        {selectedOption && (
+                        {selectedOption ? (
                             <span
                                 style={{
                                     marginLeft: '10px',
@@ -130,6 +134,8 @@ const TimeSelection = ({ onSelectTime }) => {
                             >
                                 {items[0].children.find((item) => item.key === selectedOption)?.label}
                             </span>
+                        ) : (
+                            items[0].label
                         )}
                     </React.Fragment>
                 }

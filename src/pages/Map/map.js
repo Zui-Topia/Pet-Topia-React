@@ -196,6 +196,7 @@ const Map = () => {
           const data = response.data.data;
           console.log("Fetched marker data:", data);
           setMarkerData(data);
+          setFilteredMarkerData(data); // 초기화 시 전체 마커 데이터를 설정
         } catch (error) {
           console.error(
             "마커 데이터를 가져오는 중 오류가 발생했습니다:",
@@ -246,12 +247,16 @@ const Map = () => {
 
   // useEffect를 사용하여 필터링된 데이터 설정
   useEffect(() => {
-    // 필터링된 마커 데이터 생성
-    const filteredData = markerData.filter((marker) =>
-      selectedCategories.includes(marker.categoryId)
-    );
-    // 필터링된 마커 데이터를 MarkerRenderer에 전달
-    setFilteredMarkerData(filteredData);
+    if (selectedCategories.length === 0) {
+      setFilteredMarkerData(markerData); // 선택된 카테고리가 없으면 전체 마커 데이터를 표시
+    } else {
+      // 필터링된 마커 데이터 생성
+      const filteredData = markerData.filter((marker) =>
+        selectedCategories.includes(marker.categoryId)
+      );
+      // 필터링된 마커 데이터를 MarkerRenderer에 전달
+      setFilteredMarkerData(filteredData);
+    }
   }, [markerData, selectedCategories]);
 
   // 카테고리가 선택되면 해당 카테고리 정보 설정
@@ -357,7 +362,7 @@ const Map = () => {
                 markerData={filteredMarkerData}
                 strollerCnt={strollerCnt}
               />
-              <MarkerTest />
+              {/* <MarkerTest></MarkerTest> */}
             </MapImageContainer>
           </FloorInfo>
         </MapPageBottomInContainer>
