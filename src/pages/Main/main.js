@@ -5,8 +5,8 @@ import { Spin } from "antd";
 import Header from "../../components/Main/Common/Header";
 import BranchSearch from "../../components/Main/BranchSearch";
 import Footer from "../../components/Main/Common/Footer";
-
 import { MAIN_IMAGES_PATHS } from "../../constants/imagePaths";
+
 const MainPageContainer = styled.div`
   width: 100vw;
   height: 100vh;
@@ -36,7 +36,6 @@ const BodyWrapper = styled.div`
   display: flex;
   position: fixed;
   width: 100vw; /* 화면 전체 너비 */
-
   white-space: nowrap; /* 줄 바꿈 방지 */
 `;
 
@@ -70,14 +69,19 @@ const SpinContainer = styled.div`
 
 const Main = () => {
   const [spinning, setSpinning] = useState(false);
+  const [selectedBranch, setSelectedBranch] = useState(null);
   const navigate = useNavigate();
 
   const handleMapClick = () => {
-    setSpinning(true);
-    setTimeout(() => {
-      setSpinning(false);
-      navigate("/map");
-    }, 500);
+    if (selectedBranch) {
+      setSpinning(true);
+      setTimeout(() => {
+        setSpinning(false);
+        navigate("/map", { state: selectedBranch });
+      }, 500);
+    } else {
+      alert("Please select a branch first.");
+    }
   };
 
   const handleReservationClick = () => {
@@ -87,6 +91,11 @@ const Main = () => {
       navigate("/reservation");
     }, 500);
   };
+
+  const handleBranchSelect = (branch, key) => {
+    setSelectedBranch({ branch, key });
+  };
+
   return (
     <MainPageContainer>
       {spinning && (
@@ -97,7 +106,7 @@ const Main = () => {
       <Header />
       <MainPageBodyContainer>
         <BranchSearchContainer>
-          <BranchSearch />
+          <BranchSearch onSelectBranch={handleBranchSelect} />
         </BranchSearchContainer>
 
         <BodyWrapper>
