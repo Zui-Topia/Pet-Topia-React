@@ -10,6 +10,7 @@ import ReservationCompleteModal from '../../components/Reservation/ReservationCo
 import { ReservationCompleteContent } from '../../components/Reservation/ReservationCompleteModal/ReservationCompleteContent';
 import ReservationAPI from '../../api/Reservation/ReservationAPI';
 import locationImg from '../../assets/images/location.png';
+
 // 예약 페이지 전체 컨테이너 스타일
 const ReservationPageContainer = styled.div`
     width: 100vw; // 화면 전체 너비
@@ -311,6 +312,7 @@ const Reservation = () => {
     const handleTimeSelection = (time) => {
         setSelectedTime(time); // 선택된 시간 업데이트
     };
+
     // 반려견 유모차 잔여수 데이터 가져오기
     useEffect(() => {
         const fetchStrollerData = async () => {
