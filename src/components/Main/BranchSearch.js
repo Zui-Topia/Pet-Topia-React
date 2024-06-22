@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import toggleUpImage from '../../assets/images/toggle-up.png';
 import toggleDownImage from '../../assets/images/toggle-down.png';
@@ -119,41 +119,17 @@ const BranchSearchButtonToggle = ({ onSelectBranch }) => {
     // 버튼 클릭 상태 추적
     const [isClickButton, setIsClickButton] = useState(false);
     // 초기 카테고리 설정
+    // 초기 카테고리 설정
     const [category, setCategory] = useState('현대백화점');
     // 현재 선택된 카테고리의 아이템 목록 추적
-    const [selectedCategoryItems, setSelectedCategoryItems] = useState([
-        '더현대 서울',
-        '압구정본점',
-        '무역센터점',
-        '천호점',
-        '신촌점',
-        '미아점',
-        '목동점',
-        '중동점',
-        '판교점',
-        '킨텍스점',
-        '디큐브시티',
-        '부산점',
-        '더현대 대구',
-        '울산점',
-        '울산동구점',
-        '충청점',
-        '신촌점',
-        '중동점',
-        '충청점',
-        '디큐브시티',
-        '판교점',
-        '김포점',
-        '송도점',
-        '가산점',
-        '동대문점',
-        '가든파이브점',
-        '대구점',
-        '대전점',
-        'SPACE1',
-    ]);
+    const [selectedCategoryItems, setSelectedCategoryItems] = useState([]);
 
+    // 컴포넌트가 처음 렌더링될 때 초기 카테고리의 아이템을 설정
+    useEffect(() => {
+        setSelectedCategoryItems(items[category]);
+    }, [category]);
     // 현재 선택된 개별 아이템을 추적
+
     const [selectedItem, setSelectedItem] = useState(null);
 
     // 버튼 클릭 시 토글 기능
