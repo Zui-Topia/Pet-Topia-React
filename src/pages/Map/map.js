@@ -207,6 +207,7 @@ const Map = () => {
         setSelectedCategories([]); // 카테고리 정보 초기화
         // 마커 데이터 초기화
         setMarkerData([]);
+        setMapId(floors.find((floor) => floor.floor === '1F')?.mapId); // 초기화 시 1층의 mapId를 설정
     };
 
     // 층이 선택되면 해당 층 정보 설정
