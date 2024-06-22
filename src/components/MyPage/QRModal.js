@@ -35,7 +35,7 @@ const QRModal = ({ children, isActive = false, value }) => {
                 <p class="description">아래 QR코드는 매장 컨시어시 방문 시 사용 가능합니다.</p>
                 <br />
                 <QRModalHead value={value.reservationVO} />
-                <QRModalBody value={value.placeDTO} />
+                <QRModalBody value={value} />
             </QRBlock>
         </CommonModal>
     );
