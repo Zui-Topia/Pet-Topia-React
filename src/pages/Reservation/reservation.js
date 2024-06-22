@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Modal } from 'antd';
 import styled from 'styled-components';
 import { Header } from '../../components/Main/Common/Header';
-import BranchSearch from '../../components/Map/BranchSearch/BranchSearch';
+import BranchSearch from '../../components/Main/BranchSearch';
 import ReservationMap from '../../components/Main/Common/ReservationMap';
 import ReservationCalendar from '../../components/Reservation/ReservationCalendar/ReservationCalendar';
 import TimeSelection from '../../components/Reservation/TimeSelection/TimeSelection';
