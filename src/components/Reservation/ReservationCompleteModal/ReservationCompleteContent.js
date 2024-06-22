@@ -108,7 +108,7 @@ const formatDate = (dateStr) => {
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const day = String(date.getDate()).padStart(2, '0');
     const koreanDay = getKoreanDay(date);
-    return `${year}.${month}.${day}(${koreanDay})`;
+    return `${year}.${month}.${day} ${koreanDay}`;
 };
 
 // 시간을 원하는 형식으로 변환하는 함수
@@ -149,7 +149,7 @@ export const ReservationCompleteContent = ({ reservationToken, reservationDate, 
                 <OverlapGroup>
                     <Element>예약번호&nbsp;| {reservationToken}</Element>
                     <TextWrapper>
-                        {formattedDate}&nbsp; {formattedTime}
+                        {formattedDate}&nbsp;{formattedTime}
                     </TextWrapper>
                 </OverlapGroup>
 
