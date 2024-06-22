@@ -7,7 +7,7 @@ import { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
 import PetWeightSelectionToggle from "../../components/User/Input/PetWeightSelection";
 import PetSizeSelectionToggle from "../../components/User/Input/PetSizeSelection";
 import SubmitButton from "../../components/Main/Submit/Submit";
-import SignUpHeader from "../../components/Main/Common/SignUpHeader";
+import Header from "../../components/Main/Common/Header";
 import EmailValidationCheckButton from "../../components/Main/Submit/EmailValidCheck";
 import PostSignUpAPI from "../../api/User/PostSignUpAPI";
 import { Navigate, useNavigate } from "react-router-dom";
@@ -68,7 +68,9 @@ const Signup = () => {
 
           setIsSubmitting(false); // 제출 상태를 false로 설정
           Modal.success({
-            content: response.data.data.message,
+            title: "회원가입 성공",
+            content: "성공적으로 회원가입되었습니다",
+            okText: "확인",
             onOk: () => {
               setIsSubmitting(false); // 회원가입 성공 후 상태 변경
               navigate("/login"); // 회원가입 성공 시 /login 페이지로 이동
@@ -111,7 +113,7 @@ const Signup = () => {
 
   return (
     <FullHeightLayout>
-      <SignUpHeader />
+      <Header />
       <StyledContent>
         <Inner>
           <FormContainer onSubmit={handleSubmit}>

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Modal } from 'antd';
 import styled from 'styled-components';
 import { Header } from '../../components/Main/Common/Header';
-import BranchSearch from '../../components/Main/BranchSearch';
+import BranchSearch from '../../components/Map/BranchSearch/BranchSearch';
 import ReservationMap from '../../components/Main/Common/ReservationMap';
 import ReservationCalendar from '../../components/Reservation/ReservationCalendar/ReservationCalendar';
 import TimeSelection from '../../components/Reservation/TimeSelection/TimeSelection';
@@ -10,7 +10,9 @@ import ReservationCompleteModal from '../../components/Reservation/ReservationCo
 import { ReservationCompleteContent } from '../../components/Reservation/ReservationCompleteModal/ReservationCompleteContent';
 import ReservationAPI from '../../api/Reservation/ReservationAPI';
 import locationImg from '../../assets/images/location.png';
-
+import { getCookie } from '../../utils/cookie';
+import { useNavigate } from 'react-router-dom';
+import { deleteAllCookies } from '../../utils/cookie';
 // 예약 페이지 전체 컨테이너 스타일
 const ReservationPageContainer = styled.div`
     width: 100vw; // 화면 전체 너비
@@ -249,6 +251,7 @@ const ReservationPageBottomInContainer = styled.div`
     //align-items: center; /* 수직 중앙 정렬 추가 */
 `;
 const Reservation = () => {
+    const navigate = useNavigate();
     const date = new Date();
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -259,10 +262,12 @@ const Reservation = () => {
     const [selectedBranchId, setSelectedBranchId] = useState(1); // 선택된 지점 ID 상태
     const [selectedDate, setSelectedDate] = useState(formattedDate); // 선택된 날짜 상태
     const [selectedTime, setSelectedTime] = useState(null); // 선택된 시간 상태
-
+    const [isModalOpen, setIsModalOpen] = useState(false); // 예약 완료 모달 열림 여부 상태
     const [isClicked, setIsClicked] = useState(false);
     const [reservationToken, setReservationToken] = useState(null); // 예약 토큰
     const [strollerCnt, setStrollerCnt] = useState(0); // 반려견 유모차 잔여수
+    const accessToken = getCookie('accessToken');
+
     // 지점 선택 시 처리 함수
     const handleBranchChange = (branch, key) => {
         setSelectedBranch(branch); // 선택된 지점 업데이트
@@ -273,31 +278,47 @@ const Reservation = () => {
         if (isClicked) return; // 이미 클릭된 상태라면 함수 종료
         setIsClicked(true); // 클릭 상태로 설정
         try {
-            // 날짜 선택하지 않았을 때, 오늘 날짜로 설정
-            if (!selectedDate) {
-                setSelectedDate(formattedDate);
-            }
-            // 예약 시간을 선택하지 않았을 때 에러 모달 표시
-            if (!selectedTime || strollerCnt === 0) {
+            // 토큰이 없으면 예약실패 모달 후 로그인 페이지 이동
+            if (accessToken == null) {
                 Modal.error({
                     title: '예약 실패',
-                    content: '예약 시간을 선택하거나 잔여 유모차가 없습니다.',
+                    content: '로그인이 필요한 서비스입니다.',
+                    okText: '확인',
+                    onOk: () => {
+                        setTimeout(() => {
+                            deleteAllCookies();
+                            navigate('/login');
+                        }, 500); // 2초 후에 /login 페이지로 이동
+                    },
                 });
-                return;
+            } else {
+                // 여기에 set에 대한 로직 추가 필요
+                // 날짜 선택하지 않았을 때, 오늘 날짜로 설정
+                if (!selectedDate) {
+                    setSelectedDate(formattedDate);
+                }
+                // 예약 시간을 선택하지 않았을 때 에러 모달 표시
+                if (!selectedTime || strollerCnt === 0) {
+                    Modal.error({
+                        title: '예약 실패',
+                        content: '예약 시간을 선택하거나 잔여 유모차가 없습니다.',
+                    });
+                    return;
+                }
+                // 예약 데이터 객체 생성
+                const reservationInfo = {
+                    userId: selectedUserId, // 유저 아이디
+                    branchId: selectedBranchId, // 지점 아아디
+                    reservationDate: selectedDate, // 예약 날짜
+                    reservationVisitTime: selectedTime, // 픽업 시간
+                };
+                setIsClicked(true);
+                // 백엔드 서버 URL을 사용하여 예약 생성 요청
+                const response = await ReservationAPI.createReservation(reservationInfo);
+                console.log(response.data.data);
+                setReservationToken(response.data.data.reservationToken);
+                document.getElementById('modalTriggerButton').click();
             }
-            // 예약 데이터 객체 생성
-            const reservationInfo = {
-                userId: selectedUserId, // 유저 아이디
-                branchId: selectedBranchId, // 지점 아아디
-                reservationDate: selectedDate, // 예약 날짜
-                reservationVisitTime: selectedTime, // 픽업 시간
-            };
-            setIsClicked(true);
-            // 백엔드 서버 URL을 사용하여 예약 생성 요청
-            const response = await ReservationAPI.createReservation(reservationInfo);
-            console.log(response.data.data);
-            setReservationToken(response.data.data.reservationToken);
-            document.getElementById('modalTriggerButton').click();
         } catch (error) {
             // 예약 실패 시 에러 처리
             Modal.error({
@@ -330,7 +351,6 @@ const Reservation = () => {
     useEffect(() => {
         setSelectedTime(null);
     }, [selectedDate]);
-
     return (
         <ReservationPageContainer>
             <Header /> {/* 헤더 컴포넌트 */}

@@ -1,15 +1,11 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { Layout, Modal } from "antd";
-import SignUpHeader from "../../components/Main/Common/SignUpHeader";
+import { Layout, Modal, Input, Spin } from "antd";
 import Header from "../../components/Main/Common/Header";
-import { Input } from "antd";
-import { Spin } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import loginAPI from "../../api/User/LogInAPI"; // loginAPI import
 import { setCookie } from "../../utils/cookie";
-// import { Spin } from "antd";
 
 const { Content } = Layout;
 
@@ -142,7 +138,6 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
   const [modalText, setModalText] = useState("");
-  const [loginSuccess, setLoginSuccess] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -153,11 +148,7 @@ const Login = () => {
     try {
       const response = await loginAPI(email, password);
       console.log("서버 응답: ", response.headers); // 로그 추가
-      const authorizationHeader = response.headers.get("Authorization");
-      const accessToken = authorizationHeader
-        ? authorizationHeader.split(" ")[1]
-        : null; // Bearer 토큰 추출
-      // const accessToken = response.headers.get("Authorization");
+      const accessToken = response.headers.get("Authorization");
       console.log("headers:", response);
       console.log(accessToken);
       if (accessToken) {
@@ -168,36 +159,24 @@ const Login = () => {
       }
 
       if (response.data.success) {
-        setLoginSuccess(true);
-        setModalVisible(true);
-        setModalText("로그인 성공");
+        navigate("/main");
       } else {
-        setLoginSuccess(false);
         setModalText("로그인 실패: 잘못된 이메일 또는 비밀번호");
+        setModalVisible(true);
       }
     } catch (error) {
       console.log("에러 발생: ", error); // 로그 추가
-      setLoginSuccess(false);
       setModalText("로그인 중 오류 발생");
+      setModalVisible(true);
     } finally {
       setSpinning(false); // 스피너 비활성화
-      setModalVisible(true); // 모달 활성화
     }
   };
 
   const handleModalClose = () => {
     setModalVisible(false);
-    setSpinning(true);
-
-    if (loginSuccess) {
-      setTimeout(() => {
-        setSpinning(false);
-        navigate("/main");
-      }, 500);
-    } else {
-      setSpinning(false);
-    }
   };
+
   return (
     <FullHeightLayout>
       {spinning && (
@@ -251,6 +230,8 @@ const Login = () => {
         visible={modalVisible}
         onOk={handleModalClose}
         onCancel={handleModalClose}
+        okText="확인"
+        cancelButtonProps={{ style: { display: "none" } }}
       >
         <p>{modalText}</p>
       </Modal>
