@@ -11,7 +11,7 @@ import ReservationInfo from '../../components/MyPage/MyReservation/ReservationIn
 import ReservationHead from '../../components/MyPage/MyReservation/ReservationHead';
 import ReservationBody from '../../components/MyPage/MyReservation/ReservationBody';
 import QRModal from '../../components/MyPage/QRModal';
-import MyReservationAPI from '../../api/MyPage/MyPageAPI';
+import { MyReservationAPI } from '../../api/MyPage/MyPageAPI';
 
 import { getCookie } from '../../utils/cookie';
 
