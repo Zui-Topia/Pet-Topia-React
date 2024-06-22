@@ -40,23 +40,23 @@ const items = [
     label: "체고",
     children: [
       {
-        key: "option-1",
+        key: "10",
         label: "10cm 이상 20cm 미만",
       },
       {
-        key: "option-2",
+        key: "20",
         label: "20cm 이상 30cm 미만",
       },
       {
-        key: "option-3",
+        key: "30",
         label: "30cm 이상 40cm 미만",
       },
       {
-        key: "option-4",
+        key: "40",
         label: "40cm 이상 50cm 미만",
       },
       {
-        key: "option-5",
+        key: "50",
         label: "50cm 이상 60cm 미만",
       },
     ],

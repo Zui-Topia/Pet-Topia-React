@@ -41,7 +41,7 @@ const items = [
     children: Array.from({ length: 20 }, (_, index) => {
       const kg = index + 1;
       return {
-        key: `option-${kg}`,
+        key: `${kg}`,
         label: `${kg} kg`,
       };
     }),
