@@ -65,6 +65,8 @@ const SpinContainer = styled.div`
   justify-content: center;
   background: rgba(255, 255, 255, 0.7);
   z-index: 9999;
+  /* 애니메이션을 추가하여 나타날 때와 사라질 때 효과를 동일하게 유지 */
+  transition: opacity 0.5s ease-in-out;
 `;
 
 const Main = () => {

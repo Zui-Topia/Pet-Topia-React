@@ -37,20 +37,38 @@ const ReservationPageBottomContainer = styled.div`
 const ServiceText = styled.div`
   color: #000000; // 글자 색상
   font-family: "Kanit-Regular", Helvetica; // 글꼴
-  font-size: 30px; // 글자 크기
+  font-size: 25px; // 글자 크기
   font-weight: 400; // 글자 굵기
-  margin-bottom: 15px;
+  // margin-top: 5px;
+  margin-bottom: 10px;
+  padding-left: 5px;
+
+  // margin-left: 6px;
+  // padding-left: 18px;
+  // padding-top: 12px;
+  // padding-bottom: 8px;
+  // background-color: #fa8282;
+
+  // border-top-left-radius: 10px;
+  // border-top-right-radius: 10px;
+
+  // width: 190px;
+  // align-items: center;
 `;
 
 // 오버랩 그룹 스타일
 const OverlapGroup = styled.div`
   width: 1236px; // 고정 너비
   height: 550px; // 고정 높이
-  border: 2px solid #9b9b9b; // 테두리
+  border-top: 10px solid #fa8282; // 상단 테두리
+  border-right: 2px solid #eeeeee; // 오른쪽 테두리
+  border-bottom: 2px solid #eeeeee; // 하단 테두리
+  border-left: 2px solid #eeeeee; // 왼쪽 테두리 this
   border-radius: 10px; // 테두리 반경
   display: flex;
   flex-direction: row;
   align-items: center;
+  box-shadow: 5px 5px 5px #eeeeee; //this
 `;
 const Container = styled.div`
   width: 618px;
@@ -103,7 +121,7 @@ const StepText2 = styled.span`
 const StepRectangle = styled.div`
   height: 285px; // 고정 높이
   width: 450px; // 고정 너비
-  border: 2px solid #9b9b9b;
+  border: 2px solid #eeeeee; //this
   border-radius: 20px; // 테두리 반경
   display: flex;
   flex-direction: column;
@@ -125,7 +143,7 @@ const PickupRectangle = styled.div`
   height: 60px; // 고정 높이
   width: 402px; // 고정 너비
   background-color: #ffffff; // 배경 색상
-  border: 29B9B9Bpx solid #9b9b9b; // 테두리
+  border: 29B9B9Bpx solid #eeeeee; // 테두리 this
   border-radius: 10px; // 테두리 반경
   align-content: center;
 `;
@@ -134,7 +152,7 @@ const RemainingRectangle = styled.div`
   height: 60px; // 고정 높이
   width: 402px; // 고정 너비
   background-color: #ffffff; // 배경 색상
-  border: 2px solid #909090; // 테두리
+  border: 2px solid #eeeeee; // 테두리
   border-radius: 10px; // 테두리 반경
   align-content: center;
   margin-bottom: 30px;
@@ -152,7 +170,7 @@ const RemainingText = styled.div`
 const StepLine = styled.div`
   height: 500px; // 고정 높이
   width: 0px; // 고정 너비
-  border: 1px solid #9b9b9b; // 테두리 // 테두리 좌측
+  border: 1px solid #eeeeee; // 테두리 // 테두리 좌측 // this
 `;
 // 예약 버튼 스타일
 const StepButton = styled.button`
@@ -383,7 +401,7 @@ const Reservation = () => {
             <BranchText>{selectedBranch}</BranchText>
           </BranchTextContainer>
 
-          <ServiceText>반려견 유모차 대여 예약</ServiceText>
+          <ServiceText>개모차 대여 예약</ServiceText>
           <OverlapGroup>
             {/* 예약 단계 1: 날짜 선택 */}
             <Container1>

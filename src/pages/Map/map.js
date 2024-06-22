@@ -113,6 +113,27 @@ const Map = () => {
   const [searchClicked, setSearchClicked] = useState(false);
   const [searchText, setSearchText] = useState("");
   const [places, setPlaces] = useState([]);
+  // 서버 통신해서 마커 표시하기
+  const [markerData, setMarkerData] = useState([]);
+  const [filteredMarkerData, setFilteredMarkerData] = useState(markerData); // 필터링된 마커 데이터 상태 추가
+  const [selectedBranch, setSelectedBranch] = useState("더현대 서울");
+  const [selectedFloor, setSelectedFloor] = useState("1F"); // 선택된 층 정보 상태
+  const [selectedBranchKey, setSelectedBranchKey] = useState(1); // 선택된 지점의 key 상태 추가
+  const [selectedCategories, setSelectedCategories] = useState([0]); // 선택된 카테고리 정보 배열 상태
+  const [floorImagePath, setFloorImagePath] = useState("");
+  const [mapId, setMapId] = useState(7);
+  const [strollerCnt, setStrollerCnt] = useState(0);
+  // 선택된 지점의 층 정보 상태 추가
+  const [floors, setFloors] = useState([]);
+  //검색 아이콘 클릭
+  const [searchClicked, setSearchClicked] = useState(false);
+  const [searchText, setSearchText] = useState("");
+  const [places, setPlaces] = useState([]);
+
+  useEffect(() => {
+    // 기본적으로 "ALL" 버튼 활성화
+    setSelectedCategories([0]);
+  }, []);
 
   useEffect(() => {
     const fetchBranchData = async () => {
@@ -225,17 +246,22 @@ const Map = () => {
       console.error("Selected floor data not found for floor:", floor);
     }
 
+    // 마커 데이터 초기화
     setMarkerData([]);
-    setSelectedCategories([]);
+    // "ALL" 버튼을 선택한 것으로 초기화
+    setSelectedCategories([0]);
   };
 
+  // useEffect를 사용하여 필터링된 데이터 설정
   useEffect(() => {
-    if (selectedCategories.length === 0) {
-      setFilteredMarkerData(markerData);
+    if (selectedCategories.includes(0)) {
+      setFilteredMarkerData(markerData); // "ALL" 선택 시 모든 마커 데이터를 표시
     } else {
+      // 필터링된 마커 데이터 생성
       const filteredData = markerData.filter((marker) =>
         selectedCategories.includes(marker.categoryId)
       );
+      // 필터링된 마커 데이터를 MarkerRenderer에 전달
       setFilteredMarkerData(filteredData);
     }
   }, [markerData, selectedCategories]);
@@ -244,16 +270,39 @@ const Map = () => {
     const index = selectedCategories.indexOf(category);
     let updatedCategories;
 
-    if (index === -1) {
-      updatedCategories = [...selectedCategories, category];
+    if (category === 0) {
+      // "ALL" 버튼을 눌렀을 때
+      if (selectedCategories.includes(0)) {
+        updatedCategories = []; // 이미 선택된 경우 초기화
+      } else {
+        updatedCategories = [0]; // 선택된 경우 "ALL"만 남김
+      }
     } else {
-      updatedCategories = selectedCategories.filter((cat) => cat !== category);
+      // 다른 카테고리 버튼을 눌렀을 때
+      if (selectedCategories.includes(0)) {
+        updatedCategories = [category]; // "ALL"이 선택된 상태에서 다른 카테고리를 선택한 경우 해당 카테고리만 선택
+      } else {
+        const index = selectedCategories.indexOf(category);
+        if (index === -1) {
+          updatedCategories = [...selectedCategories, category]; // 선택되지 않은 카테고리 추가
+        } else {
+          updatedCategories = selectedCategories.filter(
+            (cat) => cat !== category
+          ); // 선택된 카테고리 제거
+        }
+      }
     }
 
     setSelectedCategories(updatedCategories);
-    const filteredMarkerData = markerData.filter((marker) =>
-      updatedCategories.includes(marker.categoryId)
-    );
+
+    // 필터링된 마커 데이터 생성
+    const filteredMarkerData = updatedCategories.includes(0)
+      ? markerData // "ALL" 선택 시 모든 마커 표시
+      : markerData.filter((marker) =>
+          updatedCategories.includes(marker.categoryId)
+        );
+
+    // 필터링된 마커 데이터를 MarkerRenderer에 전달
     setFilteredMarkerData(filteredMarkerData);
   };
 

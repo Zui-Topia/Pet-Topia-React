@@ -7,8 +7,16 @@ import moment from 'moment';
 const GlobalStyle = createGlobalStyle`
     @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@400;700&display=swap');
 
+    .ant-picker-content thead {
+        // background-color : #;
+        font-family: 'Kanit' !important;
+        font-size : 20px;
+        border-bottom : 15px solid #ffffff;
+    }
+
     .ant-picker-calendar {
         font-family: 'Kanit' !important;
+        font-size : 20px;
     }
 
     /* 오늘 날짜 테두리 색상 커스터마이징 */

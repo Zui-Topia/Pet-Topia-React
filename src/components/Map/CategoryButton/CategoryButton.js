@@ -50,7 +50,9 @@ const CategoryButton = ({ icon, activeIcon, text, onSelectCategory, isActive }) 
         <CategoryButtonWrapper>
             <CategoryButtonBox
                 onClick={handleButtonClick}
-                style={{ backgroundImage: `url(${isActive ? categoryCirclePinkImage : categoryCircleGreyImage})` }}
+                style={{
+                    backgroundImage: `url(${isActive ? categoryCirclePinkImage : categoryCircleGreyImage})`,
+                }}
             >
                 <CategoryButtonIcon style={{ backgroundImage: `url(${isActive ? activeIcon : icon})` }} />
             </CategoryButtonBox>

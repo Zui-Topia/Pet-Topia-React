@@ -11,6 +11,8 @@ export const IMAGE_PATHS = {
     CAFE_PINK: require('../assets/images/cafe-pink.png'),
     PARK_GREY: require('../assets/images/park-grey.png'),
     PARK_PINK: require('../assets/images/park-pink.png'),
+    ALL_PINK: require('../assets/images/all_pink.png'),
+    ALL_GREY: require('../assets/images/all_grey.png'),
 };
 
 export const MARKER = {
