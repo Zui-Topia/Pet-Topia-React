@@ -69,26 +69,25 @@ const SpinContainer = styled.div`
 
 const Main = () => {
   const [spinning, setSpinning] = useState(false);
-  const [selectedBranch, setSelectedBranch] = useState(null);
+  const [selectedBranch, setSelectedBranch] = useState({
+    branch: "더현대 서울",
+    key: 1,
+  });
   const navigate = useNavigate();
 
   const handleMapClick = () => {
-    if (selectedBranch) {
-      setSpinning(true);
-      setTimeout(() => {
-        setSpinning(false);
-        navigate("/map", { state: selectedBranch });
-      }, 500);
-    } else {
-      alert("Please select a branch first.");
-    }
+    setSpinning(true);
+    setTimeout(() => {
+      setSpinning(false);
+      navigate("/map", { state: selectedBranch });
+    }, 500);
   };
 
   const handleReservationClick = () => {
     setSpinning(true);
     setTimeout(() => {
       setSpinning(false);
-      navigate("/reservation");
+      navigate("/reservation", { state: selectedBranch });
     }, 500);
   };
 
