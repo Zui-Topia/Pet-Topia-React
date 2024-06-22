@@ -61,7 +61,7 @@ const MyPage = () => {
     useEffect(() => {
         const fetchReservations = async () => {
             try {
-                const response = await MyReservationAPI(1);
+                const response = await MyReservationAPI();
                 console.log(response.data.data);
                 if (response.data.success) {
                     const { myPageUserDTO, myPagePetDTO, myReservationDTO } = response.data.data;
