@@ -40,7 +40,7 @@ const Element = styled.div`
 const TextWrapper = styled.p`
     color: #ffffff;
     font-family: 'Kanit-Regular', Helvetica;
-    font-size: 35px;
+    font-size: 30px;
     font-weight: 400;
     /* left 속성 제거 */
     letter-spacing: 0;
