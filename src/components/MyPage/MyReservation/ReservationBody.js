@@ -1,5 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Navigate, useNavigate } from 'react-router-dom';
+import { Layout, Modal } from 'antd';
 import styled from 'styled-components';
+import { ReservationDeleteAPI } from '../../../api/MyPage/MyPageAPI';
 
 const ReservationBodyBlock = styled.div`
     background: #ffffff;
@@ -89,6 +92,40 @@ const ExpiredDiv = styled.div`
 
 const ReservationBody = ({ value }) => {
     const isExpired = value.reservationVO.reservationDelete === 1;
+    const reservationId = value.reservationVO.reservationId;
+    const navigate = useNavigate();
+
+    const [modalVisible, setModalVisible] = useState(false);
+    const [modalText, setModalText] = useState('');
+
+    console.log('reservationId : ' + reservationId);
+    const handleCancelReservation = async (event) => {
+        event.stopPropagation();
+        try {
+            const reservationInfo = {
+                reservationId: reservationId,
+            };
+            console.log('Sending reservation info:', reservationInfo); // 디버그용 로그
+
+            const response = await ReservationDeleteAPI(reservationInfo);
+
+            console.log(response);
+            console.log(response.data);
+            if (response.data.success) {
+                setModalVisible(true);
+                setModalText('예약이 삭제되었습니다.');
+            }
+        } catch (error) {
+            // Handle error, e.g., show an error message
+            console.error('Error cancelling reservation:', error);
+        }
+    };
+
+    const handleModalClose = () => {
+        setModalVisible(false);
+        window.location.reload();
+        navigate('/main');
+    };
 
     return (
         <ReservationBodyBlock>
@@ -107,8 +144,15 @@ const ReservationBody = ({ value }) => {
                 <div className="reservation-pay-amount">
                     {value.reservationVO.reservationPayment === 0 ? '0 원' : '5,000 원'}
                 </div>
-                {isExpired ? <ExpiredDiv>예약 만료</ExpiredDiv> : <DeleteButton>예약 취소</DeleteButton>}
+                {isExpired ? (
+                    <ExpiredDiv>예약 만료</ExpiredDiv>
+                ) : (
+                    <DeleteButton onClick={handleCancelReservation}>예약 취소</DeleteButton>
+                )}
             </div>
+            <Modal visible={modalVisible} onOk={handleModalClose} onCancel={handleModalClose}>
+                <p>{modalText}</p>
+            </Modal>
         </ReservationBodyBlock>
     );
 };

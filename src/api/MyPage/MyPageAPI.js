@@ -17,4 +17,8 @@ const ReservationHistoryAPI = (userId) => {
     });
 };
 
-export { MyReservationAPI, ReservationHistoryAPI };
+const ReservationDeleteAPI = (reservationInfo) => {
+    return instance.post('/mypage/delete', reservationInfo);
+};
+
+export { MyReservationAPI, ReservationHistoryAPI, ReservationDeleteAPI };
