@@ -1,43 +1,26 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
-import { Modal } from 'antd';
+
 import CommonModal from './CommonModal';
 
-// 예약 완료 모달 컴포넌트
 const ReservationCompleteModal = ({ children, isActive, borderRadius }) => {
-    // 모달을 열기 위한 트리거 버튼
-    const modalTrigger = (
-        <button style={{ display: 'none' }} id="modalTriggerButton">
-            {children}
-        </button>
-    );
-
-    // 모달 열림 상태를 관리하는 상태 변수
-    const [isModalOpen, setIsModalOpen] = useState(false);
-
-    // 모달 열기 함수
-    const showModal = () => {
-        setIsModalOpen(isActive);
-    };
-
-    // 모달 확인(닫기) 처리 함수
-    const handleOk = () => {
-        setIsModalOpen(false);
-    };
-
-    // 모달 취소(닫기) 처리 함수
-    const handleCancel = () => {
-        setIsModalOpen(false);
-    };
+    // 모달을 열기 위한 트리거 버튼 (보이지 않게 설정)
+    const modalTrigger = <button style={{ display: 'none' }} id="modalTriggerButton"></button>;
 
     return (
         <CommonModal
-            modalTrigger={modalTrigger} // 모달 트리거 버튼 설정
-            modalTriggerStyle={{ textAlign: 'center' }} // 모달 트리거 버튼 스타일
-            title="" // 모달 제목
-            isActive={isActive} // 모달 활성화 상태
-            style={{ width: '499px', height: '300px', borderRadius: '20px' }} // 모달 컨테이너 스타일
-            borderRadius={borderRadius} // 모달 컨테이너 테두리 반경
+            modalTrigger={modalTrigger} // 모달을 열기 위한 트리거 버튼 설정
+            modalTriggerStyle={{ textAlign: 'center' }} // 트리거 버튼을 화면 가운데 정렬
+            title="" // 모달 제목 (공백으로 설정)
+            isActive={isActive} // 모달 활성화 상태 설정
+            style={{
+                width: '499px', // 모달 너비
+                height: '300px', // 모달 높이
+                borderRadius: '20px', // 모달 테두리 반경
+                position: 'absolute', // 위치 설정을 위해 절대 위치 설정
+                top: '50%', // 화면 세로 중앙 정렬을 위한 top 값
+                left: '50%', // 화면 가로 중앙 정렬을 위한 left 값
+            }}
+            borderRadius={borderRadius} // 모달 컨테이너 테두리 반경 설정
         >
             {children} {/* 모달 내용 (자식 요소) */}
         </CommonModal>
