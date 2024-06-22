@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
 import { Divider } from 'antd';
@@ -29,7 +30,22 @@ const DividerWrapper = styled.div`
     margin: 0;
 `;
 
+const SectionTitleWrapper = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+`;
+
+const MoreButton = styled.div`
+    cursor: pointer;
+    color: black;
+    font-family: 'Kanit';
+    font-size: 15px;
+    padding-right: 10px;
+`;
+
 const MyPage = () => {
+    const navigate = useNavigate();
     const [myPageInfo, setMyPageInfo] = useState({
         myPageUserDTO: null,
         myPagePetDTO: null,
@@ -71,6 +87,10 @@ const MyPage = () => {
         fetchReservations();
     }, []);
 
+    const handleMoreClick = () => {
+        navigate('/history');
+    };
+
     return (
         <>
             <Header />
@@ -83,7 +103,10 @@ const MyPage = () => {
             </div>
             <div>
                 <MyPageSection>
-                    <SectionTitle title="나의 예약 내역" />
+                    <SectionTitleWrapper>
+                        <SectionTitle title="나의 예약 내역" />
+                        <MoreButton onClick={handleMoreClick}>더보기 &gt;</MoreButton>
+                    </SectionTitleWrapper>
                     <DividerWrapper>
                         <StyledDivider />
                     </DividerWrapper>
@@ -104,7 +127,7 @@ const MyPage = () => {
                                 </ReservationInfo>
                             </QRModal>
                         ) : (
-                            <NoReservation>예약 내역이 없습니다.</NoReservation>
+                            <NoReservation>진행 중인 예약 내역이 없습니다.</NoReservation>
                         )
                     ) : (
                         <div></div>
