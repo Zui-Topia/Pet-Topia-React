@@ -44,11 +44,11 @@ const QRModalBody = ({ value }) => {
             <div className="body-location">
                 <span>위치</span>
                 <div className="reservation-location">
-                    {value.branchName} / {value.placeInfo}
+                    {value.placeDTO.branchName} / {value.placeDTO.placeInfo}
                 </div>
             </div>
             <div className="qr-location">
-                <QRCodeElement />
+                <QRCodeElement reservationId={value.reservationVO.reservationId} />
             </div>
         </QRModalBodyBlock>
     );
