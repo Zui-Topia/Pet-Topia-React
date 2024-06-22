@@ -68,7 +68,9 @@ const Signup = () => {
 
           setIsSubmitting(false); // 제출 상태를 false로 설정
           Modal.success({
-            content: response.data.data.message,
+            title: "회원가입 성공",
+            content: "성공적으로 회원가입되었습니다",
+            okText: "확인",
             onOk: () => {
               setIsSubmitting(false); // 회원가입 성공 후 상태 변경
               navigate("/login"); // 회원가입 성공 시 /login 페이지로 이동
