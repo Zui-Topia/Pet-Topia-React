@@ -40,10 +40,10 @@ const BranchButtonBox = styled.button`
 // 지점검색 부분 - 텍스트
 const BranchSearchText = styled.div`
     color: #000000;
-    font-size: 20px;
+    font-size: 17px;
     font-weight: 700;
     font-family: 'Kanit-Bold', Helvetica;
-    margin-left: 10px;
+    margin-left: 15px;
 `;
 
 // 지점검색 부분 - 위, 아래 아이콘

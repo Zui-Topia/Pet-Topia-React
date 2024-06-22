@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { SearchOutlined } from '@ant-design/icons';
 import styled, { css } from 'styled-components';
 
-const Search = () => {
+const Search = ({ onSearchClick }) => {
     // 검색 박스 wrapper
     const SearchBox = styled.div`
         height: 55px;
@@ -52,18 +52,11 @@ const Search = () => {
         font-size: 20px;
     `;
 
-    const [click, setClick] = useState(false);
-    const handleSearchClick = () => {
-        // 검색 버튼 클릭 시 실행할 동작을 여기에 작성
-        alert('검색 버튼 클릭됨');
-        setClick(true);
-    };
-
     return (
         <SearchContainer>
             <SearchBox>
                 <SearchInput type="text" placeholder="검색어를 입력해주세요." />
-                <SearchIconButton onClick={handleSearchClick}>
+                <SearchIconButton onClick={onSearchClick}>
                     <SearchIcon />
                 </SearchIconButton>
             </SearchBox>
