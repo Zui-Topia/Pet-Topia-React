@@ -9,4 +9,12 @@ const MyReservationAPI = (userId) => {
     });
 };
 
-export default MyReservationAPI;
+const ReservationHistoryAPI = (userId) => {
+    return instance.get('/mypage/history', {
+        params: {
+            userId,
+        },
+    });
+};
+
+export { MyReservationAPI, ReservationHistoryAPI };

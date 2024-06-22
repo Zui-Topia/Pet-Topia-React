@@ -72,6 +72,7 @@ const ReservationBody = ({ value }) => {
                 <div className="reservation-pay-amount">
                     {value.reservationVO.reservationPayment === 0 ? '0' : '5,000'}
                 </div>
+                <button>예약 취소</button>
             </div>
         </ReservationBodyBlock>
     );
