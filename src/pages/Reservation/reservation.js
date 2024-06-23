@@ -392,7 +392,7 @@ const Reservation = () => {
                             <BranchText>{selectedBranch}</BranchText>
                         </BranchTextContainer>
 
-                        <ServiceText>반려견 유모차 대여 예약</ServiceText>
+                        <ServiceText>개모차 대여 예약</ServiceText>
                         <OverlapGroup>
                             {/* 예약 단계 1: 날짜 선택 */}
                             <Container1>
