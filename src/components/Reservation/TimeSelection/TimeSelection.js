@@ -50,44 +50,48 @@ const items = [
 
         children: [
             {
-                key: '10 : 30 AM',
-                label: '10 : 30 AM',
+                key: '10:00 AM',
+                label: '10:00 AM',
             },
             {
-                key: '11 : 30 AM',
-                label: '11 : 30 AM',
+                key: '11:00 AM',
+                label: '11:00 AM',
             },
             {
-                key: '12 : 30 PM',
-                label: '12 : 30 PM',
+                key: '12:00 PM',
+                label: '12:00 PM',
             },
             {
-                key: '01 : 30 PM',
-                label: '01 : 30 PM',
+                key: '01:00 PM',
+                label: '01:00 PM',
             },
             {
-                key: '02 : 30 PM',
-                label: '02 : 30 PM',
+                key: '02:00 PM',
+                label: '02:00 PM',
             },
             {
-                key: '03 : 30 PM',
-                label: '03 : 30 PM',
+                key: '03:00 PM',
+                label: '03:00 PM',
             },
             {
-                key: '04 : 30 PM',
-                label: '04 : 30 PM',
+                key: '04:00 PM',
+                label: '04:00 PM',
             },
             {
-                key: '05 : 30 PM',
-                label: '05 : 30 PM',
+                key: '05:00 PM',
+                label: '05:00 PM',
             },
             {
-                key: '06 : 30 PM',
-                label: '06 : 30 PM',
+                key: '06:00 PM',
+                label: '06:00 PM',
             },
             {
-                key: '07 : 30 PM',
-                label: '07 : 30 PM',
+                key: '07:00 PM',
+                label: '07:00 PM',
+            },
+            {
+                key: '08:00 PM',
+                label: '08:00 PM',
             },
         ],
     },

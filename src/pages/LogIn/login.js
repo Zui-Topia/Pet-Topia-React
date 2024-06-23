@@ -6,7 +6,7 @@ import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import loginAPI from "../../api/User/LogInAPI"; // loginAPI import
 import { setCookie } from "../../utils/cookie";
-
+import LogInHeader from "../../components/Main/Common/LogInHeader";
 const { Content } = Layout;
 
 const FullHeightLayout = styled(Layout)`
@@ -21,6 +21,10 @@ const FullHeightLayout = styled(Layout)`
 const ButtonContainer = styled.div`
   width: 100%;
   margin-top: -50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px; // 버튼 사이 간격 추가
 `;
 
 const StyledContent = styled(Content)`
@@ -101,7 +105,7 @@ const LargeIcon = styled.div`
   }
 `;
 
-const LoginButton = styled.button`
+const Button = styled.button`
   width: 550px;
   height: 70px;
   background-color: black;
@@ -111,6 +115,7 @@ const LoginButton = styled.button`
   align-items: center;
   justify-content: center;
   font-size: 16px;
+  font-weight: bold; // 글자 볼드체로 변경
   cursor: pointer;
   border-radius: 6px;
 
@@ -119,6 +124,18 @@ const LoginButton = styled.button`
     color: white;
   }
 `;
+
+const SignUpButton = styled(Button)`
+  background-color: #ffffff;
+  color: black;
+  border: 1px solid black;
+
+  &:hover {
+    background-color: #f5f5f5 !important;
+    color: black;
+  }
+`;
+
 const SpinContainer = styled.div`
   position: fixed;
   top: 0;
@@ -184,7 +201,7 @@ const Login = () => {
           <Spin size="large" />
         </SpinContainer>
       )}
-      <Header />
+      <LogInHeader />
       <StyledContent>
         <Inner>
           <FormContainer onSubmit={handleSubmit}>
@@ -219,7 +236,10 @@ const Login = () => {
             />
 
             <ButtonContainer>
-              <LoginButton type="submit">로그인</LoginButton>
+              <Button type="submit">로그인</Button>
+              <SignUpButton type="button" onClick={() => navigate("/signup")}>
+                회원가입
+              </SignUpButton>
             </ButtonContainer>
           </FormContainer>
         </Inner>

@@ -163,6 +163,7 @@ const Map = () => {
                     if (initialFloor) {
                         setSelectedFloor('1F');
                         setFloorImagePath(require(`../../assets/images/map/${initialFloor.mapImg}`));
+                        setMapId(initialFloor.mapId); // 초기 마커 데이터를 가져오기 위한 mapId 설정
                     }
                 }
             } catch (error) {
@@ -194,44 +195,11 @@ const Map = () => {
         setSelectedBranch(branch);
         setSelectedBranchKey(key);
         setSelectedFloor('1F');
-        setSelectedCategories([0]);
+        setSelectedCategories([0]); // 초기 상태를 "ALL" 선택으로 설정
         setMarkerData([]);
-        setFilteredMarkerData([]);
-        setMapId(null); // 초기화
-        // Fetch new floor data for the selected branch
-        const fetchData = async () => {
-            try {
-                const response = await MapAPI.getListFloorMapId(key);
-                const data = response.data.data;
-                const convertedFloorsData = data.map((item) => {
-                    let floorLabel;
-                    if (item.floor < 0) {
-                        floorLabel = `B${Math.abs(item.floor)}`;
-                    } else if (item.floor > 0) {
-                        floorLabel = `${item.floor}F`;
-                    } else {
-                        floorLabel = item.floor;
-                    }
-                    return {
-                        ...item,
-                        floor: floorLabel,
-                        mapImg: `branch_${key}_floor_${item.floor}.png`,
-                        mapId: item.mapId,
-                    };
-                });
-
-                setFloors(convertedFloorsData);
-                const initialFloor = convertedFloorsData.find((item) => item.floor === '1F');
-                if (initialFloor) {
-                    setFloorImagePath(require(`../../assets/images/map/${initialFloor.mapImg}`));
-                    setMapId(initialFloor.mapId); // Set mapId to the initial floor's mapId
-                }
-            } catch (error) {
-                console.error('층 정보를 가져오는 중 오류가 발생했습니다:', error);
-            }
-        };
-
-        fetchData();
+        if (floors.length > 0) {
+            setMapId(floors.find((floor) => floor.floor === '1F')?.mapId);
+        }
     };
 
     const handleFloorSelect = (floor) => {
