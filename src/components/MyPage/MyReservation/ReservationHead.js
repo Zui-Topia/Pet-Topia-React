@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 const ReservationHeadBlock = styled.div`
-    background: ${(props) => (props.reservationDelete === 1 ? '#D9D9D9' : '#000000')};
+    background: ${(props) => (props.reservationDelete ? '#D9D9D9' : '#000000')};
 
     border-top-left-radius: 30px;
     border-top-right-radius: 30px;
@@ -25,8 +25,11 @@ const ReservationHeadBlock = styled.div`
 `;
 
 const ReservationHead = ({ value }) => {
+    console.log('value : ', value.reservationToken, value.reservationDelete, value.reservationDeleteDate);
+    const gray = value.reservationDelete === 1 || value.reservationDeleteDate !== null;
+    console.log('gray : ', gray);
     return (
-        <ReservationHeadBlock reservationDelete={value.reservationDelete}>
+        <ReservationHeadBlock reservationDelete={gray}>
             <div className="reservation-number">예약번호 | {value.reservationToken}</div>
             <div className="reservation-day-details">
                 {value.reservationDate} {value.reservationVisitTime}
