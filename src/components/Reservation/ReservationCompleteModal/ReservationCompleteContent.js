@@ -130,7 +130,7 @@ const formatTime = (timeStr) => {
     if (hours < 12) {
         formattedTime = `오전 ${hours}:${minutes}`;
     } else {
-        formattedTime = `오후 ${hours - 12}:${minutes}`;
+        formattedTime = `오후 ${hours}:${minutes}`;
     }
 
     return formattedTime;

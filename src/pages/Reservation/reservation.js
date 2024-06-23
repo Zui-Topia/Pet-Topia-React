@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Modal } from 'antd';
 import styled from 'styled-components';
 import { Header } from '../../components/Main/Common/Header';
-import BranchSearch from '../../components/Map/BranchSearch/BranchSearch';
+import BranchSearch from '../../components/Main/BranchSearch';
 import ReservationMap from '../../components/Main/Common/ReservationMap';
 import ReservationCalendar from '../../components/Reservation/ReservationCalendar/ReservationCalendar';
 import TimeSelection from '../../components/Reservation/TimeSelection/TimeSelection';
@@ -11,8 +11,9 @@ import { ReservationCompleteContent } from '../../components/Reservation/Reserva
 import ReservationAPI from '../../api/Reservation/ReservationAPI';
 import locationImg from '../../assets/images/location.png';
 import { getCookie } from '../../utils/cookie';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { deleteAllCookies } from '../../utils/cookie';
+
 // 예약 페이지 전체 컨테이너 스타일
 const ReservationPageContainer = styled.div`
     width: 100vw; // 화면 전체 너비
@@ -20,6 +21,7 @@ const ReservationPageContainer = styled.div`
     display: flex;
     flex-direction: column; // 세로 방향 정렬
     position: relative; // 상대적 위치
+    overflow-x: hidden;
 `;
 // 예약 페이지 하단 컨테이너 스타일
 const ReservationPageBottomContainer = styled.div`
@@ -36,20 +38,38 @@ const ReservationPageBottomContainer = styled.div`
 const ServiceText = styled.div`
     color: #000000; // 글자 색상
     font-family: 'Kanit-Regular', Helvetica; // 글꼴
-    font-size: 30px; // 글자 크기
+    font-size: 25px; // 글자 크기
     font-weight: 400; // 글자 굵기
-    margin-bottom: 15px;
+    // margin-top: 5px;
+    margin-bottom: 10px;
+    padding-left: 5px;
+
+    // margin-left: 6px;
+    // padding-left: 18px;
+    // padding-top: 12px;
+    // padding-bottom: 8px;
+    // background-color: #fa8282;
+
+    // border-top-left-radius: 10px;
+    // border-top-right-radius: 10px;
+
+    // width: 190px;
+    // align-items: center;
 `;
 
 // 오버랩 그룹 스타일
 const OverlapGroup = styled.div`
     width: 1236px; // 고정 너비
     height: 550px; // 고정 높이
-    border: 2px solid #9b9b9b; // 테두리
+    border-top: 10px solid #fa8282; // 상단 테두리
+    border-right: 2px solid #eeeeee; // 오른쪽 테두리
+    border-bottom: 2px solid #eeeeee; // 하단 테두리
+    border-left: 2px solid #eeeeee; // 왼쪽 테두리 this
     border-radius: 10px; // 테두리 반경
     display: flex;
     flex-direction: row;
     align-items: center;
+    box-shadow: 5px 5px 5px #eeeeee; //this
 `;
 const Container = styled.div`
     width: 618px;
@@ -102,7 +122,7 @@ const StepText2 = styled.span`
 const StepRectangle = styled.div`
     height: 285px; // 고정 높이
     width: 450px; // 고정 너비
-    border: 2px solid #9b9b9b;
+    border: 2px solid #eeeeee; //this
     border-radius: 20px; // 테두리 반경
     display: flex;
     flex-direction: column;
@@ -119,21 +139,13 @@ const PickupTimeText = styled.div`
     width: 400px;
     margin-bottom: 20px;
 `;
-// 픽업 사각형 스타일
-const PickupRectangle = styled.div`
-    height: 60px; // 고정 높이
-    width: 402px; // 고정 너비
-    background-color: #ffffff; // 배경 색상
-    border: 29B9B9Bpx solid #9b9b9b; // 테두리
-    border-radius: 10px; // 테두리 반경
-    align-content: center;
-`;
+
 // 잔여 개수 사각형 스타일
 const RemainingRectangle = styled.div`
     height: 60px; // 고정 높이
     width: 402px; // 고정 너비
     background-color: #ffffff; // 배경 색상
-    border: 2px solid #909090; // 테두리
+    border: 2px solid #eeeeee; // 테두리
     border-radius: 10px; // 테두리 반경
     align-content: center;
     margin-bottom: 30px;
@@ -151,7 +163,7 @@ const RemainingText = styled.div`
 const StepLine = styled.div`
     height: 500px; // 고정 높이
     width: 0px; // 고정 너비
-    border: 1px solid #9b9b9b; // 테두리 // 테두리 좌측
+    border: 1px solid #eeeeee; // 테두리 // 테두리 좌측 // this
 `;
 // 예약 버튼 스타일
 const StepButton = styled.button`
@@ -250,16 +262,20 @@ const ReservationPageBottomInContainer = styled.div`
     justify-content: center; /* 수평 중앙 정렬 추가 */
     //align-items: center; /* 수직 중앙 정렬 추가 */
 `;
+
 const Reservation = () => {
     const navigate = useNavigate();
+    const location = useLocation();
+    const { branch, key } = location.state || { branch: '더현대 서울', key: 1 };
+
     const date = new Date();
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const day = String(date.getDate()).padStart(2, '0');
     const formattedDate = `${year}-${month}-${day}`;
     const [selectedUserId, setUserId] = useState(1); // 유저 아이디 상태
-    const [selectedBranch, setSelectedBranch] = useState('더현대 서울'); // 선택된 지점 이름 상태
-    const [selectedBranchId, setSelectedBranchId] = useState(1); // 선택된 지점 ID 상태
+    const [selectedBranch, setSelectedBranch] = useState(branch); // 선택된 지점 이름 상태
+    const [selectedBranchId, setSelectedBranchId] = useState(key); // 선택된 지점 ID 상태
     const [selectedDate, setSelectedDate] = useState(formattedDate); // 선택된 날짜 상태
     const [selectedTime, setSelectedTime] = useState(null); // 선택된 시간 상태
     const [isModalOpen, setIsModalOpen] = useState(false); // 예약 완료 모달 열림 여부 상태
@@ -317,7 +333,7 @@ const Reservation = () => {
                 const response = await ReservationAPI.createReservation(reservationInfo);
                 console.log(response.data.data);
                 setReservationToken(response.data.data.reservationToken);
-                document.getElementById('modalTriggerButton').click();
+                showModal();
             }
         } catch (error) {
             // 예약 실패 시 에러 처리
@@ -351,77 +367,93 @@ const Reservation = () => {
     useEffect(() => {
         setSelectedTime(null);
     }, [selectedDate]);
-    return (
-        <ReservationPageContainer>
-            <Header /> {/* 헤더 컴포넌트 */}
-            <ReservationMap /> {/* 지도 예약 컴포넌트 */}
-            <ReservationPageBottomContainer>
-                <BranchSearchContainer>
-                    <BranchSearch onSelectBranch={handleBranchChange} /> {/* 지점 검색 컴포넌트 */}
-                </BranchSearchContainer>
-                {/* 예약 페이지 하단 컨테이너 */}
-                <ReservationPageBottomInContainer>
-                    <BranchTextContainer>
-                        <BranchIIcon />
-                        <BranchText>{selectedBranch}</BranchText>
-                    </BranchTextContainer>
 
-                    <ServiceText>반려견 유모차 대여 예약</ServiceText>
-                    <OverlapGroup>
-                        {/* 예약 단계 1: 날짜 선택 */}
-                        <Container1>
-                            <Step1>
-                                <StepText1>
-                                    STEP 1. <span>&nbsp;</span>
-                                    <StepContent>날짜&nbsp;선택</StepContent>
-                                </StepText1>
-                            </Step1>
-                            <ReservationCalendarContainer>
-                                <ReservationCalendar onSelectDate={(date) => setSelectedDate(date)} />{' '}
-                                {/* 날짜 선택 컴포넌트 */}
-                            </ReservationCalendarContainer>
-                        </Container1>
-                        <StepLine />
-                        {/* 예약 단계 2: 픽업 시간 선택 */}
-                        <Container>
-                            <Step2>
-                                <StepText2>
-                                    STEP 2. <span>&nbsp;</span>
-                                    <StepContent>픽업시간&nbsp;선택</StepContent>
-                                </StepText2>
-                            </Step2>
-                            <StepRectangle>
-                                <RemainingRectangle>
-                                    <RemainingText>잔여 개수 : {strollerCnt} 개</RemainingText> {/* 잔여 개수 텍스트 */}
-                                </RemainingRectangle>
-                                <PickupTimeText>픽업 시간</PickupTimeText> {/* 픽업 시간 제목 */}
-                                <PickupImage>
-                                    <TimeSelectorContainer>
-                                        <TimeSelection onSelectTime={handleTimeSelection} selectedDate={selectedDate} />{' '}
-                                        {/* 시간 선택 컴포넌트 */}
-                                    </TimeSelectorContainer>
-                                </PickupImage>
-                            </StepRectangle>
-                            <StepButton
-                                onClick={handleReservation}
-                                disabled={isClicked || !selectedTime || strollerCnt === 0}
-                            >
-                                <StepButtonText disabled={isClicked || !selectedTime || strollerCnt === 0}>
-                                    예약하기
-                                </StepButtonText>
-                            </StepButton>
-                            <ReservationCompleteModal isActive={true} borderRadius={'25px'}>
-                                <ReservationCompleteContent
-                                    reservationToken={reservationToken}
-                                    reservationDate={selectedDate}
-                                    reservationVisitTime={selectedTime}
-                                />
-                            </ReservationCompleteModal>
-                        </Container>
-                    </OverlapGroup>
-                </ReservationPageBottomInContainer>
-            </ReservationPageBottomContainer>
-        </ReservationPageContainer>
+    const showModal = () => {
+        setIsModalOpen(true);
+    };
+
+    const handleCancel = () => {
+        setIsModalOpen(false);
+    };
+
+    return (
+        <>
+            <ReservationPageContainer>
+                <Header /> {/* 헤더 컴포넌트 */}
+                <ReservationMap /> {/* 지도 예약 컴포넌트 */}
+                <ReservationPageBottomContainer>
+                    <BranchSearchContainer>
+                        <BranchSearch onSelectBranch={handleBranchChange} /> {/* 지점 검색 컴포넌트 */}
+                    </BranchSearchContainer>
+                    {/* 예약 페이지 하단 컨테이너 */}
+                    <ReservationPageBottomInContainer>
+                        <BranchTextContainer>
+                            <BranchIIcon />
+                            <BranchText>{selectedBranch}</BranchText>
+                        </BranchTextContainer>
+
+                        <ServiceText>개모차 대여 예약</ServiceText>
+                        <OverlapGroup>
+                            {/* 예약 단계 1: 날짜 선택 */}
+                            <Container1>
+                                <Step1>
+                                    <StepText1>
+                                        STEP 1. <span>&nbsp;</span>
+                                        <StepContent>날짜&nbsp;선택</StepContent>
+                                    </StepText1>
+                                </Step1>
+                                <ReservationCalendarContainer>
+                                    <ReservationCalendar onSelectDate={(date) => setSelectedDate(date)} />{' '}
+                                    {/* 날짜 선택 컴포넌트 */}
+                                </ReservationCalendarContainer>
+                            </Container1>
+                            <StepLine />
+                            {/* 예약 단계 2: 픽업 시간 선택 */}
+                            <Container>
+                                <Step2>
+                                    <StepText2>
+                                        STEP 2. <span>&nbsp;</span>
+                                        <StepContent>픽업시간&nbsp;선택</StepContent>
+                                    </StepText2>
+                                </Step2>
+                                <StepRectangle>
+                                    <RemainingRectangle>
+                                        <RemainingText>잔여 개수 : {strollerCnt} 개</RemainingText>{' '}
+                                        {/* 잔여 개수 텍스트 */}
+                                    </RemainingRectangle>
+                                    <PickupTimeText>픽업 시간</PickupTimeText> {/* 픽업 시간 제목 */}
+                                    <PickupImage>
+                                        <TimeSelectorContainer>
+                                            <TimeSelection
+                                                onSelectTime={handleTimeSelection}
+                                                selectedDate={selectedDate}
+                                            />{' '}
+                                            {/* 시간 선택 컴포넌트 */}
+                                        </TimeSelectorContainer>
+                                    </PickupImage>
+                                </StepRectangle>
+                                <StepButton
+                                    onClick={handleReservation}
+                                    disabled={isClicked || !selectedTime || strollerCnt === 0}
+                                >
+                                    <StepButtonText disabled={isClicked || !selectedTime || strollerCnt === 0}>
+                                        예약하기
+                                    </StepButtonText>
+                                </StepButton>
+
+                                <ReservationCompleteModal isModalOpen={isModalOpen} handleCancel={handleCancel}>
+                                    <ReservationCompleteContent
+                                        reservationToken={reservationToken}
+                                        reservationDate={selectedDate}
+                                        reservationVisitTime={selectedTime}
+                                    />
+                                </ReservationCompleteModal>
+                            </Container>
+                        </OverlapGroup>
+                    </ReservationPageBottomInContainer>
+                </ReservationPageBottomContainer>
+            </ReservationPageContainer>
+        </>
     );
 };
 export default Reservation;
