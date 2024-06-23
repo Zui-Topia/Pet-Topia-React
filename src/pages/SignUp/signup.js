@@ -10,7 +10,7 @@ import SubmitButton from "../../components/Main/Submit/Submit";
 import Header from "../../components/Main/Common/Header";
 import EmailValidationCheckButton from "../../components/Main/Submit/EmailValidCheck";
 import PostSignUpAPI from "../../api/User/PostSignUpAPI";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const SignupSchema = Yup.object().shape({
   email: Yup.string()
@@ -213,7 +213,7 @@ const Signup = () => {
               <SubmitButton
                 label="회원가입하기"
                 onClick={formik.handleSubmit}
-                disabled={isSubmitting}
+                disabled={isSubmitting || !isEmailAvailable} // 이메일 중복확인 안됐을 경우 비활성화
               />
             </ButtonContainer>
           </FormContainer>
