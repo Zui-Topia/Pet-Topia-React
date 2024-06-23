@@ -118,19 +118,17 @@ const formatTime = (timeStr) => {
 
     // 문자열 내의 공백을 제거하여 처리
     const trimmedTimeStr = timeStr.replace(/\s/g, '');
+    console.log('예약시간: ', trimmedTimeStr);
 
     const [time, period] = trimmedTimeStr.split(':');
     if (!time || !period) return '';
 
-    const hours = parseInt(time);
-    const minutes = parseInt(period);
-
-    // 오전과 오후를 구별하여 처리
     let formattedTime = '';
-    if (hours < 12) {
-        formattedTime = `오전 ${hours}:${minutes}`;
+    // 오전과 오후를 구별하여 처리
+    if (period.slice(2, 4) === 'AM') {
+        formattedTime = `오전 ${time}:${period.slice(0, 2)}`;
     } else {
-        formattedTime = `오후 ${hours}:${minutes}`;
+        formattedTime = `오후 ${time}:${period.slice(0, 2)}`;
     }
 
     return formattedTime;
