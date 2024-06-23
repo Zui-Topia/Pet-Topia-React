@@ -14,8 +14,8 @@ const MarkerRenderer = ({ markerData, strollerCnt }) => {
         <div>
             {markerData.map((data, idx) => {
                 const isCategory2 = data.categoryId === 2;
-                const popoverContent = isCategory2 ? <div></div> : `${data.placeInfo}`;
-                const popoverTitle = isCategory2 ? `잔여갯수 : ${strollerCnt}개` : '위치';
+                const popoverContent = isCategory2 ? <div>잔여갯수 : {strollerCnt}개</div> : `${data.placeInfo}`;
+                const popoverTitle = isCategory2 ? `개모차 대여소` : '위치';
 
                 return (
                     <Popover
