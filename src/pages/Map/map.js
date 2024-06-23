@@ -105,7 +105,7 @@ const Map = () => {
   const [selectedBranch, setSelectedBranch] = useState(branch);
   const [selectedFloor, setSelectedFloor] = useState("1F");
   const [selectedBranchKey, setSelectedBranchKey] = useState(key);
-  const [selectedCategories, setSelectedCategories] = useState([0]); // 초기 상태를 "ALL" 선택으로 설정
+  const [selectedCategories, setSelectedCategories] = useState([]);
   const [floorImagePath, setFloorImagePath] = useState("");
   const [mapId, setMapId] = useState(7);
   const [strollerCnt, setStrollerCnt] = useState(0);
@@ -113,6 +113,27 @@ const Map = () => {
   const [searchClicked, setSearchClicked] = useState(false);
   const [searchText, setSearchText] = useState("");
   const [places, setPlaces] = useState([]);
+  // 서버 통신해서 마커 표시하기
+  //   const [markerData, setMarkerData] = useState([]);
+  //   const [filteredMarkerData, setFilteredMarkerData] = useState(markerData); // 필터링된 마커 데이터 상태 추가
+  //   const [selectedBranch, setSelectedBranch] = useState("더현대 서울");
+  //   const [selectedFloor, setSelectedFloor] = useState("1F"); // 선택된 층 정보 상태
+  //   const [selectedBranchKey, setSelectedBranchKey] = useState(1); // 선택된 지점의 key 상태 추가
+  //   const [selectedCategories, setSelectedCategories] = useState([0]); // 선택된 카테고리 정보 배열 상태
+  //   const [floorImagePath, setFloorImagePath] = useState("");
+  //   const [mapId, setMapId] = useState(7);
+  //   const [strollerCnt, setStrollerCnt] = useState(0);
+  //   // 선택된 지점의 층 정보 상태 추가
+  //   const [floors, setFloors] = useState([]);
+  //   //검색 아이콘 클릭
+  //   const [searchClicked, setSearchClicked] = useState(false);
+  //   const [searchText, setSearchText] = useState("");
+  //   const [places, setPlaces] = useState([]);
+
+  useEffect(() => {
+    // 기본적으로 "ALL" 버튼 활성화
+    setSelectedCategories([0]);
+  }, []);
 
   useEffect(() => {
     const fetchBranchData = async () => {

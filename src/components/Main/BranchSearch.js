@@ -112,6 +112,7 @@ const BranchSearchButtonToggle = ({ onSelectBranch }) => {
 
     useEffect(() => {
         setSelectedCategoryItems(items[category]);
+        setSelectedItem(null);
     }, [category]);
 
     const [selectedItem, setSelectedItem] = useState(null);
