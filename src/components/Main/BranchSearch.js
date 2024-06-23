@@ -3,18 +3,16 @@ import styled from 'styled-components';
 import toggleUpImage from '../../assets/images/toggle-up.png';
 import toggleDownImage from '../../assets/images/toggle-down.png';
 
-// 지점검색 전체창의 컴포넌트
 const BranchSearchContainer = styled.div`
     width: 450px;
-    height: auto; /* 높이를 자식 요소에 맞게 자동으로 설정할 수도 있음 */
-    border: 1px solid #d9d9d9; // 전체 테두리 색상
+    height: auto;
+    border: 1px solid #d9d9d9;
     background-color: #ffffff;
-    border-radius: 8px; /* 둥근 테두리 반경 설정 */
-    position: absolute; /* 화면에 고정 */
-    top: 130px; /* 원하는 위치 */
+    border-radius: 8px;
+    position: absolute;
+    top: 130px;
 `;
 
-// 지점검색 부분 - wrapper
 const BranchButtonWrapper = styled.div`
     border: 1px solid #d9d9d9;
     max-height: 50px;
@@ -24,9 +22,8 @@ const BranchButtonWrapper = styled.div`
     border-top: 2px solid #000000;
 `;
 
-// 지점검색 부분 - 버튼
 const BranchButtonBox = styled.button`
-    height: 50px; /* 최대 높이 설정 */
+    height: 50px;
     width: 100%;
     cursor: pointer;
     background: none;
@@ -37,7 +34,6 @@ const BranchButtonBox = styled.button`
     justify-content: center;
 `;
 
-// 지점검색 부분 - 텍스트
 const BranchSearchText = styled.div`
     color: #000000;
     font-size: 17px;
@@ -46,54 +42,50 @@ const BranchSearchText = styled.div`
     margin-left: 15px;
 `;
 
-// 지점검색 부분 - 위, 아래 아이콘
 const BranchToggleIcon = styled.div`
     width: 30px;
     height: 30px;
     background-image: url(${(props) => props.icon});
-    margin-left: auto; // 왼쪽 자동 여백 설정 (오른쪽 정렬)
-    background-size: cover; /* 이미지를 컨테이너 크기에 맞게 조절 */
+    margin-left: auto;
+    background-size: cover;
 `;
 
-// 카테고리 리스트 - wrapper
 const CategoryList = styled.ul`
     align-items: center;
     list-style-type: none;
     height: 40px;
     padding: 0;
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr)); /* 각 열의 너비를 동일하게 설정 */
+    grid-template-columns: repeat(4, minmax(0, 1fr));
 `;
 
-// 카테고리 리스트 - 안 리스트 (현대백화점, U-PLEX, 아울렛)
 const CategoryItem = styled.li`
     display: flex;
     align-items: center;
     justify-content: center;
     height: 100%;
     cursor: pointer;
-    color: ${(props) => (props.selected ? '#000000' : '#b9b9b9')}; // 선택 여부에 따른 색상
+    color: ${(props) => (props.selected ? '#000000' : '#b9b9b9')};
     font-size: 15px;
     font-weight: 700;
     font-family: 'Kanit-Bold', Helvetica;
     text-align: center;
 `;
 
-//  아이템 리스트 - wrapper
 const ItemList = styled.ul`
     border-top: 1px solid #f5f5f5;
     list-style-type: none;
     padding: 5px;
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr)); /* 각 열의 너비를 동일하게 설정 */
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 20px;
 `;
-// 아이템 리스트 - 안 리스트
+
 const Item = styled.li`
-    text-align: center; /* 중앙 정렬 */
+    text-align: center;
     cursor: pointer;
     height: 40px;
-    color: ${(props) => (props.selected ? '#000000' : '#b9b9b9')}; /* 클릭 여부에 따른 색상 */
+    color: ${(props) => (props.selected ? '#000000' : '#b9b9b9')};
     font-size: 15px;
     font-weight: 700;
     font-family: 'Kanit-Bold', Helvetica;
@@ -102,44 +94,35 @@ const Item = styled.li`
     justify-content: center;
 `;
 
-// 지점검색부분 클릭 버튼 - 위 아래 아이콘 변경
-const BranchSearchButton = ({ icon, onClick }) => {
+const BranchSearchButton = ({ icon, onClick, selectedBranch }) => {
     return (
         <BranchButtonWrapper>
             <BranchButtonBox onClick={onClick}>
-                <BranchSearchText>지점검색</BranchSearchText>
+                <BranchSearchText>{selectedBranch ? selectedBranch : '지점검색'}</BranchSearchText>
                 <BranchToggleIcon icon={icon} />
             </BranchButtonBox>
         </BranchButtonWrapper>
     );
 };
 
-// 지점검색을 클릭 - 카테고리/ 아이템 초기화
 const BranchSearchButtonToggle = ({ onSelectBranch }) => {
-    // 버튼 클릭 상태 추적
     const [isClickButton, setIsClickButton] = useState(false);
-    // 초기 카테고리 설정
-    // 초기 카테고리 설정
     const [category, setCategory] = useState('현대백화점');
-    // 현재 선택된 카테고리의 아이템 목록 추적
     const [selectedCategoryItems, setSelectedCategoryItems] = useState([]);
 
-    // 컴포넌트가 처음 렌더링될 때 초기 카테고리의 아이템을 설정
     useEffect(() => {
         setSelectedCategoryItems(items[category]);
+        setSelectedItem(null);
     }, [category]);
-    // 현재 선택된 개별 아이템을 추적
 
     const [selectedItem, setSelectedItem] = useState(null);
 
-    // 버튼 클릭 시 토글 기능
     const handleButtonClick = () => {
         setIsClickButton(!isClickButton);
     };
 
-    // 카테고리 목록
     const categories = ['현대백화점', 'U-PLEX', '아울렛'];
-    // 각 카테고리에 속한 아이템들
+
     const items = {
         현대백화점: [
             '더현대 서울',
@@ -163,7 +146,6 @@ const BranchSearchButtonToggle = ({ onSelectBranch }) => {
         아울렛: ['김포점', '송도점', '가산점', '동대문점', '가든파이브점', '대구점', '대전점', 'SPACE1'],
     };
 
-    // 인덱스 번호를 미리 선언
     const itemIndices = {};
     Object.keys(items).forEach((category) => {
         items[category].forEach((item, index) => {
@@ -171,44 +153,58 @@ const BranchSearchButtonToggle = ({ onSelectBranch }) => {
         });
     });
 
-    // 카테고리 클릭 시 해당 카테고리의 아이템 목록 업데이트 및 선택된 아이템 초기화
     const handleCategoryClick = (cate) => {
         setCategory(cate);
         setSelectedCategoryItems(items[cate] || []);
-        setSelectedItem(null); // 카테고리가 변경될 때 선택된 아이템을 초기화
+        setSelectedItem(null);
     };
-    // 아이템 클릭 시 선택된 아이템 설정
+
     const handleItemClick = (item) => {
         setSelectedItem(item);
-        //alert(`${item} 버튼이 클릭되었습니다.`);
-        const key = itemIndices[item]; // 아이템의 인덱스 번호를 key로 설정
-        onSelectBranch(item, key); // 선택된 지점과 key을 Map 컴포넌트로 전달
-        setIsClickButton(false); // 검색 토글을 닫음
+        const key = itemIndices[item];
+        onSelectBranch(item, key);
+        setIsClickButton(false);
     };
 
     return (
         <BranchSearchContainer>
-            <BranchSearchButton icon={isClickButton ? toggleUpImage : toggleDownImage} onClick={handleButtonClick} />
+            <BranchSearchButton
+                icon={isClickButton ? toggleUpImage : toggleDownImage}
+                onClick={handleButtonClick}
+                selectedBranch={selectedItem}
+            />
             {isClickButton && (
-                <CategoryList>
-                    {categories.map((cate) => (
-                        <CategoryItem key={cate} selected={category === cate} onClick={() => handleCategoryClick(cate)}>
-                            {cate}
-                        </CategoryItem>
-                    ))}
-                </CategoryList>
-            )}
-            {isClickButton && category && (
-                <ItemList>
-                    {selectedCategoryItems.map((item, index) => (
-                        <Item key={index + 1} selected={selectedItem === item} onClick={() => handleItemClick(item)}>
-                            {item}
-                        </Item>
-                    ))}
-                </ItemList>
+                <>
+                    <CategoryList>
+                        {categories.map((cate) => (
+                            <CategoryItem
+                                key={cate}
+                                selected={category === cate}
+                                onClick={() => handleCategoryClick(cate)}
+                            >
+                                {cate}
+                            </CategoryItem>
+                        ))}
+                    </CategoryList>
+                    <ItemList>
+                        {selectedCategoryItems.map((item, index) => (
+                            <Item
+                                key={index + 1}
+                                selected={selectedItem === item}
+                                onClick={() => handleItemClick(item)}
+                            >
+                                {item}
+                            </Item>
+                        ))}
+                    </ItemList>
+                </>
             )}
         </BranchSearchContainer>
     );
 };
 
-export default BranchSearchButtonToggle;
+const BranchSearch = ({ onSelectBranch }) => {
+    return <BranchSearchButtonToggle onSelectBranch={onSelectBranch} />;
+};
+
+export default BranchSearch;

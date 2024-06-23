@@ -34,7 +34,7 @@ const StyledSubMenu = styled(Menu.SubMenu)`
         }
 
         .ant-menu {
-            max-height: 280px;
+            max-height: 180px;
             overflow-y: auto;
             font-size: 20px;
             text-align: center;

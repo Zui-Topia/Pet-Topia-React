@@ -76,29 +76,24 @@ export const Header = () => {
   const accessToken = getCookie("accessToken");
   console.log("accesstoken:", accessToken);
   const handleTitleClick = () => {
-    alert("메인 페이지로 이동합니다.");
     navigate("/main");
   };
 
   // 로그아웃을 클릭했을 때 안내창을 표시하는 함수
   const handleLogoutClick = () => {
-    alert("로그아웃합니다.");
     deleteAllCookies(); // 쿠키 삭제 함수 호출
     navigate("/login");
   };
 
   // 마이페이지를 클릭했을 때 안내창을 표시하는 함수
   const handleMyPageClick = () => {
-    alert("마이페이지로 이동합니다.");
     navigate("/mypage");
   };
   const handleLoginClick = () => {
-    alert("로그인페이지로 이동합니다.");
     navigate("/login");
   };
 
   const handleSignUpClick = () => {
-    alert("회원가입페이지로 이동합니다.");
     navigate("/signup");
   };
 
