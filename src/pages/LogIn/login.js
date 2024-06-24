@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { Layout, Modal, Input, Spin } from "antd";
+import { Layout, Modal, Input, Spin, Button as AntButton } from "antd";
 import Header from "../../components/Main/Common/Header";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
@@ -105,7 +105,7 @@ const LargeIcon = styled.div`
   }
 `;
 
-const Button = styled.button`
+const StyledButton = styled(AntButton)`
   width: 550px;
   height: 70px;
   background-color: black;
@@ -125,7 +125,9 @@ const Button = styled.button`
   }
 `;
 
-const SignUpButton = styled(Button)`
+const StyledSignUpButton = styled(AntButton)`
+  width: 550px;
+  height: 70px;
   background-color: #ffffff;
   color: black;
   border: 1px solid black;
@@ -153,9 +155,15 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [spinning, setSpinning] = useState(false);
   const [password, setPassword] = useState("");
-  const [modalVisible, setModalVisible] = useState(false);
-  const [modalText, setModalText] = useState("");
   const navigate = useNavigate();
+
+  const showWarningModal = (message) => {
+    Modal.warning({
+      title: "로그인 결과",
+      content: message,
+      okText: "확인",
+    });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -178,20 +186,14 @@ const Login = () => {
       if (response.data.success) {
         navigate("/main");
       } else {
-        setModalText("로그인 실패: 잘못된 이메일 또는 비밀번호");
-        setModalVisible(true);
+        showWarningModal("로그인 실패: 잘못된 이메일 또는 비밀번호");
       }
     } catch (error) {
       console.log("에러 발생: ", error); // 로그 추가
-      setModalText("로그인 중 오류 발생");
-      setModalVisible(true);
+      showWarningModal("아이디와 비밀번호를 입력해주세요");
     } finally {
       setSpinning(false); // 스피너 비활성화
     }
-  };
-
-  const handleModalClose = () => {
-    setModalVisible(false);
   };
 
   return (
@@ -236,25 +238,19 @@ const Login = () => {
             />
 
             <ButtonContainer>
-              <Button type="submit">로그인</Button>
-              <SignUpButton type="button" onClick={() => navigate("/signup")}>
+              <StyledButton type="primary" htmlType="submit">
+                로그인
+              </StyledButton>
+              <StyledSignUpButton
+                type="default"
+                onClick={() => navigate("/signup")}
+              >
                 회원가입
-              </SignUpButton>
+              </StyledSignUpButton>
             </ButtonContainer>
           </FormContainer>
         </Inner>
       </StyledContent>
-
-      <Modal
-        title="로그인 결과"
-        visible={modalVisible}
-        onOk={handleModalClose}
-        onCancel={handleModalClose}
-        okText="확인"
-        cancelButtonProps={{ style: { display: "none" } }}
-      >
-        <p>{modalText}</p>
-      </Modal>
     </FullHeightLayout>
   );
 };
