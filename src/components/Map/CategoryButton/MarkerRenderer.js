@@ -1,3 +1,4 @@
+/*마커 랜들러 */
 import React, { useState } from 'react';
 import { MARKER } from '../../../constants/imagePaths';
 import CategoryMarker from './CategoryMarker';
