@@ -9,6 +9,7 @@ import { setCookie } from "../../utils/cookie";
 import LogInHeader from "../../components/Main/Common/LogInHeader";
 const { Content } = Layout;
 
+// 전체 높이 레이아웃 스타일 컴포넌트 정의
 const FullHeightLayout = styled(Layout)`
   overflow: hidden;
   display: flex;
@@ -18,6 +19,7 @@ const FullHeightLayout = styled(Layout)`
   background-color: white;
 `;
 
+// 버튼 컨테이너 스타일 컴포넌트 정의
 const ButtonContainer = styled.div`
   width: 100%;
   margin-top: -50px;
@@ -27,6 +29,7 @@ const ButtonContainer = styled.div`
   gap: 20px; // 버튼 사이 간격 추가
 `;
 
+// 콘텐츠 스타일 컴포넌트 정의
 const StyledContent = styled(Content)`
   display: flex;
   flex-direction: column;
@@ -38,6 +41,7 @@ const StyledContent = styled(Content)`
   box-sizing: border-box;
 `;
 
+// 내부 요소 스타일 컴포넌트 정의
 const Inner = styled.div`
   display: flex;
   flex-direction: column;
@@ -46,6 +50,7 @@ const Inner = styled.div`
   gap: 32px;
 `;
 
+// 폼 컨테이너 스타일 컴포넌트 정의
 const FormContainer = styled.form`
   width: 100%;
   max-width: 800px;
@@ -58,12 +63,14 @@ const FormContainer = styled.form`
   margin-top: 120px;
 `;
 
+// 이메일 입력 컨테이너 스타일 컴포넌트 정의
 const EmailInputContainer = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
 `;
 
+// 입력 스타일 컴포넌트 정의
 const StyledInput = styled(Input)`
   height: 54px;
   border-radius: 2px;
@@ -84,6 +91,7 @@ const StyledInput = styled(Input)`
   margin-bottom: 50px;
 `;
 
+// 비밀번호 입력 스타일 컴포넌트 정의
 const StyledPassword = styled(Input.Password)`
   height: 54px;
   border-radius: 2px;
@@ -98,6 +106,7 @@ const StyledPassword = styled(Input.Password)`
   }
 `;
 
+// 큰 아이콘 스타일 컴포넌트 정의
 const LargeIcon = styled.div`
   .anticon {
     font-size: 25px;
@@ -105,6 +114,7 @@ const LargeIcon = styled.div`
   }
 `;
 
+// 스타일이 적용된 버튼 컴포넌트 정의
 const StyledButton = styled(AntButton)`
   width: 550px;
   height: 70px;
@@ -125,6 +135,7 @@ const StyledButton = styled(AntButton)`
   }
 `;
 
+// 회원가입 버튼 스타일 컴포넌트 정의
 const StyledSignUpButton = styled(AntButton)`
   width: 550px;
   height: 70px;
@@ -138,6 +149,7 @@ const StyledSignUpButton = styled(AntButton)`
   }
 `;
 
+// 스피너 컨테이너 스타일 컴포넌트 정의
 const SpinContainer = styled.div`
   position: fixed;
   top: 0;
@@ -151,12 +163,14 @@ const SpinContainer = styled.div`
   z-index: 9999;
 `;
 
+// Login 컴포넌트 정의
 const Login = () => {
   const [email, setEmail] = useState("");
   const [spinning, setSpinning] = useState(false);
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
+  // 경고 모달 표시 함수
   const showWarningModal = (message) => {
     Modal.warning({
       title: "로그인 결과",
@@ -165,6 +179,7 @@ const Login = () => {
     });
   };
 
+  // 폼 제출 핸들러
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("폼 제출됨: ", email, password); // 로그 추가
@@ -190,7 +205,7 @@ const Login = () => {
       }
     } catch (error) {
       console.log("에러 발생: ", error); // 로그 추가
-      showWarningModal("아이디와 비밀번호를 입력해주세요");
+      showWarningModal("아이디와 비밀번호를 입력해주세요");
     } finally {
       setSpinning(false); // 스피너 비활성화
     }

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { navigate } from "react-router-dom"; // Import navigate from react-router-dom
+import { navigate } from "react-router-dom"; // react-router-dom에서 navigate 가져오기
 import { Link, useNavigate } from "react-router-dom";
 import { getCookie } from "../../../utils/cookie";
 import { deleteAllCookies } from "../../../utils/cookie";
@@ -10,7 +10,7 @@ const HeaderWrapper = styled.div`
   background-color: #ffffff;
   display: flex;
   align-items: center; // 아이템들을 수직으로 가운데 정렬
-  justify-content: center;
+  justify-content: center; // 아이템들을 수평으로 가운데 정렬
   width: 100vw;
   padding: 15px; // 좌우 여백을 추가하여 헤더 전체 여백을 조정
   box-sizing: border-box; // 패딩을 너비에 포함
@@ -70,29 +70,36 @@ const TextWrapper3 = styled.div`
   }
 `;
 
+// Header 컴포넌트 정의
 export const Header = () => {
-  // 타이틀을 클릭했을 때 안내창을 표시하는 함수
+  // useNavigate 훅을 사용하여 네비게이션 함수 가져오기
   const navigate = useNavigate();
+  // 쿠키에서 accessToken 가져오기
   const accessToken = getCookie("accessToken");
   console.log("accesstoken:", accessToken);
+
+  // 타이틀을 클릭했을 때 메인 페이지로 이동하는 함수
   const handleTitleClick = () => {
     navigate("/main");
   };
 
-  // 로그아웃을 클릭했을 때 안내창을 표시하는 함수
+  // 로그아웃을 클릭했을 때 쿠키를 삭제하고 로그인 페이지로 이동하는 함수
   const handleLogoutClick = () => {
     deleteAllCookies(); // 쿠키 삭제 함수 호출
     navigate("/login");
   };
 
-  // 마이페이지를 클릭했을 때 안내창을 표시하는 함수
+  // 마이페이지를 클릭했을 때 마이페이지로 이동하는 함수
   const handleMyPageClick = () => {
     navigate("/mypage");
   };
+
+  // 로그인 페이지로 이동하는 함수
   const handleLoginClick = () => {
     navigate("/login");
   };
 
+  // 회원가입 페이지로 이동하는 함수
   const handleSignUpClick = () => {
     navigate("/signup");
   };

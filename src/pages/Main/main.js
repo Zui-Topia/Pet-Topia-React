@@ -7,6 +7,7 @@ import BranchSearch from "../../components/Main/BranchSearch";
 import Footer from "../../components/Main/Common/Footer";
 import { MAIN_IMAGES_PATHS } from "../../constants/imagePaths";
 
+// 메인 페이지 컨테이너 스타일 컴포넌트 정의
 const MainPageContainer = styled.div`
   width: 100vw;
   height: 100vh;
@@ -15,6 +16,7 @@ const MainPageContainer = styled.div`
   position: relative;
 `;
 
+// 메인 페이지 본문 컨테이너 스타일 컴포넌트 정의
 const MainPageBodyContainer = styled.div`
   width: 100vw;
   height: 882px;
@@ -25,6 +27,7 @@ const MainPageBodyContainer = styled.div`
   margin-top: 30px;
 `;
 
+// 지점 검색 컨테이너 스타일 컴포넌트 정의
 const BranchSearchContainer = styled.div`
   display: flex;
   align-items: center;
@@ -33,6 +36,7 @@ const BranchSearchContainer = styled.div`
   z-index: 1; /* 층 선택 버튼 위에 오도록 설정 */
 `;
 
+// 본문 래퍼 스타일 컴포넌트 정의
 const BodyWrapper = styled.div`
   display: flex;
   position: fixed;
@@ -40,6 +44,7 @@ const BodyWrapper = styled.div`
   white-space: nowrap; /* 줄 바꿈 방지 */
 `;
 
+// 이미지 컨테이너 스타일 컴포넌트 정의
 const ImageContainer = styled.button`
   width: 50vw; /* BodyWrapper의 절반 너비 */
   height: 400px; /* BodyWrapper의 전체 높이를 채움 */
@@ -56,6 +61,7 @@ const ImageContainer = styled.button`
   }
 `;
 
+// 스피너 컨테이너 스타일 컴포넌트 정의
 const SpinContainer = styled.div`
   position: fixed;
   top: 0;
@@ -71,6 +77,7 @@ const SpinContainer = styled.div`
   transition: opacity 0.5s ease-in-out;
 `;
 
+// Main 컴포넌트 정의
 const Main = () => {
   const [spinning, setSpinning] = useState(false);
   const [selectedBranch, setSelectedBranch] = useState({
@@ -79,6 +86,7 @@ const Main = () => {
   });
   const navigate = useNavigate();
 
+  // 지도 클릭 핸들러
   const handleMapClick = () => {
     setSpinning(true);
     setTimeout(() => {
@@ -87,6 +95,7 @@ const Main = () => {
     }, 500);
   };
 
+  // 예약 클릭 핸들러
   const handleReservationClick = () => {
     setSpinning(true);
     setTimeout(() => {
@@ -95,6 +104,7 @@ const Main = () => {
     }, 500);
   };
 
+  // 지점 선택 핸들러
   const handleBranchSelect = (branch, key) => {
     setSelectedBranch({ branch, key });
   };
