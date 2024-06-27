@@ -63,7 +63,9 @@ const History = () => {
                             <QRModal
                                 key={index}
                                 isActive={
-                                    reservation.reservationVO && reservation.reservationVO.reservationDelete === 0
+                                    reservation.reservationVO &&
+                                    reservation.reservationVO.reservationDelete === 0 &&
+                                    reservation.reservationVO.reservationDeleteDate === null
                                 }
                                 value={reservation}
                             >
@@ -74,7 +76,7 @@ const History = () => {
                             </QRModal>
                         ))
                     ) : (
-                        <NoReservation>예약 내역이 없습니다.</NoReservation>
+                        <NoReservation>예약한 내역이 없습니다.</NoReservation>
                     )}
                 </MyPageSection>
             </div>
