@@ -14,6 +14,8 @@ import { getCookie } from '../../utils/cookie';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { deleteAllCookies } from '../../utils/cookie';
 
+// 작성자: 정은찬
+
 // 예약 페이지 전체 컨테이너 스타일
 const ReservationPageContainer = styled.div`
     width: 100vw; // 화면 전체 너비
@@ -263,6 +265,7 @@ const ReservationPageBottomInContainer = styled.div`
     //align-items: center; /* 수직 중앙 정렬 추가 */
 `;
 
+// 예약페이지
 const Reservation = () => {
     const navigate = useNavigate();
     const location = useLocation();
@@ -331,7 +334,7 @@ const Reservation = () => {
                 setIsClicked(true);
                 // 백엔드 서버 URL을 사용하여 예약 생성 요청
                 const response = await ReservationAPI.createReservation(reservationInfo);
-                console.log(response.data.data);
+
                 setReservationToken(response.data.data.reservationToken);
                 showModal();
             }
@@ -402,9 +405,10 @@ const Reservation = () => {
                                         <StepContent>날짜&nbsp;선택</StepContent>
                                     </StepText1>
                                 </Step1>
+
                                 <ReservationCalendarContainer>
                                     <ReservationCalendar onSelectDate={(date) => setSelectedDate(date)} />{' '}
-                                    {/* 날짜 선택 컴포넌트 */}
+                                    {/* 달력 날짜 선택 컴포넌트 */}
                                 </ReservationCalendarContainer>
                             </Container1>
                             <StepLine />
@@ -439,15 +443,16 @@ const Reservation = () => {
                                     <StepButtonText disabled={isClicked || !selectedTime || strollerCnt === 0}>
                                         예약하기
                                     </StepButtonText>
-                                </StepButton>
-
+                                </StepButton>{' '}
+                                {/* 예약하기 버튼 컴포넌트 */}
                                 <ReservationCompleteModal isModalOpen={isModalOpen} handleCancel={handleCancel}>
                                     <ReservationCompleteContent
                                         reservationToken={reservationToken}
                                         reservationDate={selectedDate}
                                         reservationVisitTime={selectedTime}
                                     />
-                                </ReservationCompleteModal>
+                                </ReservationCompleteModal>{' '}
+                                {/* 예약완료 모달 컴포넌트 */}
                             </Container>
                         </OverlapGroup>
                     </ReservationPageBottomInContainer>
