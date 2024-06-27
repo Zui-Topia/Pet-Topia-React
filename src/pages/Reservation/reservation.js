@@ -230,7 +230,7 @@ const BranchSearchContainer = styled.div`
     align-items: center; // 세로 중앙 정렬
     justify-content: center; // 가로 중앙 정렬
     flex-grow: 1; // 남은 공간을 차지하도록 설정
-    z-index: 2000; // 층 선택 버튼 위에 오도록 설정
+    z-index: 300; // 층 선택 버튼 위에 오도록 설정
 `;
 // 지점 아이콘 스타일
 const BranchIIcon = styled.div`
