@@ -1,3 +1,4 @@
+/* MarkerRenderer 컴포넌트: 지도에 마커를 렌더링하고 정보 팝업을 표시 */
 import React, { useState } from 'react';
 import { MARKER } from '../../../constants/imagePaths';
 import CategoryMarker from './CategoryMarker';

@@ -1,3 +1,4 @@
+/*지점 검색 컴포넌트*/
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import toggleUpImage from '../../assets/images/toggle-up.png';
