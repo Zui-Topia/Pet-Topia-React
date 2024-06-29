@@ -7,6 +7,67 @@ import BranchSearch from "../../components/Main/BranchSearch";
 import Footer from "../../components/Main/Common/Footer";
 import { MAIN_IMAGES_PATHS } from "../../constants/imagePaths";
 
+// Main 컴포넌트 정의
+const Main = () => {
+  const [spinning, setSpinning] = useState(false);
+  const [selectedBranch, setSelectedBranch] = useState({
+    branch: "더현대 서울",
+    key: 1,
+  });
+  const navigate = useNavigate();
+
+  // 지도 클릭 핸들러
+  const handleMapClick = () => {
+    setSpinning(true);
+    setTimeout(() => {
+      setSpinning(false);
+      navigate("/map", { state: selectedBranch });
+    }, 500);
+  };
+
+  // 예약 클릭 핸들러
+  const handleReservationClick = () => {
+    setSpinning(true);
+    setTimeout(() => {
+      setSpinning(false);
+      navigate("/reservation", { state: selectedBranch });
+    }, 500);
+  };
+
+  // 지점 선택 핸들러
+  const handleBranchSelect = (branch, key) => {
+    setSelectedBranch({ branch, key });
+  };
+
+  return (
+    <MainPageContainer>
+      {spinning && (
+        <SpinContainer>
+          <Spin size="large" />
+        </SpinContainer>
+      )}
+      <Header />
+      <MainPageBodyContainer>
+        <BranchSearchContainer>
+          <BranchSearch onSelectBranch={handleBranchSelect} />
+        </BranchSearchContainer>
+
+        <BodyWrapper>
+          <ImageContainer
+            image={MAIN_IMAGES_PATHS.MAIN_MAP}
+            onClick={handleMapClick}
+          />
+          <ImageContainer
+            image={MAIN_IMAGES_PATHS.MAIN_RES}
+            onClick={handleReservationClick}
+          />
+        </BodyWrapper>
+      </MainPageBodyContainer>
+      <Footer />
+    </MainPageContainer>
+  );
+};
+
 // 메인 페이지 컨테이너 스타일 컴포넌트 정의
 const MainPageContainer = styled.div`
   width: 100vw;
@@ -76,66 +137,5 @@ const SpinContainer = styled.div`
   /* 애니메이션을 추가하여 나타날 때와 사라질 때 효과를 동일하게 유지 */
   transition: opacity 0.5s ease-in-out;
 `;
-
-// Main 컴포넌트 정의
-const Main = () => {
-  const [spinning, setSpinning] = useState(false);
-  const [selectedBranch, setSelectedBranch] = useState({
-    branch: "더현대 서울",
-    key: 1,
-  });
-  const navigate = useNavigate();
-
-  // 지도 클릭 핸들러
-  const handleMapClick = () => {
-    setSpinning(true);
-    setTimeout(() => {
-      setSpinning(false);
-      navigate("/map", { state: selectedBranch });
-    }, 500);
-  };
-
-  // 예약 클릭 핸들러
-  const handleReservationClick = () => {
-    setSpinning(true);
-    setTimeout(() => {
-      setSpinning(false);
-      navigate("/reservation", { state: selectedBranch });
-    }, 500);
-  };
-
-  // 지점 선택 핸들러
-  const handleBranchSelect = (branch, key) => {
-    setSelectedBranch({ branch, key });
-  };
-
-  return (
-    <MainPageContainer>
-      {spinning && (
-        <SpinContainer>
-          <Spin size="large" />
-        </SpinContainer>
-      )}
-      <Header />
-      <MainPageBodyContainer>
-        <BranchSearchContainer>
-          <BranchSearch onSelectBranch={handleBranchSelect} />
-        </BranchSearchContainer>
-
-        <BodyWrapper>
-          <ImageContainer
-            image={MAIN_IMAGES_PATHS.MAIN_MAP}
-            onClick={handleMapClick}
-          />
-          <ImageContainer
-            image={MAIN_IMAGES_PATHS.MAIN_RES}
-            onClick={handleReservationClick}
-          />
-        </BodyWrapper>
-      </MainPageBodyContainer>
-      <Footer />
-    </MainPageContainer>
-  );
-};
 
 export default Main;

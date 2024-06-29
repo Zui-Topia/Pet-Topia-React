@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
-import { navigate } from "react-router-dom"; // react-router-dom에서 navigate 가져오기
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { getCookie } from "../../../utils/cookie";
 import { deleteAllCookies } from "../../../utils/cookie";
 
@@ -76,7 +75,6 @@ export const LogInHeader = () => {
   const navigate = useNavigate();
   // 쿠키에서 accessToken 가져오기
   const accessToken = getCookie("accessToken");
-  console.log("accesstoken:", accessToken);
 
   // 타이틀을 클릭했을 때 메인 페이지로 이동하는 함수
   const handleTitleClick = () => {

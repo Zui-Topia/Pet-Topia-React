@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { message, Layout, Input, Divider, Modal } from "antd";
+import { Layout, Input, Divider, Modal } from "antd";
 import {
   EyeInvisibleOutlined,
   EyeOutlined,
@@ -36,7 +36,6 @@ const SignupSchema = Yup.object().shape({
 
 // Signup 컴포넌트 정의
 const Signup = () => {
-  const [email, setEmail] = useState("");
   const [isEmailAvailable, setIsEmailAvailable] = useState(null); // 이메일 사용 가능 여부 상태
   const [isSubmitting, setIsSubmitting] = useState(false); // 회원가입 요청 중 여부 상태
 
@@ -58,7 +57,6 @@ const Signup = () => {
     },
     validationSchema: SignupSchema,
     onSubmit: async (values) => {
-      console.log("values", values);
       if (!isSubmitting) {
         setIsSubmitting(true); // 회원가입 요청 시작 시 상태 변경
         try {
@@ -70,10 +68,7 @@ const Signup = () => {
             petSize: values.petSize,
           };
 
-          console.log("UserInfo to be sent:", UserInfo); // 서버로 전송할 데이터 출력
-
           const response = await PostSignUpAPI(UserInfo);
-          console.log("Signup response:", response); // 회원가입 API 응답 콘솔 출력
 
           setIsSubmitting(false); // 제출 상태를 false로 설정
           Modal.success({
@@ -86,7 +81,6 @@ const Signup = () => {
             },
           });
         } catch (error) {
-          console.error("Signup error:", error); // 오류 콘솔 출력
           setIsSubmitting(false); // 제출 상태를 false로 설정
           if (error.response?.data?.message === "이미 사용중인 이메일 입니다") {
             Modal.error({

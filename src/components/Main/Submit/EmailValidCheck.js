@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 import { Button, Modal } from "antd";
-import axios from "axios";
 import SignUpAPI from "../../../api/User/SignUpAPI";
 
 // 스타일이 적용된 버튼 컴포넌트 정의
@@ -40,13 +39,12 @@ const EmailValidationCheckButton = ({
   const checkEmail = async () => {
     // 이메일 형식이 유효하지 않으면 에러 로그 출력
     if (!isValidEmail(email)) {
-      console.error("유효한 이메일 형식이 아닙니다.");
       return;
     }
     try {
       // 이메일 유효성 확인 API 호출
       const response = await SignUpAPI(email);
-      console.log("유효성트라이들어옴");
+
       if (response.data.success) {
         // 이메일이 사용 가능하면 상태 업데이트 및 모달 표시
         setIsEmailAvailable(true);
@@ -59,8 +57,8 @@ const EmailValidationCheckButton = ({
       }
     } catch (error) {
       // 에러 발생 시 콘솔에 로그 출력 및 모달 표시
-      console.error("There was an error checking the email!", error);
-      showModal("Error checking email");
+
+      showModal("에러발생");
     }
   };
 
