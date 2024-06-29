@@ -4,23 +4,7 @@ import CommonModal from '../../Main/Common/CommonModal';
 import QRModalBody from './QRModalBody';
 import QRModalHead from './QRModalHead';
 
-const QRBlock = styled.div`
-    margin: 0 auto;
-    margin-top: 10px;
-    margin-bottom: 10px;
-
-    .title {
-        font-size: 30px;
-        font-weight: 500px;
-    }
-
-    .description {
-        font-size: 18px;
-        padding: 1px;
-        margin: 1px;
-    }
-`;
-
+// QR 모달의 최상위 함수
 const QRModal = ({ children, isActive = false, value }) => {
     return (
         <CommonModal
@@ -42,3 +26,21 @@ const QRModal = ({ children, isActive = false, value }) => {
 };
 
 export default QRModal;
+
+// QR 모달의 최상위 css
+const QRBlock = styled.div`
+    margin: 0 auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+
+    .title {
+        font-size: 30px;
+        font-weight: 500px;
+    }
+
+    .description {
+        font-size: 18px;
+        padding: 1px;
+        margin: 1px;
+    }
+`;

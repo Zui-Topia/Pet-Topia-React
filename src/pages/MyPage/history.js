@@ -9,14 +9,16 @@ import QRModal from '../../components/MyPage/QR/QRModal';
 import { ReservationHistoryAPI } from '../../api/MyPage/MyPageAPI';
 import { StyledDivider, DividerWrapper } from '../../components/Main/Common/Divider';
 
+// 사용자의 전체 예약 내역 조회하는 함수
 const History = () => {
     const [reservationList, setReservationList] = useState([]);
     const [error, setError] = useState(null);
 
+    //
     useEffect(() => {
         const fetchHistory = async () => {
             try {
-                const response = await ReservationHistoryAPI(1);
+                const response = await ReservationHistoryAPI();
                 console.log(response.data.data);
                 if (response.data.success) {
                     console.log(response.data.data);

@@ -12,12 +12,13 @@ import QRModal from '../../components/MyPage/QR/QRModal';
 import { MyReservationAPI } from '../../api/MyPage/MyPageAPI';
 import { StyledDivider, DividerWrapper } from '../../components/Main/Common/Divider';
 
+// 마이페이지 구성하는 함수
 const MyPage = () => {
     const navigate = useNavigate();
     const [myPageInfo, setMyPageInfo] = useState({
-        myPageUserDTO: null,
-        myPagePetDTO: null,
-        myReservationDTO: null,
+        myPageUserDTO: null, // 사용자 정보
+        myPagePetDTO: null, // 반려견 정보
+        myReservationDTO: null, // 예약 1건 정보
     });
     const [error, setError] = useState(null);
 
@@ -26,11 +27,13 @@ const MyPage = () => {
         reservationVO: null,
     });
 
+    // 마이페이지 API 비동기 호출
     useEffect(() => {
         const fetchReservations = async () => {
             try {
                 const response = await MyReservationAPI();
                 console.log(response.data.data);
+
                 if (response.data.success) {
                     const { myPageUserDTO, myPagePetDTO, myReservationDTO } = response.data.data;
                     setMyPageInfo({
@@ -40,7 +43,7 @@ const MyPage = () => {
                     });
                     console.log(myPageUserDTO, myPagePetDTO, myReservationDTO); // 데이터 확인용 로그
 
-                    const { placeDTO, reservationVO } = myReservationDTO;
+                    const { placeDTO, reservationVO } = myReservationDTO; // 예약 지점 정보, 예약 상세 정보
                     setReservationInfo({
                         placeDTO,
                         reservationVO,
@@ -55,6 +58,7 @@ const MyPage = () => {
         fetchReservations();
     }, []);
 
+    // '더보기' 클릭 시 /history로 이동
     const handleMoreClick = () => {
         navigate('/history');
     };
@@ -108,12 +112,14 @@ const MyPage = () => {
 
 export default MyPage;
 
+// ' 나의 예약 내역'과 '더보기' 같은 라인에 위치하도록 배치
 const SectionTitleWrapper = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
 `;
 
+// '더보기' 버튼 css 적용
 const MoreButton = styled.div`
     cursor: pointer;
     color: black;
