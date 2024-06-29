@@ -1,3 +1,4 @@
+/* 지도 예약 탭 */
 import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom'; // useNavigate 훅을 가져옵니다.

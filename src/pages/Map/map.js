@@ -97,28 +97,49 @@ const MapImageContainer = styled.div`
 `;
 
 const Map = () => {
+    // useLocation 훅을 사용하여 현재 지점 정보 가져오기
     const location = useLocation();
     const { branch, key } = location.state || { branch: '더현대 서울', key: 1 };
 
-    const [markerData, setMarkerData] = useState([]);
-    const [filteredMarkerData, setFilteredMarkerData] = useState(markerData);
-    const [selectedBranch, setSelectedBranch] = useState(branch);
-    const [selectedFloor, setSelectedFloor] = useState('1F');
-    const [selectedBranchKey, setSelectedBranchKey] = useState(key);
-    const [selectedCategories, setSelectedCategories] = useState([]);
-    const [floorImagePath, setFloorImagePath] = useState('');
+    /*상태 변수를 선언*/
+    // 지점/ 층에 대한 지도 정보 아이디
     const [mapId, setMapId] = useState(7);
-    const [strollerCnt, setStrollerCnt] = useState(0);
+
+    // 선택한 지점
+    const [selectedBranch, setSelectedBranch] = useState(branch);
+    // 선택한 지점 인덱스
+    const [selectedBranchKey, setSelectedBranchKey] = useState(key);
+
+    // 지점의 전체 층 데이터
     const [floors, setFloors] = useState([]);
+    // 선택한 층 데이터
+    const [selectedFloor, setSelectedFloor] = useState('1F');
+    // 지점/층의 지도 이미지 데이터
+    const [floorImagePath, setFloorImagePath] = useState('');
+
+    // 선택한 카테고리 데이터
+    const [selectedCategories, setSelectedCategories] = useState([]);
+
+    // 전체 마커 데이터
+    const [markerData, setMarkerData] = useState([]);
+    // 필터된 마커 데이터
+    const [filteredMarkerData, setFilteredMarkerData] = useState(markerData);
+
+    // 지점의 개모차 데이터
+    const [strollerCnt, setStrollerCnt] = useState(0);
+
+    // 검색기능 미구현(확장 가능성)
     const [searchClicked, setSearchClicked] = useState(false);
     const [searchText, setSearchText] = useState('');
     const [places, setPlaces] = useState([]);
 
+    // 컴포넌트가 마운트될 때 기본 카테고리("ALL") 설정
     useEffect(() => {
         // 기본적으로 "ALL" 버튼 활성화
         setSelectedCategories([0]);
     }, []);
 
+    // 선택된 지점 키가 변경될 때 지점의 장소 정보를 가져오는 함수
     useEffect(() => {
         const fetchBranchData = async () => {
             try {
@@ -135,12 +156,15 @@ const Map = () => {
         fetchBranchData();
     }, [selectedBranchKey]);
 
+    // 선택된 지점 키가 변경될 때 해당 지점의 층 정보를 가져오는 함수
     useEffect(() => {
         const fetchData = async () => {
             try {
                 if (selectedBranchKey !== null) {
                     const response = await MapAPI.getListFloorMapId(selectedBranchKey);
                     const data = response.data.data;
+
+                    // 층 정보를 변환하여 저장(지점 이름을 인덱스로)
                     const convertedFloorsData = data.map((item) => {
                         let floorLabel;
                         if (item.floor < 0) {
@@ -159,6 +183,8 @@ const Map = () => {
                     });
 
                     setFloors(convertedFloorsData);
+
+                    // 초기 층을 1F로 설정
                     const initialFloor = convertedFloorsData.find((item) => item.floor === '1F');
                     if (initialFloor) {
                         setSelectedFloor('1F');
@@ -174,6 +200,7 @@ const Map = () => {
         fetchData();
     }, [selectedBranchKey]);
 
+    // 선택된 층의 마커 데이터를 가져오는 함수
     useEffect(() => {
         const fetchMarkerData = async () => {
             if (mapId) {
@@ -191,6 +218,7 @@ const Map = () => {
         fetchMarkerData();
     }, [mapId]);
 
+    // 지점 변경 핸들러
     const handleBranchChange = (branch, key) => {
         setSelectedBranch(branch);
         setSelectedBranchKey(key);
@@ -202,6 +230,7 @@ const Map = () => {
         }
     };
 
+    // 층 선택 핸들러
     const handleFloorSelect = (floor) => {
         setSelectedFloor(floor);
         const selectedFloorData = floors.find((item) => item.floor === floor);
@@ -222,7 +251,7 @@ const Map = () => {
         setSelectedCategories([0]);
     };
 
-    // useEffect를 사용하여 필터링된 데이터 설정
+    // 선택된 카테고리에 따라 마커 데이터를 필터링하여 설정
     useEffect(() => {
         if (selectedCategories.includes(0)) {
             setFilteredMarkerData(markerData); // "ALL" 선택 시 모든 마커 데이터를 표시
@@ -234,6 +263,7 @@ const Map = () => {
         }
     }, [markerData, selectedCategories]);
 
+    // 카테고리 선택 핸들러
     const handleCategoriesSelect = (category) => {
         const index = selectedCategories.indexOf(category);
         let updatedCategories;
@@ -270,6 +300,7 @@ const Map = () => {
         setFilteredMarkerData(filteredMarkerData);
     };
 
+    // 오늘 날짜를 문자열로 변환
     const getTodayDate = () => {
         const today = new Date();
         const year = today.getFullYear();
@@ -278,6 +309,7 @@ const Map = () => {
         return `${year}-${month}-${day}`;
     };
 
+    // 선택된 지점 키와 오늘 날짜로 개모차 잔여개수 가져오기
     useEffect(() => {
         const fetchStrollerData = async () => {
             if (selectedBranchKey && getTodayDate()) {
@@ -294,6 +326,7 @@ const Map = () => {
         fetchStrollerData();
     }, [selectedBranchKey, getTodayDate]);
 
+    // 검색 기능 미구현(확장 가능성)
     const handleSearchClick = (text) => {
         setSearchText(text);
         setSearchClicked(true);

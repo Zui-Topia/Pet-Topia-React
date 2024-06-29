@@ -1,3 +1,4 @@
+/*카테고리 버튼 컴포넌트 */
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import categoryCircleGreyImage from '../../../assets/images/categorycircle-grey.png';
