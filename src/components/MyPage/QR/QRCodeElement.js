@@ -19,7 +19,6 @@ const QRCodeElement = ({ reservationId }) => {
             if (response.data.success) {
                 setQrId(response.data.data);
                 setQrStatus('active');
-                // console.log('qrId : ' + qrId);
             }
         } catch (error) {
             setError(error);

@@ -23,8 +23,8 @@ const MyPage = () => {
     const [error, setError] = useState(null);
 
     const [reservationInfo, setReservationInfo] = useState({
-        placeDTO: null,
-        reservationVO: null,
+        placeDTO: null, // 예약 지점 정보
+        reservationVO: null, // 예약 상세 정보
     });
 
     // 마이페이지 API 비동기 호출
@@ -32,18 +32,18 @@ const MyPage = () => {
         const fetchReservations = async () => {
             try {
                 const response = await MyReservationAPI();
-                console.log(response.data.data);
 
                 if (response.data.success) {
+                    // 사용자 정보, 반려견 정보, 예약 1건 정보 추출
                     const { myPageUserDTO, myPagePetDTO, myReservationDTO } = response.data.data;
                     setMyPageInfo({
                         myPageUserDTO,
                         myPagePetDTO,
                         myReservationDTO,
                     });
-                    console.log(myPageUserDTO, myPagePetDTO, myReservationDTO); // 데이터 확인용 로그
 
-                    const { placeDTO, reservationVO } = myReservationDTO; // 예약 지점 정보, 예약 상세 정보
+                    // 예약 지점 정보, 예약 상세 정보 추출
+                    const { placeDTO, reservationVO } = myReservationDTO;
                     setReservationInfo({
                         placeDTO,
                         reservationVO,
