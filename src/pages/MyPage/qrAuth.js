@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Button, Result } from 'antd';
+import { Result } from 'antd';
 
 const QrAuth = () => {
     const [status, setStatus] = useState('success'); // Default status, can be changed dynamically

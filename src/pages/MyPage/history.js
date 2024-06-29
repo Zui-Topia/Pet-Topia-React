@@ -1,30 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import styled from 'styled-components';
-import { Divider } from 'antd';
 import Header from '../../components/Main/Common/Header';
 import SectionTitle from '../../components/MyPage/SectionTitle';
 import MyPageSection from '../../components/MyPage/MyPageSection';
-import ReservationInfo from '../../components/MyPage/MyReservation/ReservationInfo';
+import { ReservationInfo, NoReservationInfo } from '../../components/MyPage/MyReservation/ReservationInfo';
 import ReservationHead from '../../components/MyPage/MyReservation/ReservationHead';
 import ReservationBody from '../../components/MyPage/MyReservation/ReservationBody';
-import QRModal from '../../components/MyPage/QRModal';
+import QRModal from '../../components/MyPage/QR/QRModal';
 import { ReservationHistoryAPI } from '../../api/MyPage/MyPageAPI';
-
-const NoReservation = styled.div`
-    position: relative;
-
-    margin: 50px auto; /*페이지 중앙에 나타나토록 설정*/
-`;
-
-const StyledDivider = styled(Divider)`
-    border-color: black;
-`;
-
-const DividerWrapper = styled.div`
-    width: 100%;
-    margin: 0;
-`;
+import { StyledDivider, DividerWrapper } from '../../components/Main/Common/Divider';
 
 const History = () => {
     const [reservationList, setReservationList] = useState([]);
@@ -76,7 +59,7 @@ const History = () => {
                             </QRModal>
                         ))
                     ) : (
-                        <NoReservation>예약한 내역이 없습니다.</NoReservation>
+                        <NoReservationInfo />
                     )}
                 </MyPageSection>
             </div>

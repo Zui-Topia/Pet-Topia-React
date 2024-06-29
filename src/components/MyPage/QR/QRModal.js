@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import CommonModal from '../../components/Main/Common/CommonModal';
-import QRModalBody from './QR/QRModalBody';
-import QRModalHead from './QR/QRModalHead';
+import CommonModal from '../../Main/Common/CommonModal';
+import QRModalBody from './QRModalBody';
+import QRModalHead from './QRModalHead';
 
 const QRBlock = styled.div`
     margin: 0 auto;

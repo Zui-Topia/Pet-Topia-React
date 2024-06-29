@@ -14,8 +14,16 @@ const ReservationInfoBlock = styled.div`
     margin-bottom: 20px;
 `;
 
-const ReservationInfo = ({ children }) => {
+const NoReservation = styled.div`
+    position: relative;
+
+    margin: 50px auto; /*페이지 중앙에 나타나토록 설정*/
+`;
+
+export const ReservationInfo = ({ children }) => {
     return <ReservationInfoBlock>{children}</ReservationInfoBlock>;
 };
 
-export default ReservationInfo;
+export const NoReservationInfo = () => {
+    return <NoReservation>진행 중인 예약 내역이 없습니다.</NoReservation>;
+};

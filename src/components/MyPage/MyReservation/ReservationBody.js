@@ -101,6 +101,19 @@ const ReservationBody = ({ value }) => {
     const [modalText, setModalText] = useState('');
 
     console.log('reservationId : ' + reservationId);
+
+    const showModal = () => {
+        Modal.info({
+            title: '예약 취소 결과',
+            content: '예약이 취소 되었습니다.',
+            okText: '확인',
+            onOk: () => {
+                window.location.reload();
+                navigate('/mypage');
+            },
+        });
+    };
+
     const handleCancelReservation = async (event) => {
         event.stopPropagation();
         try {
@@ -114,8 +127,9 @@ const ReservationBody = ({ value }) => {
             console.log(response);
             console.log(response.data);
             if (response.data.success) {
-                setModalVisible(true);
-                setModalText('예약이 취소 되었습니다.');
+                // setModalVisible(true);
+                showModal();
+                //setModalText('예약이 취소 되었습니다.');
             }
         } catch (error) {
             // Handle error, e.g., show an error message
@@ -124,7 +138,7 @@ const ReservationBody = ({ value }) => {
     };
 
     const handleModalClose = () => {
-        setModalVisible(false);
+        // setModalVisible(false);
         window.location.reload();
         navigate('/mypage');
     };
@@ -154,9 +168,9 @@ const ReservationBody = ({ value }) => {
                     <DeleteButton onClick={handleCancelReservation}>예약 취소</DeleteButton>
                 )}
             </div>
-            <Modal visible={modalVisible} onOk={handleModalClose} onCancel={handleModalClose}>
+            {/* <Modal visible={modalVisible} onOk={handleModalClose} onCancel={handleModalClose}>
                 <p>{modalText}</p>
-            </Modal>
+            </Modal> */}
         </ReservationBodyBlock>
     );
 };

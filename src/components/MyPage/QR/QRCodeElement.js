@@ -45,7 +45,7 @@ const QRCodeElement = ({ reservationId }) => {
         if (qrStatus === 'active') {
             const timer = setTimeout(() => {
                 setQrStatus('expired');
-            }, 10000); // 30 seconds
+            }, 8000); // 30 seconds
 
             return () => clearTimeout(timer); // Cleanup the timer on component unmount
         }
