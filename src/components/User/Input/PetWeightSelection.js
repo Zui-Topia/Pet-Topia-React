@@ -2,41 +2,6 @@ import React, { useState } from "react";
 import { Menu } from "antd";
 import styled from "styled-components";
 
-// 스타일이 적용된 메뉴 컴포넌트 정의
-const StyledMenu = styled(Menu)`
-  width: 550px; // 너비 550px
-  height: auto;
-  overflow-y: auto; // 수직 스크롤 활성화
-  border: 1px solid #d9d9d9; // 테두리 색상 설정
-`;
-
-// 스타일이 적용된 메뉴 아이템 컴포넌트 정의
-const MenuItem = styled(Menu.Item)`
-  && {
-    font-family: "Kanit", sans-serif; // 글꼴 Kanit
-    font-size: 20px; // 글자 크기 20px
-    color: #9b9b9b; // 글자 색상 회색
-  }
-`;
-
-// 스타일이 적용된 서브메뉴 컴포넌트 정의
-const StyledSubMenu = styled(Menu.SubMenu)`
-  && {
-    .ant-menu-submenu-title {
-      height: 40px; // 높이 40px
-      line-height: 40px; // 줄 높이 40px
-      display: flex; // Flexbox 사용
-      justify-content: space-between; // 공간을 고르게 배분
-      align-items: center; // 아이템들을 수직으로 가운데 정렬
-    }
-
-    .ant-menu {
-      max-height: 280px; // 최대 높이 280px
-      overflow-y: auto; // 수직 스크롤 활성화
-    }
-  }
-`;
-
 // 메뉴 항목 데이터 정의
 const items = [
   {
@@ -106,5 +71,40 @@ const PetWeightSelectionToggle = ({ onChange }) => {
     </StyledMenu>
   );
 };
+
+// 스타일이 적용된 메뉴 컴포넌트 정의
+const StyledMenu = styled(Menu)`
+  width: 550px; // 너비 550px
+  height: auto;
+  overflow-y: auto; // 수직 스크롤 활성화
+  border: 1px solid #d9d9d9; // 테두리 색상 설정
+`;
+
+// 스타일이 적용된 메뉴 아이템 컴포넌트 정의
+const MenuItem = styled(Menu.Item)`
+  && {
+    font-family: "Kanit", sans-serif; // 글꼴 Kanit
+    font-size: 20px; // 글자 크기 20px
+    color: #9b9b9b; // 글자 색상 회색
+  }
+`;
+
+// 스타일이 적용된 서브메뉴 컴포넌트 정의
+const StyledSubMenu = styled(Menu.SubMenu)`
+  && {
+    .ant-menu-submenu-title {
+      height: 40px; // 높이 40px
+      line-height: 40px; // 줄 높이 40px
+      display: flex; // Flexbox 사용
+      justify-content: space-between; // 공간을 고르게 배분
+      align-items: center; // 아이템들을 수직으로 가운데 정렬
+    }
+
+    .ant-menu {
+      max-height: 280px; // 최대 높이 280px
+      overflow-y: auto; // 수직 스크롤 활성화
+    }
+  }
+`;
 
 export default PetWeightSelectionToggle;
