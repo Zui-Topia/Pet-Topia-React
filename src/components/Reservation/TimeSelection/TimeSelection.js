@@ -1,3 +1,4 @@
+/* 시간 선택 컴포넌트 */
 import React, { useState, useEffect } from 'react';
 import { Menu } from 'antd';
 import styled from 'styled-components';

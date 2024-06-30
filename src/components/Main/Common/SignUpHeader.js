@@ -1,3 +1,4 @@
+/* 회원가입 헤더 */
 import React from 'react';
 import styled from 'styled-components';
 
