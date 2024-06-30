@@ -10,10 +10,6 @@ const BodyImage = () => {
     </ImageContainer>
   );
 };
-/* 메인페이지에 두 개의 이미지를 배치하는 컴포넌트 */
-import React from "react";
-import styled from "styled-components";
-import { MAIN_IMAGES_PATHS } from "../../../constants/imagePaths";
 
 // 이미지를 가로로 나란히 배치하기 위한 컨테이너
 const ImageContainer = styled.div`
@@ -38,14 +34,5 @@ const Image1 = styled(Image)`
 const Image2 = styled(Image)`
   background-image: url(${MAIN_IMAGES_PATHS.MAIN_RES}); // 두 번째 이미지의 경로
 `;
-
-const BodyImage = () => {
-  return (
-    <ImageContainer>
-      <Image1 /> {/* 첫 번째 이미지 컴포넌트 */}
-      <Image2 /> {/* 두 번째 이미지 컴포넌트 */}
-    </ImageContainer>
-  );
-};
 
 export default BodyImage;
