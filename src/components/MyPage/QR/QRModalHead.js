@@ -1,6 +1,21 @@
 import React from 'react';
 import styled from 'styled-components';
 
+// QR 모달의 예약 상세 내용을 담는 header
+const QRModalHead = ({ value }) => {
+    return (
+        <ORModalHeadBlock>
+            <div className="reservation-number">예약번호 | {value.reservationToken} </div>
+            <div className="reservation-day-details">
+                {value.reservationDate} {value.reservationVisitTime}
+            </div>
+        </ORModalHeadBlock>
+    );
+};
+
+export default QRModalHead;
+
+// QR 모달의 header css
 const ORModalHeadBlock = styled.div`
     background: #000000;
     width: 350px;
@@ -23,16 +38,3 @@ const ORModalHeadBlock = styled.div`
         font-size: 25px;
     }
 `;
-
-const QRModalHead = ({ value }) => {
-    return (
-        <ORModalHeadBlock>
-            <div className="reservation-number">예약번호 | {value.reservationToken} </div>
-            <div className="reservation-day-details">
-                {value.reservationDate} {value.reservationVisitTime}
-            </div>
-        </ORModalHeadBlock>
-    );
-};
-
-export default QRModalHead;

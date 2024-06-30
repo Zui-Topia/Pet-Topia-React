@@ -4,32 +4,21 @@ import { QRAuthCheckAPI, QRRequestAPI } from '../../../api/MyPage/QRReqeustAPI';
 import { QRCode, Space } from 'antd';
 const value = 'https://ant.design';
 
-// const QRCodeElement = () => (
-//     <Flex gap="middle" wrap>
-//         <QRCode value={value} status="loading" />
-//         <QRCode value={value} status="expired" onRefresh={() => console.log('refresh')} />
-//         <QRCode value={value} status="scanned" />
-//     </Flex>
-// );
-// export default QRCodeElement;
-
+// QR 아이템 생성, 만료, 재발급 로직 처리하는 함수
 const QRCodeElement = ({ reservationId }) => {
     const [qrId, setQrId] = useState(null);
     const [error, setError] = useState(null);
-    const [qrStatus, setQrStatus] = useState('loading');
+    const [qrStatus, setQrStatus] = useState('loading'); // qr 초기 상태값 loading
     const navigate = useNavigate();
 
+    // reservationId로 QR 생성하는 API 비동기 호출
     const fetchQR = async () => {
         try {
             const response = await QRRequestAPI(reservationId);
-            console.log(response.data);
-            console.log('값 :' + response.data.data);
 
             if (response.data.success) {
-                console.log('성공 값 : ' + response.data.data);
                 setQrId(response.data.data);
                 setQrStatus('active');
-                // console.log('qrId : ' + qrId);
             }
         } catch (error) {
             setError(error);
@@ -37,43 +26,43 @@ const QRCodeElement = ({ reservationId }) => {
         }
     };
 
+    // 다른 활성화된 예약 내역을 누를 때, fetchQR 호출
     useEffect(() => {
         fetchQR();
     }, [reservationId]);
 
-    useEffect(() => {
-        if (qrStatus === 'active') {
-            const timer = setTimeout(() => {
-                setQrStatus('expired');
-            }, 10000); // 30 seconds
-
-            return () => clearTimeout(timer); // Cleanup the timer on component unmount
-        }
-    }, [qrStatus]);
-
+    // QR 만료 후 재발급 받기 위해서, fetchQR 호출
     const handleRefresh = () => {
         fetchQR();
     };
 
+    // QR 아이템 15초 만료시간 생성
+    useEffect(() => {
+        if (qrStatus === 'active') {
+            const timer = setTimeout(() => {
+                setQrStatus('expired');
+            }, 15000); // 15 seconds
+
+            return () => clearTimeout(timer);
+        }
+    }, [qrStatus]);
+
+    // 인증 확인을 위한 API 비동기 호출
+    // 현재는 관리자 페이지가 존재하지 않으므로, 임시로 활성화되어 있는 QR을 클릭 시 인증 확인 가능하도록 처리
     const handleQRClick = async () => {
         if (qrStatus === 'active') {
             try {
-                console.log('qrId : ', qrId);
                 const authResponse = await QRAuthCheckAPI(qrId);
-                console.log(authResponse);
-                console.log(authResponse.data.success);
-                console.log(authResponse.data.data);
-
-                navigate('/auth', { state: { authData: authResponse.data } }); // Pass authResponse.data.data in state
+                navigate('/auth', { state: { authData: authResponse.data } }); // authResponse.data.data 넘기기
             } catch (error) {
-                console.error('Error during QR code click handling:', error);
+                console.error('QR 오류 발생:', error);
             }
         }
     };
-    // const navigate = useNavigate();
-    const url = `http://localhost:8081/auth/check?qrId=${qrId}`;
 
-    // <QRCode value={value} status="expired" onRefresh={() => console.log('refresh')} />
+    // QR에 삽입되는 url
+    // 현재는 관리자 페이지가 존재하지 않으므로, localhost로 url 제작하였지만 추후에 변경 예정
+    const url = `http://localhost:8081/auth/check?qrId=${qrId}`;
 
     const [text, setText] = React.useState(url);
     return (

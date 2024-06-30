@@ -1,6 +1,25 @@
 import React from 'react';
 import styled from 'styled-components';
 
+// 예약 내역 header 함수
+// 예약 번호, 예약 날짜, 시간 배치
+// 예약 내역 활성화 시 검은색 처리, 비활성화 시 회색 처리
+const ReservationHead = ({ value }) => {
+    const gray = value.reservationDelete === 1 || value.reservationDeleteDate !== null;
+
+    return (
+        <ReservationHeadBlock reservationDelete={gray}>
+            <div className="reservation-number">예약번호 | {value.reservationToken}</div>
+            <div className="reservation-day-details">
+                {value.reservationDate} {value.reservationVisitTime}
+            </div>
+        </ReservationHeadBlock>
+    );
+};
+
+export default ReservationHead;
+
+// 예약 내역 header css
 const ReservationHeadBlock = styled.div`
     background: ${(props) => (props.reservationDelete ? '#D9D9D9' : '#000000')};
 
@@ -23,19 +42,3 @@ const ReservationHeadBlock = styled.div`
         font-size: 25px;
     }
 `;
-
-const ReservationHead = ({ value }) => {
-    console.log('value : ', value.reservationToken, value.reservationDelete, value.reservationDeleteDate);
-    const gray = value.reservationDelete === 1 || value.reservationDeleteDate !== null;
-    console.log('gray : ', gray);
-    return (
-        <ReservationHeadBlock reservationDelete={gray}>
-            <div className="reservation-number">예약번호 | {value.reservationToken}</div>
-            <div className="reservation-day-details">
-                {value.reservationDate} {value.reservationVisitTime}
-            </div>
-        </ReservationHeadBlock>
-    );
-};
-
-export default ReservationHead;

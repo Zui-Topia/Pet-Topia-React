@@ -1,6 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
 
+// 마이페이지 최상위 틀
+const MyPageSection = ({ children }) => {
+    return <MyPageSectionBlock>{children}</MyPageSectionBlock>;
+};
+
+export default MyPageSection;
+
+// 마이페이지 최상위 틀 css
 const MyPageSectionBlock = styled.div`
     width: 800px;
 
@@ -13,9 +21,3 @@ const MyPageSectionBlock = styled.div`
     display: flex;
     flex-direction: column;
 `;
-
-const MyPageSection = ({ children }) => {
-    return <MyPageSectionBlock>{children}</MyPageSectionBlock>;
-};
-
-export default MyPageSection;

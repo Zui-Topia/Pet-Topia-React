@@ -1,132 +1,46 @@
 import React, { useState } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
-import { Layout, Modal } from 'antd';
+import { Modal } from 'antd';
 import styled from 'styled-components';
 import { ReservationDeleteAPI } from '../../../api/MyPage/MyPageAPI';
 
-const ReservationBodyBlock = styled.div`
-    background: #ffffff;
-
-    border-bottom-left-radius: 20px;
-    border-bottom-right-radius: 20px;
-    box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.04);
-
-    padding-top: 20px;
-    padding-right: 20px;
-    padding-left: 40px;
-    padding-bottom: 20px;
-    margin: 0 auto;
-
-    .body-payment {
-        display: flex;
-        flex-direction: row;
-        padding-top: 10px;
-        padding-bottom: 10px;
-    }
-
-    .body-location {
-        padding-bottom: 10px;
-    }
-
-    .reservation-location {
-        color: #000000;
-        font-size: 25px;
-        padding-top: 10px;
-        padding-bottom: 10px;
-        margin-bottom: 10px;
-        font-family: 'Kanit';
-    }
-
-    .reservation-payment {
-        width: 150px;
-        color: #000000;
-        font-size: 18px;
-        font-family: 'Kanit';
-    }
-
-    .reservation-pay-amount {
-        width: 150px;
-        color: #fa3428;
-        font-size: 18px;
-        font-weight: 400px;
-        font-family: 'Kanit';
-    }
-
-    span {
-        width: 150px;
-        color: #545454;
-        font-size: 20px;
-        padding-right: 10px;
-    }
-`;
-
-const DeleteButton = styled.div`
-    border-radius: 5px;
-    cursor: 'pointer'
-    color: #ffffff;
-    // background-color: #000000;
-    font-family: 'Kanit';
-    font-size: 18px;
-    padding: 5px;
-    margin-left: auto;
-    padding-left: 10px;
-    padding-right: 10px;
-    border : 1px solid #ffffff;
-
-    &:hover {
-        border-color: #FF0000;
-        color: #FA8282;
-        font-weight: 700;
-    }
-`;
-
-const ExpiredDiv = styled.div`
-    color: #999999;
-    border: none;
-    font-family: 'Kanit';
-    font-size: 15px;
-    padding: 5px 10px;
-    margin-left: auto;
-    padding-right: 10px;
-`;
-
+// 예약 내역 body 함수
+// 예약 장소, 결제 내역, 예약 활성화 여부 표시
+// 예약 내역 활성화 시 '예약 취소' 버튼, 비활성화 시 '취소된 예약' 혹은 '만료된 예약' 표시
 const ReservationBody = ({ value }) => {
-    console.log('value ', value);
     const isExpired = value.reservationVO.reservationDelete === 1;
     const isDeleted = value.reservationVO.reservationDeleteDate !== null;
     const reservationId = value.reservationVO.reservationId;
     const navigate = useNavigate();
 
-    const [modalVisible, setModalVisible] = useState(false);
-    const [modalText, setModalText] = useState('');
+    // 예약 취소 모달
+    const showModal = () => {
+        Modal.info({
+            title: '예약 취소 결과',
+            content: '예약이 취소 되었습니다.',
+            okText: '확인',
+            onOk: () => {
+                window.location.reload();
+                navigate('/mypage');
+            },
+        });
+    };
 
-    console.log('reservationId : ' + reservationId);
+    // 예약 취소 API 비동기 호출
     const handleCancelReservation = async (event) => {
-        event.stopPropagation();
+        event.stopPropagation(); // '예약 취소' 버튼 클릭 시 QR 모달 버튼이 눌리지 않게 방지하는 로직
         try {
             const reservationInfo = {
                 reservationId: reservationId,
             };
-            console.log('Sending reservation info:', reservationInfo); // 디버그용 로그
-
             const response = await ReservationDeleteAPI(reservationInfo);
 
-            console.log(response);
-            console.log(response.data);
             if (response.data.success) {
-                setModalVisible(true);
-                setModalText('예약이 취소 되었습니다.');
+                showModal(); // 예약 취소 확인용 모달 생성
             }
         } catch (error) {
-            // Handle error, e.g., show an error message
-            console.error('Error cancelling reservation:', error);
+            console.error('오류 발생 : ', error);
         }
-    };
-
-    const handleModalClose = () => {
-        setModalVisible(false);
-        window.location.reload();
-        navigate('/mypage');
     };
 
     return (
@@ -154,11 +68,103 @@ const ReservationBody = ({ value }) => {
                     <DeleteButton onClick={handleCancelReservation}>예약 취소</DeleteButton>
                 )}
             </div>
-            <Modal visible={modalVisible} onOk={handleModalClose} onCancel={handleModalClose}>
-                <p>{modalText}</p>
-            </Modal>
         </ReservationBodyBlock>
     );
 };
 
 export default ReservationBody;
+
+// 예약 내역 body css
+const ReservationBodyBlock = styled.div`
+    background: #ffffff;
+
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.04);
+
+    padding-top: 20px;
+    padding-right: 20px;
+    padding-left: 40px;
+    padding-bottom: 20px;
+    margin: 0 auto;
+
+    // body의 예약 위치 정보 구간 css
+    .body-location {
+        padding-bottom: 10px;
+    }
+
+    // body의 결제 내역 구간 css
+    .body-payment {
+        display: flex;
+        flex-direction: row;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+    // 예약 위치 정보 css
+    .reservation-location {
+        color: #000000;
+        font-size: 25px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        margin-bottom: 10px;
+        font-family: 'Kanit';
+    }
+
+    // 결제 내역 css
+    .reservation-payment {
+        width: 150px;
+        color: #000000;
+        font-size: 18px;
+        font-family: 'Kanit';
+    }
+
+    // 결제 금액 css
+    .reservation-pay-amount {
+        width: 150px;
+        color: #fa3428;
+        font-size: 18px;
+        font-weight: 400px;
+        font-family: 'Kanit';
+    }
+
+    // 안내 문구 css
+    span {
+        width: 150px;
+        color: #545454;
+        font-size: 20px;
+        padding-right: 10px;
+    }
+`;
+
+// 예약 취소 버튼 css
+const DeleteButton = styled.div`
+    border-radius: 5px;
+    cursor: 'pointer'
+    color: #ffffff;
+    // background-color: #000000;
+    font-family: 'Kanit';
+    font-size: 18px;
+    padding: 5px;
+    margin-left: auto;
+    padding-left: 10px;
+    padding-right: 10px;
+    border : 1px solid #ffffff;
+
+    &:hover {
+        border-color: #FF0000;
+        color: #FA8282;
+        font-weight: 700;
+    }
+`;
+
+// '예약 만료' 혹은 '취소된 예약' css
+const ExpiredDiv = styled.div`
+    color: #999999;
+    border: none;
+    font-family: 'Kanit';
+    font-size: 15px;
+    padding: 5px 10px;
+    margin-left: auto;
+    padding-right: 10px;
+`;
