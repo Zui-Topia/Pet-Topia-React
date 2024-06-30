@@ -15,7 +15,10 @@ import Header from "../../components/Main/Common/Header";
 import EmailValidationCheckButton from "../../components/Main/Submit/EmailValidCheck";
 import PostSignUpAPI from "../../api/User/PostSignUpAPI";
 import { useNavigate } from "react-router-dom";
-
+import {
+  StyledDivider,
+  DividerWrapper,
+} from "../../components/Main/Common/Divider";
 // 유효성 검사를 위한 Yup 스키마 정의
 const SignupSchema = Yup.object().shape({
   email: Yup.string()
@@ -299,17 +302,6 @@ const SectionTitle = styled.div`
   font-family: "Kanit";
   font-weight: 400;
   margin-top: -30px;
-`;
-
-// 스타일이 적용된 구분선 컴포넌트 정의
-const StyledDivider = styled(Divider)`
-  border-color: black;
-`;
-
-// 구분선 래퍼 스타일 컴포넌트 정의
-const DividerWrapper = styled.div`
-  width: 100%;
-  margin: 0;
 `;
 
 // 레이블 스타일 컴포넌트 정의
