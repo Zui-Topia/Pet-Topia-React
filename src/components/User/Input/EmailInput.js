@@ -1,9 +1,8 @@
 import { CheckCircleOutlined } from "@ant-design/icons";
 import styled from "styled-components";
-
 import React from "react";
 
-// Styled component for input
+// 입력란을 감싸는 스타일 컴포넌트 정의
 const InputWrapper = styled.div`
   position: relative;
   display: flex;
@@ -11,6 +10,7 @@ const InputWrapper = styled.div`
   margin-bottom: 40px;
 `;
 
+// 텍스트 입력란 스타일 컴포넌트 정의
 const TextInput = styled.input`
   color: black;
   font-size: 20px;
@@ -22,16 +22,16 @@ const TextInput = styled.input`
   border-radius: 5px;
   width: 400px;
   height: 60px;
-
   box-sizing: border-box;
+
   &:focus {
     border: 1px solid transparent;
     box-shadow: 0 0 0 2px #000000;
   }
 `;
 
+// 체크 아이콘 스타일 컴포넌트 정의
 const StyledIcon = styled(CheckCircleOutlined)`
-  // 체크 박스
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
@@ -40,6 +40,7 @@ const StyledIcon = styled(CheckCircleOutlined)`
   font-size: 20px;
 `;
 
+// EmailInput 컴포넌트 정의
 const EmailInput = ({ placeholder }) => {
   return (
     <div style={{ width: "250px" }}>
