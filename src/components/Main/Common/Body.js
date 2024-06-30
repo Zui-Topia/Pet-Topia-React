@@ -2,6 +2,15 @@ import React from "react";
 import styled from "styled-components";
 import { MAIN_IMAGES_PATHS } from "../../../constants/imagePaths";
 
+const BodyImage = () => {
+  return (
+    <ImageContainer>
+      <Image1 />
+      <Image2 />
+    </ImageContainer>
+  );
+};
+
 // 이미지를 가로로 나란히 배치할 컨테이너
 const ImageContainer = styled.div`
   display: flex;
@@ -20,14 +29,5 @@ const Image1 = styled(Image)`
 const Image2 = styled(Image)`
   background-image: url(${MAIN_IMAGES_PATHS.MAIN_RES}); /* 두 번째 이미지 경로 */
 `;
-
-const BodyImage = () => {
-  return (
-    <ImageContainer>
-      <Image1 />
-      <Image2 />
-    </ImageContainer>
-  );
-};
 
 export default BodyImage;

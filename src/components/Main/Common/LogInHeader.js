@@ -4,6 +4,53 @@ import { useNavigate } from "react-router-dom";
 import { getCookie } from "../../../utils/cookie";
 import { deleteAllCookies } from "../../../utils/cookie";
 
+// LogInHeader 컴포넌트 정의
+export const LogInHeader = () => {
+  // useNavigate 훅을 사용하여 네비게이션 함수 가져오기
+  const navigate = useNavigate();
+  // 쿠키에서 accessToken 가져오기
+  const accessToken = getCookie("accessToken");
+
+  // 타이틀을 클릭했을 때 메인 페이지로 이동하는 함수
+  const handleTitleClick = () => {
+    navigate("/main");
+  };
+
+  // 로그아웃을 클릭했을 때 쿠키를 삭제하고 로그인 페이지로 이동하는 함수
+  const handleLogoutClick = () => {
+    deleteAllCookies(); // 쿠키 삭제 함수 호출
+    navigate("/login");
+  };
+
+  // 마이페이지를 클릭했을 때 마이페이지로 이동하는 함수
+  const handleMyPageClick = () => {
+    navigate("/mypage");
+  };
+
+  // 로그인 페이지로 이동하는 함수
+  const handleLoginClick = () => {
+    navigate("/login");
+  };
+
+  // 회원가입 페이지로 이동하는 함수
+  const handleSignUpClick = () => {
+    navigate("/signup");
+  };
+
+  return (
+    <HeaderWrapper>
+      <InnerDiv>
+        {/* 타이틀 클릭 이벤트 핸들러 추가 */}
+        <Title onClick={handleTitleClick}>
+          <span className="text-wrapper">The</span>
+          <span className="text-wrapper-2">PETOPIA</span>
+        </Title>
+        <TextWrapper3></TextWrapper3>
+      </InnerDiv>
+    </HeaderWrapper>
+  );
+};
+
 // 헤더 전체를 감싸는 래퍼로, 중앙에 배치하기 위해 flex 컨테이너 사용
 const HeaderWrapper = styled.div`
   background-color: #ffffff;
@@ -68,52 +115,5 @@ const TextWrapper3 = styled.div`
     margin-left: 20px; // 아이템 간 간격 조정
   }
 `;
-
-// LogInHeader 컴포넌트 정의
-export const LogInHeader = () => {
-  // useNavigate 훅을 사용하여 네비게이션 함수 가져오기
-  const navigate = useNavigate();
-  // 쿠키에서 accessToken 가져오기
-  const accessToken = getCookie("accessToken");
-
-  // 타이틀을 클릭했을 때 메인 페이지로 이동하는 함수
-  const handleTitleClick = () => {
-    navigate("/main");
-  };
-
-  // 로그아웃을 클릭했을 때 쿠키를 삭제하고 로그인 페이지로 이동하는 함수
-  const handleLogoutClick = () => {
-    deleteAllCookies(); // 쿠키 삭제 함수 호출
-    navigate("/login");
-  };
-
-  // 마이페이지를 클릭했을 때 마이페이지로 이동하는 함수
-  const handleMyPageClick = () => {
-    navigate("/mypage");
-  };
-
-  // 로그인 페이지로 이동하는 함수
-  const handleLoginClick = () => {
-    navigate("/login");
-  };
-
-  // 회원가입 페이지로 이동하는 함수
-  const handleSignUpClick = () => {
-    navigate("/signup");
-  };
-
-  return (
-    <HeaderWrapper>
-      <InnerDiv>
-        {/* 타이틀 클릭 이벤트 핸들러 추가 */}
-        <Title onClick={handleTitleClick}>
-          <span className="text-wrapper">The</span>
-          <span className="text-wrapper-2">PETOPIA</span>
-        </Title>
-        <TextWrapper3></TextWrapper3>
-      </InnerDiv>
-    </HeaderWrapper>
-  );
-};
 
 export default LogInHeader;

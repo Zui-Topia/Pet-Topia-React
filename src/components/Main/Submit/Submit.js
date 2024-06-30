@@ -2,6 +2,13 @@ import React from "react";
 import styled from "styled-components";
 import { Button } from "antd";
 
+// SubmitButton 컴포넌트 정의
+const SubmitButton = ({ label, onClick, ...props }) => (
+  <StyledButton type="primary" onClick={onClick} {...props}>
+    {label}
+  </StyledButton>
+);
+
 // 스타일이 적용된 버튼 컴포넌트 정의
 const StyledButton = styled(Button)`
   width: 550px;
@@ -19,12 +26,5 @@ const StyledButton = styled(Button)`
     color: white;
   }
 `;
-
-// SubmitButton 컴포넌트 정의
-const SubmitButton = ({ label, onClick, ...props }) => (
-  <StyledButton type="primary" onClick={onClick} {...props}>
-    {label}
-  </StyledButton>
-);
 
 export default SubmitButton;

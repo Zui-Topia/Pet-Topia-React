@@ -2,6 +2,25 @@ import { CheckCircleOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 import React from "react";
 
+// PasswordInput 컴포넌트 정의
+const PasswordInput = ({ placeholder }) => {
+  return (
+    <div style={{ width: "350px" }}>
+      {" "}
+      {/* 부모 div의 너비 350px */}
+      <div style={{ width: "100%" }}>
+        {" "}
+        {/* 내부 div의 너비 100% */}
+        <InputWrapper>
+          <TextInput type="password" placeholder={placeholder} />{" "}
+          {/* 비밀번호 입력란 */}
+          <StyledIcon /> {/* 체크 아이콘 */}
+        </InputWrapper>
+      </div>
+    </div>
+  );
+};
+
 // 입력란을 감싸는 스타일 컴포넌트 정의
 const InputWrapper = styled.div`
   position: relative; // 상대 위치 지정
@@ -40,24 +59,5 @@ const StyledIcon = styled(CheckCircleOutlined)`
   color: grey; // 아이콘 색상 회색
   font-size: 20px; // 아이콘 크기 20px
 `;
-
-// PasswordInput 컴포넌트 정의
-const PasswordInput = ({ placeholder }) => {
-  return (
-    <div style={{ width: "350px" }}>
-      {" "}
-      {/* 부모 div의 너비 350px */}
-      <div style={{ width: "100%" }}>
-        {" "}
-        {/* 내부 div의 너비 100% */}
-        <InputWrapper>
-          <TextInput type="password" placeholder={placeholder} />{" "}
-          {/* 비밀번호 입력란 */}
-          <StyledIcon /> {/* 체크 아이콘 */}
-        </InputWrapper>
-      </div>
-    </div>
-  );
-};
 
 export default PasswordInput;
