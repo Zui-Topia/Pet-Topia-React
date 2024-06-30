@@ -6,91 +6,6 @@ import moment from 'moment';
 
 // 작성자: 정은찬
 
-// 글로벌 스타일 정의
-const GlobalStyle = createGlobalStyle`
-    @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@400;700&display=swap');
-
-    .ant-picker-content thead {
-        // 헤더의 폰트 설정
-        font-family: 'Kanit' !important;
-        font-size : 20px;
-        border-bottom : 15px solid #ffffff;
-    }
-
-    .ant-picker-calendar {
-        // 캘린더의 폰트 설정
-        font-family: 'Kanit' !important;
-        font-size : 20px;
-    }
-
-    /* 오늘 날짜 테두리 색상 커스터마이징 */
-    .ant-picker-calendar .ant-picker-cell-in-view.ant-picker-cell-today .ant-picker-cell-inner::before {
-        border-color: pink !important;
-    }
-
-    /* 선택된 라디오 버튼 색상 커스터마이징 */
-    .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
-        border-color: pink !important;
-        color: pink !important;
-    }
-
-    .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled):hover {
-        border-color: pink !important;
-        color: pink !important;
-    }
-`;
-
-// 캘린더 스타일 정의
-const StyledCalendar = styled(Calendar)`
-    width: 450px;
-    height: 360px;
-
-    .ant-picker-cell-selected .ant-picker-cell-inner {
-        background-color: pink !important;
-    }
-
-    :where(.css-dev-only-do-not-override-zg0ahe).ant-picker-calendar
-        .ant-picker-cell-in-view.ant-picker-cell-today
-        .ant-picker-cell-inner::before {
-        border: 1px solid pink !important;
-    }
-
-    .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
-        border-color: pink !important;
-        color: pink !important;
-    }
-
-    .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled):hover {
-        border-color: pink !important;
-        color: pink !important;
-    }
-
-    .ant-picker-cell:hover .ant-picker-cell-inner {
-        background-color: pink !important;
-    }
-
-    /* 비활성화된 날짜의 글자색을 회색으로 설정하고 클릭 비활성화 */
-    .ant-picker-cell-disabled .ant-picker-cell-inner {
-        color: #d9d9d9 !important;
-    }
-`;
-
-// 셀렉트 스타일 정의
-const StyledSelect = styled(Select)`
-    .ant-select-selector {
-        border-color: #d9d9d9 !important;
-        &:hover {
-            border-color: pink !important;
-        }
-    }
-
-    .ant-select-item-option {
-        &:hover {
-            color: pink !important;
-        }
-    }
-`;
-
 // 달력 날짜 선택 컴포넌트
 const ReservationCalendar = ({ onSelectDate }) => {
     // 패널 변경 시 호출되는 함수
@@ -185,3 +100,88 @@ const ReservationCalendar = ({ onSelectDate }) => {
 };
 
 export default ReservationCalendar;
+
+// 글로벌 스타일 정의
+const GlobalStyle = createGlobalStyle`
+    @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@400;700&display=swap');
+
+    .ant-picker-content thead {
+        // 헤더의 폰트 설정
+        font-family: 'Kanit' !important;
+        font-size : 20px;
+        border-bottom : 15px solid #ffffff;
+    }
+
+    .ant-picker-calendar {
+        // 캘린더의 폰트 설정
+        font-family: 'Kanit' !important;
+        font-size : 20px;
+    }
+
+    /* 오늘 날짜 테두리 색상 커스터마이징 */
+    .ant-picker-calendar .ant-picker-cell-in-view.ant-picker-cell-today .ant-picker-cell-inner::before {
+        border-color: pink !important;
+    }
+
+    /* 선택된 라디오 버튼 색상 커스터마이징 */
+    .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
+        border-color: pink !important;
+        color: pink !important;
+    }
+
+    .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled):hover {
+        border-color: pink !important;
+        color: pink !important;
+    }
+`;
+
+// 캘린더 스타일 정의
+const StyledCalendar = styled(Calendar)`
+    width: 450px;
+    height: 360px;
+
+    .ant-picker-cell-selected .ant-picker-cell-inner {
+        background-color: pink !important;
+    }
+
+    :where(.css-dev-only-do-not-override-zg0ahe).ant-picker-calendar
+        .ant-picker-cell-in-view.ant-picker-cell-today
+        .ant-picker-cell-inner::before {
+        border: 1px solid pink !important;
+    }
+
+    .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
+        border-color: pink !important;
+        color: pink !important;
+    }
+
+    .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled):hover {
+        border-color: pink !important;
+        color: pink !important;
+    }
+
+    .ant-picker-cell:hover .ant-picker-cell-inner {
+        background-color: pink !important;
+    }
+
+    /* 비활성화된 날짜의 글자색을 회색으로 설정하고 클릭 비활성화 */
+    .ant-picker-cell-disabled .ant-picker-cell-inner {
+        color: #d9d9d9 !important;
+    }
+`;
+
+// 셀렉트 스타일 정의
+const StyledSelect = styled(Select)`
+    .ant-select-selector {
+        border-color: #d9d9d9 !important;
+        &:hover {
+            border-color: pink !important;
+        }
+    }
+
+    .ant-select-item-option {
+        &:hover {
+            color: pink !important;
+        }
+    }
+`;

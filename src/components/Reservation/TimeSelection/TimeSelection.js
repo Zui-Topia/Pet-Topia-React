@@ -4,49 +4,6 @@ import { Menu } from 'antd';
 import styled from 'styled-components';
 
 // 작성자: 정은찬
-
-// 스타일 정의
-const StyledMenu = styled(Menu)`
-    height: 66px;
-    width: 402px;
-    font-size: 20px;
-    height: auto;
-    overflow-y: auto;
-    text-align: center;
-    border: 1px solid #d9d9d9;
-`;
-
-const MenuItem = styled(Menu.Item)`
-    && {
-        font-family: 'Kanit', sans-serif;
-        font-size: 20px;
-        color: #9b9b9b;
-        text-align: center;
-    }
-`;
-
-const StyledSubMenu = styled(Menu.SubMenu)`
-    && {
-        .ant-menu-submenu-title {
-            height: 40px;
-            line-height: 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 20px;
-            text-align: center;
-        }
-
-        .ant-menu {
-            max-height: 180px;
-            overflow-y: auto;
-            font-size: 20px;
-            text-align: center;
-            margin-left: -15px;
-        }
-    }
-`;
-
 // 메뉴 아이템 정의
 const items = [
     {
@@ -129,3 +86,45 @@ const TimeSelection = ({ onSelectTime, selectedDate }) => {
 };
 
 export default TimeSelection;
+
+// 스타일 정의
+const StyledMenu = styled(Menu)`
+    height: 66px;
+    width: 402px;
+    font-size: 20px;
+    height: auto;
+    overflow-y: auto;
+    text-align: center;
+    border: 1px solid #d9d9d9;
+`;
+
+const MenuItem = styled(Menu.Item)`
+    && {
+        font-family: 'Kanit', sans-serif;
+        font-size: 20px;
+        color: #9b9b9b;
+        text-align: center;
+    }
+`;
+
+const StyledSubMenu = styled(Menu.SubMenu)`
+    && {
+        .ant-menu-submenu-title {
+            height: 40px;
+            line-height: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 20px;
+            text-align: center;
+        }
+
+        .ant-menu {
+            max-height: 180px;
+            overflow-y: auto;
+            font-size: 20px;
+            text-align: center;
+            margin-left: -15px;
+        }
+    }
+`;
