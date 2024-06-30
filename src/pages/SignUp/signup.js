@@ -2,8 +2,12 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { message, Layout, Input, Divider, Modal } from "antd";
-import { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
+import { Layout, Input, Divider, Modal } from "antd";
+import {
+  EyeInvisibleOutlined,
+  EyeOutlined,
+  ExclamationCircleOutlined,
+} from "@ant-design/icons";
 import PetWeightSelectionToggle from "../../components/User/Input/PetWeightSelection";
 import PetSizeSelectionToggle from "../../components/User/Input/PetSizeSelection";
 import SubmitButton from "../../components/Main/Submit/Submit";
@@ -11,7 +15,11 @@ import Header from "../../components/Main/Common/Header";
 import EmailValidationCheckButton from "../../components/Main/Submit/EmailValidCheck";
 import PostSignUpAPI from "../../api/User/PostSignUpAPI";
 import { useNavigate } from "react-router-dom";
-
+import {
+  StyledDivider,
+  DividerWrapper,
+} from "../../components/Main/Common/Divider";
+// 유효성 검사를 위한 Yup 스키마 정의
 const SignupSchema = Yup.object().shape({
   email: Yup.string()
     .email("유효한 이메일을 입력하세요")
@@ -29,15 +37,18 @@ const SignupSchema = Yup.object().shape({
   petSize: Yup.string().required("반려견 체고를 입력하세요"),
 });
 
+// Signup 컴포넌트 정의
 const Signup = () => {
-  const [email, setEmail] = useState("");
-  const [isEmailAvailable, setIsEmailAvailable] = useState(null);
+  const [isEmailAvailable, setIsEmailAvailable] = useState(null); // 이메일 사용 가능 여부 상태
   const [isSubmitting, setIsSubmitting] = useState(false); // 회원가입 요청 중 여부 상태
 
+  // 이메일 초기화 함수
   const resetEmail = (formik) => {
     formik.setFieldValue("email", "");
   };
   const navigate = useNavigate(); // useNavigate 훅을 사용하여 페이지 이동 기능 활성화
+
+  // useFormik 훅을 사용하여 폼 상태와 핸들러 정의
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -49,7 +60,6 @@ const Signup = () => {
     },
     validationSchema: SignupSchema,
     onSubmit: async (values) => {
-      console.log("values", values);
       if (!isSubmitting) {
         setIsSubmitting(true); // 회원가입 요청 시작 시 상태 변경
         try {
@@ -61,10 +71,7 @@ const Signup = () => {
             petSize: values.petSize,
           };
 
-          console.log("UserInfo to be sent:", UserInfo); // 서버로 전송할 데이터 출력
-
           const response = await PostSignUpAPI(UserInfo);
-          console.log("Signup response:", response); // 회원가입 API 응답 콘솔 출력
 
           setIsSubmitting(false); // 제출 상태를 false로 설정
           Modal.success({
@@ -77,21 +84,32 @@ const Signup = () => {
             },
           });
         } catch (error) {
-          console.error("Signup error:", error); // 오류 콘솔 출력
           setIsSubmitting(false); // 제출 상태를 false로 설정
-          Modal.error({
-            content:
-              error.response?.data?.message ||
-              "회원가입 중 오류가 발생했습니다.",
-            onOk: () => {
-              setIsSubmitting(false); // 회원가입 실패 후 상태 변경
-            },
-          });
+          if (error.response?.data?.message === "이미 사용중인 이메일 입니다") {
+            Modal.error({
+              title: "회원가입 실패",
+              icon: <ExclamationCircleOutlined style={{ color: "red" }} />,
+              content: error.response.data.message,
+              onOk: () => {
+                setIsSubmitting(false); // 회원가입 실패 후 상태 변경
+              },
+            });
+          } else {
+            Modal.error({
+              content:
+                error.response?.data?.message ||
+                "회원가입 중 오류가 발생했습니다.",
+              onOk: () => {
+                setIsSubmitting(false); // 회원가입 실패 후 상태 변경
+              },
+            });
+          }
         }
       }
     },
   });
 
+  // formik에서 필요한 상태와 핸들러 추출
   const {
     values,
     touched,
@@ -103,10 +121,12 @@ const Signup = () => {
     dirty,
   } = formik;
 
+  // 반려견 몸무게 변경 핸들러
   const handlePetWeightChange = (weight) => {
     formik.setFieldValue("petWeight", weight); // 반려견 몸무게 formik 값 설정
   };
 
+  // 반려견 체고 변경 핸들러
   const handlePetSizeChange = (size) => {
     formik.setFieldValue("petSize", size); // 반려견 체고 formik 값 설정
   };
@@ -139,8 +159,7 @@ const Signup = () => {
                 email={values.email}
                 setIsEmailAvailable={setIsEmailAvailable}
                 disabled={isSubmitting} // 회원가입 요청 중일 때 버튼 비활성화
-                // resetEmail={resetEmail}
-                resetEmail={() => resetEmail(formik)}
+                resetEmail={() => resetEmail(formik)} // 이메일 초기화 함수 호출
               />
             </EmailInputContainer>
             {touched.email && errors.email && (
@@ -223,6 +242,7 @@ const Signup = () => {
   );
 };
 
+// 전체 높이 레이아웃 스타일 컴포넌트 정의
 const FullHeightLayout = styled(Layout)`
   overflow: hidden;
   display: flex;
@@ -232,6 +252,7 @@ const FullHeightLayout = styled(Layout)`
   background-color: white; /* 배경색을 하얀색으로 변경 */
 `;
 
+// 스타일이 적용된 콘텐츠 컴포넌트 정의
 const StyledContent = styled(Layout.Content)`
   display: flex;
   flex-direction: column;
@@ -243,6 +264,7 @@ const StyledContent = styled(Layout.Content)`
   box-sizing: border-box;
 `;
 
+// 내부 요소를 감싸는 스타일 컴포넌트 정의
 const Inner = styled.div`
   display: flex;
   flex-direction: column;
@@ -251,6 +273,7 @@ const Inner = styled.div`
   gap: 32px;
 `;
 
+// 폼 컨테이너 스타일 컴포넌트 정의
 const FormContainer = styled.form`
   width: 100%;
   max-width: 800px;
@@ -262,6 +285,7 @@ const FormContainer = styled.form`
   gap: 16px;
 `;
 
+// 제목 스타일 컴포넌트 정의
 const Heading = styled.h2`
   font-size: 30px;
   font-family: "Kanit";
@@ -272,6 +296,7 @@ const Heading = styled.h2`
   margin-bottom: -30px;
 `;
 
+// 섹션 제목 스타일 컴포넌트 정의
 const SectionTitle = styled.div`
   font-size: 25px;
   font-family: "Kanit";
@@ -279,15 +304,7 @@ const SectionTitle = styled.div`
   margin-top: -30px;
 `;
 
-const StyledDivider = styled(Divider)`
-  border-color: black;
-`;
-
-const DividerWrapper = styled.div`
-  width: 100%;
-  margin: 0;
-`;
-
+// 레이블 스타일 컴포넌트 정의
 const Label = styled.span`
   font-size: 15px;
   font-family: "Kanit";
@@ -295,12 +312,14 @@ const Label = styled.span`
   margin-bottom: -10px;
 `;
 
+// 이메일 입력 컨테이너 스타일 컴포넌트 정의
 const EmailInputContainer = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
 `;
 
+// 스타일이 적용된 입력 컴포넌트 정의
 const StyledInput = styled(Input)`
   flex: 1;
   height: 54px;
@@ -308,16 +327,19 @@ const StyledInput = styled(Input)`
   border: 1px solid #d9d9d9;
 `;
 
+// 스타일이 적용된 비밀번호 입력 컴포넌트 정의
 const StyledPassword = styled(Input.Password)`
   height: 54px;
   border-radius: 2px;
   border: 1px solid #d9d9d9;
 `;
 
+// 버튼 컨테이너 스타일 컴포넌트 정의
 const ButtonContainer = styled.div`
   width: 100%;
 `;
 
+// 주의사항 스타일 컴포넌트 정의
 const Caution = styled.div`
   font-size: 15px;
   font-family: "Kanit";
@@ -325,6 +347,7 @@ const Caution = styled.div`
   color: #9b9b9b;
 `;
 
+// 에러 메시지 스타일 컴포넌트 정의
 const ErrorMessage = styled.div`
   font-size: 12px;
   color: red;
