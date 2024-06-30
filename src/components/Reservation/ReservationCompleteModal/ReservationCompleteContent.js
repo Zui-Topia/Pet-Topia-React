@@ -1,3 +1,4 @@
+/* 예약 완료 컨텐츠 컴포넌트 */
 import React from 'react';
 import styled from 'styled-components';
 
