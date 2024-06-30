@@ -3,6 +3,27 @@ import React from 'react';
 import styled from 'styled-components';
 import ReservationCalendar from '../../components/Reservation/ReservationCalendar/ReservationCalendar';
 
+// 작성자: 정은찬
+// 예약페이지 step1 구성 컴포넌트
+const ReservationStep1 = ({ setSelectedDate }) => {
+    return (
+        <Container1Styled>
+            <Step1>
+                <StepText1>
+                    STEP 1. <span>&nbsp;</span>
+                    <StepContent>날짜&nbsp;선택</StepContent>
+                </StepText1>
+            </Step1>
+
+            <ReservationCalendarContainer>
+                <ReservationCalendar onSelectDate={(date) => setSelectedDate(date)} /> {/* 달력 날짜 선택 컴포넌트 */}
+            </ReservationCalendarContainer>
+        </Container1Styled>
+    );
+};
+
+export default ReservationStep1;
+
 // Container1 스타일
 const Container1Styled = styled.div`
     width: 618px;
@@ -41,22 +62,3 @@ const ReservationCalendarContainer = styled.div`
     width: 450px; // 고정 너비
     height: 360px; // 고정 높이
 `;
-
-const ReservationStep1 = ({ setSelectedDate }) => {
-    return (
-        <Container1Styled>
-            <Step1>
-                <StepText1>
-                    STEP 1. <span>&nbsp;</span>
-                    <StepContent>날짜&nbsp;선택</StepContent>
-                </StepText1>
-            </Step1>
-
-            <ReservationCalendarContainer>
-                <ReservationCalendar onSelectDate={(date) => setSelectedDate(date)} /> {/* 달력 날짜 선택 컴포넌트 */}
-            </ReservationCalendarContainer>
-        </Container1Styled>
-    );
-};
-
-export default ReservationStep1;

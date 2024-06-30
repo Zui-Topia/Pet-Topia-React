@@ -4,14 +4,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Modal } from 'antd';
 
-// 스타일 정의
-const StyledModal = styled(Modal)`
-    .ant-modal-content {
-        background-color: transparent !important;
-        box-shadow: none !important;
-    }
-`;
-
+// 작성자 : 정은찬
 // 예약 완료 모달
 const ReservationCompleteModal = ({ children, isModalOpen, handleCancel }) => {
     return (
@@ -22,3 +15,11 @@ const ReservationCompleteModal = ({ children, isModalOpen, handleCancel }) => {
 };
 
 export default ReservationCompleteModal;
+
+// 스타일 정의
+const StyledModal = styled(Modal)`
+    .ant-modal-content {
+        background-color: transparent !important;
+        box-shadow: none !important;
+    }
+`;
