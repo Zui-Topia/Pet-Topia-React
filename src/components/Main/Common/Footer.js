@@ -1,5 +1,6 @@
-import React from "react";
-import styled from "styled-components";
+/* 메인페이지 하단 컴포넌트 */
+import React from 'react';
+import styled from 'styled-components';
 
 // FooterContainer 스타일 컴포넌트 정의
 const FooterContainer = styled.footer`
@@ -43,20 +44,18 @@ const SmallText = styled.div`
 `;
 
 // Footer 컴포넌트 정의
+
 const Footer = () => {
-  return (
-    <FooterContainer>
-      <TextContainer>
-        <LargeText>
-          반려동물과 함께라서 더 행복한 순간,{" "}
-          <HighlightedText>The PETOPIA</HighlightedText>
-        </LargeText>
-        <SmallText>
-          가까운 지점 선택해서 MAP, RESERVATION 서비스를 이용해보세요.
-        </SmallText>
-      </TextContainer>
-    </FooterContainer>
-  );
+    return (
+        <FooterContainer>
+            <TextContainer>
+                <LargeText>
+                    반려동물과 함께라서 더 행복한 순간, <HighlightedText>The PETOPIA</HighlightedText>
+                </LargeText>
+                <SmallText>가까운 지점 선택해서 MAP, RESERVATION 서비스를 이용해보세요.</SmallText>
+            </TextContainer>
+        </FooterContainer>
+    );
 };
 
 export default Footer;

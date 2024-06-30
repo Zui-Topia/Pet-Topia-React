@@ -18,55 +18,55 @@ const HeaderWrapper = styled.div`
 
 // 내부 div로, 높이를 설정하고 내부 아이템을 가운데 정렬
 const InnerDiv = styled.div`
-  background-color: #ffffff;
-  display: flex;
-  align-items: center; // 아이템들을 수직으로 가운데 정렬
-  height: 100px;
-  width: 100%;
-  position: relative;
+    background-color: #ffffff;
+    display: flex;
+    align-items: center; // 아이템들을 수직으로 가운데 정렬
+    height: 100px;
+    width: 100%;
+    position: relative;
 `;
 
 // 타이틀을 감싸는 div로, 텍스트를 flex 컨테이너로 설정하여 수직 가운데 정렬
 const Title = styled.div`
-  display: flex;
-  align-items: flex-end; // 아이템들을 아래쪽 끝으로 정렬
-  cursor: pointer; // 커서를 포인터로 변경하여 클릭 가능함을 나타냄
-  position: absolute; // 절대 위치 지정
-  left: 50%; // 수평 중앙으로 이동
-  transform: translateX(-50%); // 수평 중앙으로 이동
+    display: flex;
+    align-items: flex-end; // 아이템들을 아래쪽 끝으로 정렬
+    cursor: pointer; // 커서를 포인터로 변경하여 클릭 가능함을 나타냄
+    position: absolute; // 절대 위치 지정
+    left: 50%; // 수평 중앙으로 이동
+    transform: translateX(-50%); // 수평 중앙으로 이동
 
-  .text-wrapper {
-    color: #000000;
-    font-family: "Kanit-Regular", Helvetica;
-    font-size: 40px;
-    font-weight: 500;
-    letter-spacing: 0;
-    line-height: 1; // 줄 높이를 설정하여 기준선 맞추기
-    margin-right: 5px; // 텍스트 간 간격 조정
-  }
+    .text-wrapper {
+        color: #000000;
+        font-family: 'Kanit-Regular', Helvetica;
+        font-size: 40px;
+        font-weight: 500;
+        letter-spacing: 0;
+        line-height: 1; // 줄 높이를 설정하여 기준선 맞추기
+        margin-right: 5px; // 텍스트 간 간격 조정
+    }
 
-  .text-wrapper-2 {
-    font-size: 50px;
-    line-height: 1; // 줄 높이를 설정하여 기준선 맞추기
-    font-weight: 600;
-  }
+    .text-wrapper-2 {
+        font-size: 50px;
+        line-height: 1; // 줄 높이를 설정하여 기준선 맞추기
+        font-weight: 600;
+    }
 `;
 
 // 로그아웃 및 마이페이지 텍스트 스타일
 const TextWrapper3 = styled.div`
-  color: #9b9b9b;
-  font-family: "Kanit-Regular", Helvetica;
-  font-size: 15px;
-  font-weight: 400;
-  letter-spacing: 0;
-  margin-left: auto; // 오른쪽 끝으로 이동
-  display: flex; // 아이템들을 flex 컨테이너로 설정
-  align-items: center; // 아이템들을 수직으로 가운데 정렬
-  align-self: flex-start;
-  span {
-    cursor: pointer;
-    margin-left: 20px; // 아이템 간 간격 조정
-  }
+    color: #9b9b9b;
+    font-family: 'Kanit-Regular', Helvetica;
+    font-size: 15px;
+    font-weight: 400;
+    letter-spacing: 0;
+    margin-left: auto; // 오른쪽 끝으로 이동
+    display: flex; // 아이템들을 flex 컨테이너로 설정
+    align-items: center; // 아이템들을 수직으로 가운데 정렬
+    align-self: flex-start;
+    span {
+        cursor: pointer;
+        margin-left: 20px; // 아이템 간 간격 조정
+    }
 `;
 
 // Header 컴포넌트 정의
@@ -102,36 +102,36 @@ export const Header = () => {
     navigate("/signup");
   };
 
-  return (
-    <HeaderWrapper>
-      <InnerDiv>
-        {/* 타이틀 클릭 이벤트 핸들러 추가 */}
-        <Title onClick={handleTitleClick}>
-          <span className="text-wrapper">The</span>
-          <span className="text-wrapper-2">PETOPIA</span>
-        </Title>
-        <TextWrapper3>
-          {/* 로그인 상태일 때 */}
-          {accessToken ? (
-            <>
-              {/* 로그아웃 클릭 이벤트 핸들러 추가 */}
-              <span onClick={handleLogoutClick}>로그아웃</span>
-              {/* 마이페이지 클릭 이벤트 핸들러 추가 */}
-              <span onClick={handleMyPageClick}>마이페이지</span>
-            </>
-          ) : (
-            // 로그인 되어있지 않은 상태에서 로그인, 회원가입 메뉴를 표시
-            <>
-              {/* 로그인 메뉴 */}
-              <span onClick={handleLoginClick}>로그인</span>
-              {/* 회원가입 메뉴 */}
-              <span onClick={handleSignUpClick}>회원가입</span>
-            </>
-          )}
-        </TextWrapper3>
-      </InnerDiv>
-    </HeaderWrapper>
-  );
+    return (
+        <HeaderWrapper>
+            <InnerDiv>
+                {/* 타이틀 클릭 이벤트 핸들러 추가 */}
+                <Title onClick={handleTitleClick}>
+                    <span className="text-wrapper">The</span>
+                    <span className="text-wrapper-2">PETOPIA</span>
+                </Title>
+                <TextWrapper3>
+                    {/* 로그인 상태일 때 */}
+                    {accessToken ? (
+                        <>
+                            {/* 로그아웃 클릭 이벤트 핸들러 추가 */}
+                            <span onClick={handleLogoutClick}>로그아웃</span>
+                            {/* 마이페이지 클릭 이벤트 핸들러 추가 */}
+                            <span onClick={handleMyPageClick}>마이페이지</span>
+                        </>
+                    ) : (
+                        // 로그인 되어있지 않은 상태에서 로그인, 회원가입 메뉴를 표시
+                        <>
+                            {/* 로그인 메뉴 */}
+                            <span onClick={handleLoginClick}>로그인</span>
+                            {/* 회원가입 메뉴 */}
+                            <span onClick={handleSignUpClick}>회원가입</span>
+                        </>
+                    )}
+                </TextWrapper3>
+            </InnerDiv>
+        </HeaderWrapper>
+    );
 };
 
 export default Header;
