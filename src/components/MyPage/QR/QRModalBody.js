@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import QRCodeElement from './QRCodeElement';
 
-// QR 모달창의 body부분으로 예약 위치 정보와 QR 표시하는 함수
+// QR 모달의 body부분으로 예약 위치 정보와 QR 표시하는 함수
 const QRModalBody = ({ value }) => {
     return (
         <QRModalBodyBlock>
@@ -21,7 +21,7 @@ const QRModalBody = ({ value }) => {
 
 export default QRModalBody;
 
-// 모달의 body css
+// QR 모달의 body css
 const QRModalBodyBlock = styled.div`
     background: #ffffff;
     width: 350px;
