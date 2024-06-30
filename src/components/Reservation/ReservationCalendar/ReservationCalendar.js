@@ -1,20 +1,24 @@
+/* 달력 날짜 선택 컴포넌트 */
 import React from 'react';
 import { Calendar, Select, Col, Row } from 'antd';
 import styled, { createGlobalStyle } from 'styled-components';
 import moment from 'moment';
+
+// 작성자: 정은찬
 
 // 글로벌 스타일 정의
 const GlobalStyle = createGlobalStyle`
     @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@400;700&display=swap');
 
     .ant-picker-content thead {
-        // background-color : #;
+        // 헤더의 폰트 설정
         font-family: 'Kanit' !important;
         font-size : 20px;
         border-bottom : 15px solid #ffffff;
     }
 
     .ant-picker-calendar {
+        // 캘린더의 폰트 설정
         font-family: 'Kanit' !important;
         font-size : 20px;
     }
@@ -67,7 +71,7 @@ const StyledCalendar = styled(Calendar)`
 
     /* 비활성화된 날짜의 글자색을 회색으로 설정하고 클릭 비활성화 */
     .ant-picker-cell-disabled .ant-picker-cell-inner {
-        color: #d9d9d9 !important; /* 글자색을 회색으로 변경 */
+        color: #d9d9d9 !important;
     }
 `;
 
@@ -87,6 +91,7 @@ const StyledSelect = styled(Select)`
     }
 `;
 
+// 달력 날짜 선택 컴포넌트
 const ReservationCalendar = ({ onSelectDate }) => {
     // 패널 변경 시 호출되는 함수
     const onPanelChange = (value, mode) => {
@@ -108,6 +113,7 @@ const ReservationCalendar = ({ onSelectDate }) => {
             <GlobalStyle />
             <StyledCalendar
                 fullscreen={false}
+                // 캘린더 헤더 커스터마이징
                 headerRender={({ value, type, onChange }) => {
                     const start = 0;
                     const end = 12;
@@ -126,8 +132,8 @@ const ReservationCalendar = ({ onSelectDate }) => {
                             </Select.Option>,
                         );
                     }
-                    const year = value.year();
-                    const month = value.month();
+                    const year = value.year(); // 현재 연도 가져오기
+                    const month = value.month(); // 현재 월 가져오기
                     const options = [];
                     for (let i = year - 10; i < year + 10; i += 1) {
                         options.push(
@@ -144,7 +150,7 @@ const ReservationCalendar = ({ onSelectDate }) => {
                                         size="small"
                                         popupMatchSelectWidth={false}
                                         className="my-year-select"
-                                        value={year}
+                                        value={year} // 연도 출력
                                         onChange={(newYear) => {
                                             const now = value.clone().year(newYear);
                                             onChange(now); // 연도 변경 시 호출
@@ -157,7 +163,7 @@ const ReservationCalendar = ({ onSelectDate }) => {
                                     <StyledSelect
                                         size="small"
                                         popupMatchSelectWidth={false}
-                                        value={month}
+                                        value={month} // 월 출력
                                         onChange={(newMonth) => {
                                             const now = value.clone().month(newMonth);
                                             onChange(now); // 월 변경 시 호출

@@ -1,6 +1,10 @@
+/* 예약 완료 컨텐츠 컴포넌트 */
 import React from 'react';
 import styled from 'styled-components';
 
+// 작성자: 정은찬
+
+// 스타일 정의
 const ScreenContainer = styled.div`
     background-color: #ffffff;
     display: flex;
@@ -19,7 +23,7 @@ const OverlapGroup = styled.div`
     border-top-left-radius: 25px;
     border-top-right-radius: 25px;
     height: 70px;
-    width: 100%; /* InnerContainer에 맞게 너비를 100% 설정 */
+    width: 100%;
     position: static;
     border-top: 80px solid black;
     margin-top: -65px;
@@ -30,11 +34,11 @@ const Element = styled.div`
     font-family: 'Kanit-Regular', Helvetica;
     font-size: 20px;
     font-weight: 400;
-    /* left 속성 제거 */
+
     letter-spacing: 0;
     line-height: normal;
-    margin-top: -40px; /* 내부 여백을 조정하여 위치를 설정 */
-    text-align: center; /* 가운데 정렬 */
+    margin-top: -40px;
+    text-align: center;
 `;
 
 const TextWrapper = styled.p`
@@ -47,20 +51,18 @@ const TextWrapper = styled.p`
     line-height: normal;
     white-space: nowrap;
     margin-top: 15px;
-    text-align: center; /* 가운데 정렬 추가 */
+    text-align: center;
 `;
 
 const InnerContainer = styled.div`
     background-color: #ffffff;
     height: 300px;
-
     justify-content: center;
     overflow: hidden;
     position: relative;
     width: 100%;
     display: flex;
     flex-direction: column;
-
     align-items: center;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
@@ -78,7 +80,7 @@ const TextWrapper2 = styled.div`
     line-height: normal;
     white-space: nowrap;
     margin-top: 40px;
-    text-align: center; /* 가운데 정렬 추가 */
+    text-align: center;
 `;
 
 const TextWrapper3 = styled.div`
@@ -91,7 +93,7 @@ const TextWrapper3 = styled.div`
     line-height: normal;
     white-space: nowrap;
     margin-top: 20px;
-    text-align: center; /* 가운데 정렬 추가 */
+    text-align: center;
     border-bottom: 1px solid black;
 `;
 
@@ -118,7 +120,6 @@ const formatTime = (timeStr) => {
 
     // 문자열 내의 공백을 제거하여 처리
     const trimmedTimeStr = timeStr.replace(/\s/g, '');
-    console.log('예약시간: ', trimmedTimeStr);
 
     const [time, period] = trimmedTimeStr.split(':');
     if (!time || !period) return '';
@@ -134,7 +135,7 @@ const formatTime = (timeStr) => {
     return formattedTime;
 };
 
-// 예약 완료 컨텐츠를 렌더링하는 함수형 컴포넌트
+// 예약 완료 컨텐츠 컴포넌트
 export const ReservationCompleteContent = ({ reservationToken, reservationDate, reservationVisitTime }) => {
     // 날짜 변환
     const formattedDate = formatDate(reservationDate);

@@ -40,6 +40,9 @@ export const SignUpHeader = () => {
     </HeaderWrapper>
   );
 };
+/* 회원가입 헤더 */
+import React from "react";
+import styled from "styled-components";
 
 // 헤더 전체를 감싸는 래퍼로, 중앙에 배치하기 위해 flex 컨테이너 사용
 const HeaderWrapper = styled.div`
