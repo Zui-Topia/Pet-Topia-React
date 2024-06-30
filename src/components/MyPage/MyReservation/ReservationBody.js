@@ -58,7 +58,7 @@ const ReservationBody = ({ value }) => {
                     {value.reservationVO.reservationPayment === 0 ? '현장 결제' : '카카오페이'}
                 </div>
                 <div className="reservation-pay-amount">
-                    {value.reservationVO.reservationPayment === 0 ? '0 원' : '5,000 원'}
+                    {value.reservationVO.reservationPayment === 0 ? '0 원 (결제 대기)' : '5,000 원'}
                 </div>
                 {isDeleted ? (
                     <ExpiredDiv>취소된 예약</ExpiredDiv>
