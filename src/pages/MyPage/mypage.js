@@ -1,77 +1,48 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import styled from 'styled-components';
-import { Divider } from 'antd';
 import Header from '../../components/Main/Common/Header';
 import SectionTitle from '../../components/MyPage/SectionTitle';
 import MyPageSection from '../../components/MyPage/MyPageSection';
 import UserInfo from '../../components/MyPage/MyUser/UserInfo';
-import ReservationInfo from '../../components/MyPage/MyReservation/ReservationInfo';
+import { ReservationInfo, NoReservationInfo } from '../../components/MyPage/MyReservation/ReservationInfo';
 import ReservationHead from '../../components/MyPage/MyReservation/ReservationHead';
 import ReservationBody from '../../components/MyPage/MyReservation/ReservationBody';
-import QRModal from '../../components/MyPage/QRModal';
+import QRModal from '../../components/MyPage/QR/QRModal';
 import { MyReservationAPI } from '../../api/MyPage/MyPageAPI';
+import { StyledDivider, DividerWrapper } from '../../components/Main/Common/Divider';
 
-import { getCookie } from '../../utils/cookie';
-
-const NoReservation = styled.div`
-    position: relative;
-
-    margin: 50px auto; /*페이지 중앙에 나타나토록 설정*/
-`;
-
-const StyledDivider = styled(Divider)`
-    border-color: black;
-`;
-
-const DividerWrapper = styled.div`
-    width: 100%;
-    margin: 0;
-`;
-
-const SectionTitleWrapper = styled.div`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-`;
-
-const MoreButton = styled.div`
-    cursor: pointer;
-    color: black;
-    font-family: 'Kanit';
-    font-size: 15px;
-    padding-right: 10px;
-`;
-
+// 마이페이지 구성하는 함수
 const MyPage = () => {
     const navigate = useNavigate();
     const [myPageInfo, setMyPageInfo] = useState({
-        myPageUserDTO: null,
-        myPagePetDTO: null,
-        myReservationDTO: null,
+        myPageUserDTO: null, // 사용자 정보
+        myPagePetDTO: null, // 반려견 정보
+        myReservationDTO: null, // 예약 1건 정보
     });
     const [error, setError] = useState(null);
 
     const [reservationInfo, setReservationInfo] = useState({
-        placeDTO: null,
-        reservationVO: null,
+        placeDTO: null, // 예약 지점 정보
+        reservationVO: null, // 예약 상세 정보
     });
 
+    // 마이페이지 API 비동기 호출
     useEffect(() => {
         const fetchReservations = async () => {
             try {
                 const response = await MyReservationAPI();
-                console.log(response.data.data);
+
                 if (response.data.success) {
+                    // 사용자 정보, 반려견 정보, 예약 1건 정보 추출
                     const { myPageUserDTO, myPagePetDTO, myReservationDTO } = response.data.data;
                     setMyPageInfo({
                         myPageUserDTO,
                         myPagePetDTO,
                         myReservationDTO,
                     });
-                    console.log(myPageUserDTO, myPagePetDTO, myReservationDTO); // 데이터 확인용 로그
 
+                    // 예약 지점 정보, 예약 상세 정보 추출
                     const { placeDTO, reservationVO } = myReservationDTO;
                     setReservationInfo({
                         placeDTO,
@@ -87,6 +58,7 @@ const MyPage = () => {
         fetchReservations();
     }, []);
 
+    // '더보기' 클릭 시 /history로 이동
     const handleMoreClick = () => {
         navigate('/history');
     };
@@ -127,7 +99,7 @@ const MyPage = () => {
                                 </ReservationInfo>
                             </QRModal>
                         ) : (
-                            <NoReservation>진행 중인 예약 내역이 없습니다.</NoReservation>
+                            <NoReservationInfo />
                         )
                     ) : (
                         <div></div>
@@ -139,3 +111,19 @@ const MyPage = () => {
 };
 
 export default MyPage;
+
+// ' 나의 예약 내역'과 '더보기' 같은 라인에 위치하도록 배치
+const SectionTitleWrapper = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+`;
+
+// '더보기' 버튼 css 적용
+const MoreButton = styled.div`
+    cursor: pointer;
+    color: black;
+    font-family: 'Kanit';
+    font-size: 15px;
+    padding-right: 10px;
+`;
