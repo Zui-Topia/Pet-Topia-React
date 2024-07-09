@@ -28,14 +28,13 @@
 
 <br>
 
-## 🎨 UI 
+## 🎨 UI & UX
 ### 1. 지도
 #### 반려견 편의시설 지도를 제공하는 기능
 ![지도1](https://github.com/Zui-Topia/Pet-Topia-React/assets/89077219/1ed9b36c-c103-4fb0-bdcd-d9c1a1972473)
 
 #### 반려견 편의시설 지도 마커 표시하는 기능
 ![지도2](https://github.com/Zui-Topia/Pet-Topia-React/assets/89077219/9da0a71a-aa24-43eb-96b7-8160555e4be0)
-![지도3](https://github.com/Zui-Topia/Pet-Topia-React/assets/89077219/8d080b06-4340-4483-891d-57fac9ae3f62)
 
 #### 반려견 편의시설 위치 정보 제공하는 기능
 ![지도5](https://github.com/Zui-Topia/Pet-Topia-React/assets/89077219/45ddb385-e100-4f46-b49e-eea26eabb8bb)
@@ -43,23 +42,21 @@
 
 ### 2. 예약
 #### 개모차 대여 예약 서비스 기능
-![예약1](https://github.com/Zui-Topia/Pet-Topia-React/assets/89077219/25e8265d-1457-4ac3-a399-68afa36b2003)
 
 ![예약2](https://github.com/Zui-Topia/Pet-Topia-React/assets/89077219/90d2428f-8f4e-4b47-9f93-1e7f524a9ac9)
 
 ![예약3](https://github.com/Zui-Topia/Pet-Topia-React/assets/89077219/17084458-0b2e-44bd-8e7e-6130923c9e45)
-
-![예약4](https://github.com/Zui-Topia/Pet-Topia-React/assets/89077219/7ce3719e-021d-4cb9-a25a-71850c3be7d8)
 
 <br>
 
 ## 👥 Developer
   | 최유경 | 김도연 | 임재성 | 정은찬 
   | :---: | :---: | :---: | :---: | 
-  | <img src="https://github.com/Zui-Topia/Pet-Topia-React/assets/61011209/1bd7001b-da2e-437b-b131-87f88997cd28" width="105" height="140">| <img src="https://github.com/Zui-Topia/Pet-Topia-React/assets/61011209/56c6a517-ea3d-4dd0-819b-fa218b0f5d61"  width="105" height="140"> | <img src="https://github.com/Zui-Topia/Pet-Topia-React/assets/61011209/cac97b9e-05ad-42c3-8562-93d07e70c929"  width="105" height="140"> | <img src="https://github.com/Zui-Topia/Pet-Topia-React/assets/61011209/84078b88-4e33-4a0a-b637-58e0def2fc12"  width="105" height="140"> |
+  | <img src="https://github.com/Zui-Topia/Pet-Topia-React/assets/61011209/1bd7001b-da2e-437b-b131-87f88997cd28" width="150" height="200">| <img src="https://github.com/Zui-Topia/Pet-Topia-React/assets/61011209/21c9e19f-1278-490d-a24e-e5cf118b550c"  width="150" height="200"> | <img src="https://github.com/Zui-Topia/Pet-Topia-React/assets/61011209/cac97b9e-05ad-42c3-8562-93d07e70c929"  width="150" height="200"> | <img src="https://github.com/Zui-Topia/Pet-Topia-React/assets/61011209/84078b88-4e33-4a0a-b637-58e0def2fc12"  width="150" height="200"> |
   | [ykc0131](https://github.com/ykc0131) | [mju1025](https://github.com/mju1025) | [JAESEONGIM](https://github.com/JAESEONGIM) | [EunchanJeong](https://github.com/EunchanJeong) |   
 
 <!--![최유경](https://github.com/Zui-Topia/Pet-Topia-React/assets/61011209/1bd7001b-da2e-437b-b131-87f88997cd28)
+![김도연](https://github.com/Zui-Topia/Pet-Topia-React/assets/61011209/21c9e19f-1278-490d-a24e-e5cf118b550c)
 ![임재성](https://github.com/Zui-Topia/Pet-Topia-React/assets/61011209/cac97b9e-05ad-42c3-8562-93d07e70c929)
 ![정은찬](https://github.com/Zui-Topia/Pet-Topia-React/assets/61011209/84078b88-4e33-4a0a-b637-58e0def2fc12)
 -->
